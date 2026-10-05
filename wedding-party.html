@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Party — Alex & Jenna, June 18, 2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shared.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Lato', sans-serif; background: #fffdf9; color: #3d3532; line-height: 1.7; }
+
+  .page-hero {
+    background: linear-gradient(135deg, #fdf6f0 0%, #f5e9e2 100%);
+    padding: 60px 32px 52px; text-align: center; border-bottom: 1px solid #e8ddd5;
+  }
+  .page-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #b8924f; margin-bottom: 12px; }
+  .page-title { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 400; color: #2d1f1a; margin-bottom: 12px; }
+  .page-sub { font-size: 14px; color: #8a7d75; }
+
+  .main { max-width: 1000px; margin: 0 auto; padding: 56px 32px 80px; }
+
+  .party-section { margin-bottom: 56px; }
+  .party-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 400; color: #2d1f1a;
+    text-align: center; margin-bottom: 8px;
+  }
+  .party-section-sub {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: #b8924f; text-align: center; margin-bottom: 36px;
+  }
+
+  .party-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;
+  }
+  .person-card {
+    background: white; border: 1px solid #e8ddd5; border-radius: 14px;
+    padding: 28px 20px; text-align: center; transition: all .25s;
+  }
+  .person-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
+  .person-avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, #f5e6e0, #e8ddd5);
+    margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+    font-size: 28px; border: 2px solid #e8ddd5;
+  }
+  .person-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: #2d1f1a; margin-bottom: 4px; }
+  .person-role { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #b8924f; margin-bottom: 8px; }
+  .person-note { font-size: 13px; color: #9a8880; line-height: 1.5; }
+
+  /* Placeholder cards */
+  .person-card.placeholder {
+    border-style: dashed; border-color: #d4b896; background: #fffdf9;
+  }
+  .person-card.placeholder .person-avatar {
+    background: #f5ede8; font-size: 24px; color: #d4b896;
+  }
+  .person-card.placeholder .person-name { color: #c5b5aa; font-style: italic; }
+  .person-card.placeholder .person-role { color: #d4b896; }
+
+  .divider {
+    display: flex; align-items: center; gap: 20px; margin: 0 auto 48px; max-width: 300px;
+  }
+  .divider-line { flex: 1; height: 1px; background: #e8ddd5; }
+  .divider-icon { color: #b8924f; font-size: 14px; }
+
+  .footer { text-align: center; padding: 32px; font-size: 11px; letter-spacing: 1.5px; color: #c5b5aa; text-transform: uppercase; border-top: 1px solid #ede5de; }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a class="nav-brand" href="index.html">
+    <span class="nav-brand-name">Alex &amp; Jenna</span>
+    <span class="nav-brand-date">June 18, 2027</span>
+  </a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="sunken-meadow.html">📋 Planner</a>
+    <a href="britt-call-notes.html">📸 Photographer</a>
+    <a href="venue.html">📍 Venue &amp; Travel</a>
+    <a href="registry.html">🎁 Registry</a>
+    <a href="wedding-party.html" class="active-page">💐 Wedding Party</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-eyebrow">Our People</div>
+  <h1 class="page-title">Wedding Party</h1>
+  <div class="page-sub">The people standing beside us on our big day</div>
+</div>
+
+<div class="main">
+
+  <!-- BRIDE'S SIDE -->
+  <div class="party-section">
+    <h2 class="party-section-title">Jenna's Side</h2>
+    <div class="party-section-sub">Bridesmaids &amp; Honor</div>
+    <div class="party-grid">
+      <!-- Add real people here — example placeholder cards below -->
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Maid of Honor</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Bridesmaid</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Bridesmaid</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Bridesmaid</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-icon">✦</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- GROOM'S SIDE -->
+  <div class="party-section">
+    <h2 class="party-section-title">Alex's Side</h2>
+    <div class="party-section-sub">Groomsmen &amp; Best Man</div>
+    <div class="party-grid">
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Best Man</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Groomsman</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Groomsman</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+      <div class="person-card placeholder">
+        <div class="person-avatar">👤</div>
+        <div class="person-name">Name</div>
+        <div class="person-role">Groomsman</div>
+        <div class="person-note">Coming soon</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Alex &amp; Jenna · June 18, 2027 · Kings Park, New York</div>
+
+</body>
+</html>

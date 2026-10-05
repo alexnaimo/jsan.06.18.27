@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex &amp; Jenna — The Pavilion at Sunken Meadow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/shared.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy:        #1A3344;
+      --navy-light:  #2C506A;
+      --cream:       #F9F6F0;
+      --cream-dark:  #EDE9DF;
+      --gold:        #C4A55A;
+      --gold-light:  #E0C882;
+      --sage:        #5A8A7E;
+      --sage-dark:   #3A6358;
+      --slate:       #6B7A8D;
+      --charcoal:    #2C3040;
+      --white:       #FFFFFF;
+      --red-soft:    #C4655A;
+      --teal:        #2E7D82;
+      --shadow:      0 4px 24px rgba(26,51,68,0.10);
+      --shadow-lg:   0 8px 40px rgba(26,51,68,0.16);
+      --radius:      14px;
+      --radius-sm:   8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--charcoal); line-height: 1.6; }
+    h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--navy); color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 54px;
+    }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; opacity: 0.9; }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-link {
+      padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; color: rgba(255,255,255,0.7);
+      background: transparent; border: none; cursor: pointer; transition: all 0.2s;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.12); color: white; }
+    .nav-total { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold-light); font-weight: 600; }
+    .nav-total span { font-family: 'Lato', sans-serif; font-size: 11px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; margin-right: 6px; }
+    @media (max-width: 700px) { .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      color: white; text-align: center;
+      padding: 80px 24px 100px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 60%, rgba(46,125,130,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 40%, rgba(196,165,90,0.10) 0%, transparent 60%);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      border: 1px solid rgba(196,165,90,0.5);
+      border-radius: 100px; padding: 5px 20px;
+      font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 400; font-style: italic;
+      margin-bottom: 12px; letter-spacing: 0.5px;
+    }
+    .hero h1 em { font-style: normal; font-weight: 700; color: var(--gold-light); }
+    .hero-venue { font-size: clamp(1rem, 2.5vw, 1.4rem); opacity: 0.75; margin-bottom: 6px; font-weight: 300; letter-spacing: 1px; }
+    .hero-date { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 3vw, 1.8rem); color: var(--gold-light); margin-bottom: 40px; }
+    .countdown { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+    .cd-block {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm); padding: 16px 24px; min-width: 80px;
+    }
+    .cd-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; line-height: 1; }
+    .cd-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; margin-top: 4px; }
+    .hero-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+    .hero-stat { text-align: center; }
+    .hero-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); font-weight: 600; }
+    .hero-stat-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.5; }
+
+    /* ── LAYOUT ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+    .section { margin-bottom: 60px; }
+    .section-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--navy); margin-bottom: 6px; }
+    .section-sub { color: var(--slate); font-size: 0.9rem; margin-bottom: 28px; }
+    .section-divider { width: 48px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin-bottom: 28px; }
+
+    /* ── CARDS ── */
+    .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; }
+    .card-grid { display: grid; gap: 20px; }
+    .card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+    /* ── VENUE CALCULATOR ── */
+    .pkg-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .pkg-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--navy); }
+    .pkg-badge { background: var(--gold); color: var(--navy); border-radius: 100px; padding: 4px 14px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .pkg-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--cream-dark); }
+    .pkg-row:last-of-type { border-bottom: none; }
+    .pkg-row-label { font-size: 0.9rem; color: var(--slate); }
+    .pkg-row-val { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--navy); font-weight: 600; }
+    .pkg-total-row {
+      background: var(--navy); border-radius: var(--radius-sm);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 20px; margin-top: 16px;
+    }
+    .pkg-total-label { color: rgba(255,255,255,0.8); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+    .pkg-total-val { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--gold-light); font-weight: 700; }
+    .guest-control {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--cream); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 20px;
+    }
+    .guest-control label { font-size: 0.85rem; color: var(--slate); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; flex: 1; }
+    .guest-control input {
+      width: 90px; padding: 8px 12px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; text-align: center; color: var(--navy); background: white;
+    }
+    .guest-min-note { font-size: 11px; color: var(--slate); opacity: 0.7; }
+
+    /* ── WHAT'S NOT INCLUDED ── */
+    .not-included-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; }
+    .not-included-item {
+      background: var(--cream); border-radius: var(--radius-sm); padding: 14px 16px;
+      border-left: 3px solid var(--gold);
+    }
+    .not-included-item .icon { font-size: 1.2rem; margin-bottom: 4px; }
+    .not-included-item .name { font-weight: 700; font-size: 0.85rem; color: var(--navy); }
+    .not-included-item .est { font-size: 0.78rem; color: var(--slate); margin-top: 2px; }
+
+    /* ── INFO ALERT ── */
+    .info-alert { background: #F0F7FF; border: 1px solid #B8D4F0; border-radius: var(--radius); padding: 20px 24px; margin-bottom: 16px; }
+    .info-alert h4 { color: var(--navy); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 10px; }
+    .info-alert p { font-size: 0.85rem; color: #2C4A6A; line-height: 1.6; }
+    .warn-alert { background: #FFF8E8; border: 1px solid #E8C97A; border-radius: var(--radius); padding: 20px 24px; }
+    .warn-alert h4 { color: #8B6914; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 10px; }
+    .warn-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .warn-list li { font-size: 0.85rem; color: #5A4A1A; display: flex; gap: 10px; line-height: 1.5; }
+    .warn-list li::before { content: '⚠️'; flex-shrink: 0; }
+
+    /* ── FINANCIAL SNAPSHOT ── */
+    .fin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .fin-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+    .fin-card-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--slate); }
+    .fin-main-val { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--navy); font-weight: 700; line-height: 1; }
+    .fin-main-val.highlight { color: var(--sage-dark); }
+    .fin-sub-rows { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+    .fin-sub-row { display: flex; justify-content: space-between; font-size: 0.82rem; }
+    .fin-sub-row .label { color: var(--slate); }
+    .fin-sub-row .val { font-weight: 700; color: var(--navy); }
+    .fin-input-row { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .fin-input-group { display: flex; justify-content: space-between; align-items: center; }
+    .fin-input-group label { font-size: 0.82rem; color: var(--slate); }
+    .fin-input-group input {
+      width: 90px; padding: 6px 10px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; text-align: center; color: var(--navy); background: var(--cream);
+    }
+    .fin-net-bar-track { height: 8px; background: var(--cream-dark); border-radius: 100px; overflow: hidden; margin-top: 6px; }
+    .fin-net-bar-fill { height: 100%; background: linear-gradient(90deg, var(--sage), var(--gold)); border-radius: 100px; transition: width 0.4s; }
+
+    /* ── TIMELINE ── */
+    .itin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+    @media (max-width: 900px) { .itin-grid { grid-template-columns: 1fr; } }
+    .tl-day { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .tl-day-header { background: var(--navy); color: white; padding: 18px 20px; }
+    .tl-day-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55; margin-bottom: 4px; }
+    .tl-day-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
+    .tl-day-date { font-size: 0.8rem; color: var(--gold-light); margin-top: 2px; }
+    .tl-event { display: flex; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--cream-dark); align-items: flex-start; }
+    .tl-event:last-child { border-bottom: none; }
+    .tl-time { min-width: 68px; font-size: 0.75rem; font-weight: 700; color: var(--gold); letter-spacing: 0.5px; padding-top: 2px; flex-shrink: 0; }
+    .tl-content { flex: 1; }
+    .tl-title { font-weight: 700; color: var(--navy); font-size: 0.88rem; }
+    .tl-desc { font-size: 0.8rem; color: var(--slate); margin-top: 2px; line-height: 1.4; }
+    .tl-location { font-size: 0.75rem; color: var(--sage-dark); font-weight: 700; letter-spacing: 0.5px; margin-top: 4px; }
+    .tl-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; padding: 2px 9px; border-radius: 100px; margin-top: 5px; }
+    .tl-badge-inc  { background: #E8F5E9; color: var(--sage-dark); }
+    .tl-badge-tbd  { background: var(--cream-dark); color: var(--slate); }
+    .tl-badge-ext  { background: #E8F0FF; color: #2C4A8B; }
+    .tl-badge-need { background: #FFF8E8; color: #8B6914; }
+    .tl-note-field {
+      font-size: 0.8rem; color: var(--slate); font-style: italic;
+      min-height: 20px; outline: none; border-radius: 4px; padding: 2px 6px;
+      border: 1px dashed transparent; transition: border 0.2s; margin-top: 4px; display: block;
+    }
+    .tl-note-field:hover, .tl-note-field:focus { border-color: var(--gold); background: #FFFBF0; }
+
+    /* ── VENDOR TRACKER ── */
+    .vcat { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 16px; }
+    .vcat-hdr { display: flex; align-items: center; gap: 14px; padding: 18px 24px; cursor: pointer; transition: background 0.15s; }
+    .vcat-hdr:hover { background: var(--cream); }
+    .vcat-emoji { font-size: 1.4rem; }
+    .vcat-hdr-text { flex: 1; }
+    .vcat-hdr-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--navy); }
+    .vcat-hdr-meta { font-size: 0.78rem; color: var(--slate); margin-top: 1px; }
+    .vcat-badge { font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 100px; letter-spacing: 0.5px; background: #FFF8E8; color: #8B6914; }
+    .vcat-badge.needed { background: var(--cream-dark); color: var(--slate); }
+    .vcat-badge.critical { background: #FFE8E8; color: var(--red-soft); }
+    .vcat-chevron { color: var(--slate); font-size: 0.8rem; transition: transform 0.2s; }
+    .vcat.open .vcat-chevron { transform: rotate(180deg); }
+    .vcat-body { display: none; border-top: 1px solid var(--cream-dark); }
+    .vcat.open .vcat-body { display: block; }
+    .vcat-note { font-size: 0.82rem; color: var(--slate); font-style: italic; padding: 12px 24px; background: var(--cream); border-bottom: 1px solid var(--cream-dark); }
+    .vrow { border-bottom: 1px solid var(--cream-dark); }
+    .vrow:last-child { border-bottom: none; }
+    .vrow-summary { display: flex; align-items: center; gap: 14px; padding: 14px 24px; cursor: pointer; transition: background 0.15s; }
+    .vrow-summary:hover { background: var(--cream); }
+    .vrow.chosen .vrow-summary { background: #F0FAF0; }
+    .vrow-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); flex: 1; }
+    .vrow-role { font-size: 0.78rem; color: var(--slate); }
+    .vrow-status { font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 100px; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; border: none; background: var(--cream-dark); color: var(--slate); }
+    .vrow-status.researching { background: #E8F0FF; color: #2C4A8B; }
+    .vrow-status.contacted   { background: #FFF8E8; color: #8B6914; }
+    .vrow-status.booked      { background: #E8F5E9; color: var(--sage-dark); }
+    .vrow-status.passed      { background: #FFE8E8; color: var(--red-soft); }
+    .chosen-star { font-size: 0.9rem; cursor: pointer; opacity: 0.3; transition: opacity 0.2s; }
+    .vrow.chosen .chosen-star { opacity: 1; }
+    .vrow-expand { font-size: 0.8rem; color: var(--slate); }
+    .vrow-detail { display: none; padding: 16px 24px 20px; background: var(--cream); border-top: 1px solid var(--cream-dark); }
+    .vrow.open .vrow-detail { display: block; }
+    .vdetail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 14px; }
+    .vdetail-field label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--slate); display: block; margin-bottom: 3px; }
+    .vdetail-field span { font-size: 0.85rem; color: var(--charcoal); }
+    .vdetail-notes { width: 100%; padding: 10px 14px; border: 1px solid var(--cream-dark); border-radius: var(--radius-sm); font-family: 'Lato', sans-serif; font-size: 0.85rem; color: var(--charcoal); background: var(--white); resize: vertical; min-height: 64px; }
+    .vdetail-notes:focus { outline: none; border-color: var(--gold); }
+    .vdetail-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+    .vdetail-actions label { font-size: 0.82rem; color: var(--slate); margin-right: 4px; }
+    .vdetail-actions select { padding: 6px 10px; border: 1px solid var(--cream-dark); border-radius: var(--radius-sm); font-size: 0.82rem; background: white; color: var(--charcoal); }
+    .btn-chosen { padding: 7px 16px; border-radius: 100px; border: none; cursor: pointer; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; background: var(--cream-dark); color: var(--slate); transition: all 0.2s; }
+    .btn-chosen:hover { background: var(--sage); color: white; }
+    .vrow.chosen .btn-chosen { background: var(--sage); color: white; }
+    .estimate-badge { display: inline-block; background: var(--navy); color: var(--gold-light); font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 100px; letter-spacing: 0.5px; }
+
+    /* ── BUDGET ── */
+    .budget-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+    @media (max-width: 768px) { .budget-layout { grid-template-columns: 1fr; } }
+    .budget-chart-wrap { position: relative; }
+    .budget-donut-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; pointer-events: none; }
+    .budget-donut-label .big { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--navy); }
+    .budget-donut-label .small { font-size: 0.75rem; color: var(--slate); letter-spacing: 1px; text-transform: uppercase; }
+    .budget-cat-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .budget-cat-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .budget-cat-label { font-size: 0.82rem; flex: 1; color: var(--charcoal); }
+    .budget-cat-pct { font-size: 0.8rem; color: var(--slate); }
+    .budget-alloc-input { width: 90px; padding: 5px 8px; border: 1px solid var(--cream-dark); border-radius: var(--radius-sm); font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; text-align: center; color: var(--navy); background: var(--cream); }
+    .budget-cat-val { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--navy); font-weight: 600; min-width: 80px; text-align: right; }
+    .budget-over { color: var(--red-soft) !important; }
+    .budget-summary-bar { display: flex; justify-content: space-between; align-items: center; background: var(--navy); border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 20px; }
+    .budget-summary-bar .label { color: rgba(255,255,255,0.7); font-size: 0.8rem; }
+    .budget-summary-bar .val { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold-light); font-weight: 700; }
+
+    /* ── QUESTIONS ── */
+    .q-item { background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+    .q-item.resolved { opacity: 0.55; }
+    .q-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--cream-dark); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.2s; background: white; }
+    .q-item.resolved .q-check { background: var(--sage); border-color: var(--sage); color: white; }
+    .q-body { flex: 1; }
+    .q-cat { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .q-text { font-size: 0.88rem; color: var(--charcoal); line-height: 1.5; }
+    .q-del { background: none; border: none; color: var(--slate); cursor: pointer; opacity: 0.4; padding: 4px; font-size: 1rem; }
+    .q-del:hover { opacity: 1; color: var(--red-soft); }
+    .q-add-form { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+    .q-add-input { flex: 1; min-width: 200px; padding: 10px 14px; border: 1px solid var(--cream-dark); border-radius: var(--radius-sm); font-family: 'Lato', sans-serif; font-size: 0.85rem; color: var(--charcoal); }
+    .q-add-input:focus { outline: none; border-color: var(--gold); }
+    .q-cat-input { width: 160px; padding: 10px 14px; border: 1px solid var(--cream-dark); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--charcoal); background: white; }
+    .btn-primary { padding: 10px 20px; background: var(--navy); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; transition: background 0.2s; }
+    .btn-primary:hover { background: var(--navy-light); }
+
+    /* ── GAME PLAN ── */
+    .gp-phase { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+    .gp-phase-hdr {
+      display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .gp-phase-hdr:hover { background: var(--cream); }
+    .gp-phase-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+    .gp-phase-info { flex: 1; }
+    .gp-phase-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--navy); }
+    .gp-phase-dates { font-size: 0.78rem; color: var(--slate); margin-top: 1px; }
+    .gp-phase-prog {
+      display: flex; align-items: center; gap: 10px; min-width: 120px;
+    }
+    .gp-prog-track { flex: 1; height: 6px; background: var(--cream-dark); border-radius: 100px; overflow: hidden; }
+    .gp-prog-fill { height: 100%; border-radius: 100px; transition: width 0.3s; }
+    .gp-prog-label { font-size: 11px; color: var(--slate); min-width: 30px; text-align: right; }
+    .gp-phase-chevron { color: var(--slate); font-size: 0.8rem; transition: transform 0.2s; }
+    .gp-phase.open .gp-phase-chevron { transform: rotate(180deg); }
+    .gp-phase-body { display: none; border-top: 1px solid var(--cream-dark); padding: 8px 0; }
+    .gp-phase.open .gp-phase-body { display: block; }
+
+    .gp-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 12px 24px; border-bottom: 1px solid var(--cream-dark);
+      transition: background 0.15s;
+    }
+    .gp-item:last-child { border-bottom: none; }
+    .gp-item.done { background: #F8FBF8; }
+    .gp-cb {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+      border: 2px solid var(--cream-dark); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      background: white; transition: all 0.2s; font-size: 11px; color: white;
+    }
+    .gp-item.done .gp-cb { background: var(--sage); border-color: var(--sage); }
+    .gp-item-body { flex: 1; }
+    .gp-item-title { font-size: 0.88rem; font-weight: 700; color: var(--navy); }
+    .gp-item.done .gp-item-title { text-decoration: line-through; color: var(--slate); }
+    .gp-item-desc { font-size: 0.78rem; color: var(--slate); margin-top: 2px; line-height: 1.4; }
+    .gp-item-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px; padding: 2px 9px;
+      border-radius: 100px; flex-shrink: 0; margin-top: 3px;
+    }
+    .gp-tag-urgent { background: #FFE8E8; color: var(--red-soft); }
+    .gp-tag-high   { background: #FFF8E8; color: #8B6914; }
+    .gp-tag-normal { background: var(--cream-dark); color: var(--slate); }
+    .gp-tag-done   { background: #E8F5E9; color: var(--sage-dark); }
+
+    .gp-summary-bar {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--navy); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 24px;
+    }
+    .gp-summary-bar .big { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); font-weight: 700; }
+    .gp-summary-bar .label { font-size: 0.78rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+    .gp-overall-track { flex: 1; height: 10px; background: rgba(255,255,255,0.1); border-radius: 100px; overflow: hidden; }
+    .gp-overall-fill { height: 100%; background: linear-gradient(90deg, var(--sage), var(--gold-light)); border-radius: 100px; transition: width 0.4s; }
+
+    /* ── MINUTE BY MINUTE ── */
+    .mbm-day { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+    .mbm-day-hdr {
+      display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+      cursor: pointer; transition: background 0.15s; background: var(--navy);
+    }
+    .mbm-day-hdr:hover { background: var(--navy-light); }
+    .mbm-day-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+    .mbm-day-name  { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: white; font-weight: 600; }
+    .mbm-day-date  { font-size: 0.8rem; color: var(--gold-light); margin-top: 1px; }
+    .mbm-day-hdr-text { flex: 1; }
+    .mbm-day-chevron { color: rgba(255,255,255,0.5); font-size: 0.8rem; transition: transform 0.2s; }
+    .mbm-day.open .mbm-day-chevron { transform: rotate(180deg); }
+    .mbm-day-body { display: none; }
+    .mbm-day.open .mbm-day-body { display: block; }
+
+    .mbm-track-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      padding: 10px 24px 6px; color: var(--slate); background: var(--cream);
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .mbm-split { display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 700px) { .mbm-split { grid-template-columns: 1fr; } }
+    .mbm-col { border-right: 1px solid var(--cream-dark); }
+    .mbm-col:last-child { border-right: none; }
+    .mbm-col-hdr {
+      padding: 10px 20px 8px; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; background: var(--cream); border-bottom: 1px solid var(--cream-dark);
+    }
+
+    .mbm-block { display: flex; gap: 0; border-bottom: 1px solid var(--cream-dark); }
+    .mbm-block:last-child { border-bottom: none; }
+    .mbm-block.mbm-main { background: white; }
+    .mbm-block.mbm-sub  { background: var(--cream); }
+    .mbm-block.mbm-key  { background: #FFF8E8; }
+    .mbm-block.mbm-milestone { background: var(--navy); }
+    .mbm-time {
+      min-width: 72px; padding: 10px 12px 10px 20px;
+      font-size: 0.75rem; font-weight: 700; color: var(--gold);
+      letter-spacing: 0.5px; flex-shrink: 0; line-height: 1.3;
+    }
+    .mbm-block.mbm-sub .mbm-time { color: var(--slate); font-weight: 400; font-size: 0.7rem; padding-left: 28px; }
+    .mbm-block.mbm-milestone .mbm-time { color: var(--gold-light); }
+    .mbm-body { flex: 1; padding: 10px 20px 10px 0; }
+    .mbm-title { font-size: 0.85rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+    .mbm-block.mbm-sub .mbm-title { font-weight: 400; font-size: 0.8rem; color: var(--charcoal); }
+    .mbm-block.mbm-milestone .mbm-title { color: white; font-size: 0.9rem; }
+    .mbm-detail { font-size: 0.75rem; color: var(--slate); margin-top: 2px; line-height: 1.4; }
+    .mbm-block.mbm-milestone .mbm-detail { color: rgba(255,255,255,0.6); }
+
+    footer { text-align: center; padding: 40px 24px; font-size: 0.8rem; color: var(--slate); border-top: 1px solid var(--cream-dark); }
+  </style>
+</head>
+<body>
+
+<!-- ── SITE-WIDE NAV ── -->
+<header class="site-nav">
+  <a class="nav-brand" href="index.html">
+    <span class="nav-brand-name">Alex &amp; Jenna</span>
+    <span class="nav-brand-date">June 18, 2027</span>
+  </a>
+  <button class="nav-toggle" onclick="document.querySelector('.site-nav .nav-links').classList.toggle('open')">☰</button>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="sunken-meadow.html" class="active-page">📋 Planner</a>
+    <a href="britt-call-notes.html">📸 Photographer</a>
+    <a href="venue.html">📍 Venue &amp; Travel</a>
+    <a href="registry.html">🎁 Registry</a>
+    <a href="wedding-party.html">💐 Wedding Party</a>
+  </nav>
+</header>
+
+<nav>
+  <div class="nav-brand">Alex &amp; Jenna</div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="scrollTo('venue')">Venue</button>
+    <button class="nav-link" onclick="scrollTo('what-you-need')">What You Need</button>
+    <button class="nav-link" onclick="scrollTo('financial')">Finances</button>
+    <button class="nav-link" onclick="scrollTo('timeline')">Timeline</button>
+    <button class="nav-link" onclick="scrollTo('vendors')">Vendors</button>
+    <button class="nav-link" onclick="scrollTo('budget')">Budget</button>
+    <button class="nav-link" onclick="scrollTo('menu')" style="background:var(--sage);color:white;font-weight:700;">🍽️ Menu</button>
+    <button class="nav-link" onclick="scrollTo('questions')">Questions</button>
+    <button class="nav-link" onclick="scrollTo('gameplan')">Game Plan</button>
+    <button class="nav-link" onclick="scrollTo('mbm')">Minute by Minute</button>
+    <button class="nav-link" onclick="scrollTo('venue-qs')" style="background:var(--gold);color:#1A3344;font-weight:700;">📋 Venue Qs</button>
+  </div>
+  <div class="nav-total">
+    <span>Venue Fee</span>
+    <span id="nav-total">—</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">The Pavilion at Sunken Meadow · Kings Park, NY</div>
+  <h1>Alex &amp; <em>Jenna</em></h1>
+  <div class="hero-venue">The Pavilion at Sunken Meadow State Park</div>
+  <div class="hero-date">Friday, June 18, 2027</div>
+  <div class="countdown">
+    <div class="cd-block"><div class="cd-num" id="cd-days">—</div><div class="cd-label">Days</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-hrs">—</div><div class="cd-label">Hours</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-min">—</div><div class="cd-label">Minutes</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-sec">—</div><div class="cd-label">Seconds</div></div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-val" id="hero-guests">150</div><div class="hero-stat-label">Guests</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">$185</div><div class="hero-stat-label">Per Person</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">Long Island<br>Sound</div><div class="hero-stat-label">Waterfront Views</div></div>
+    <div class="hero-stat"><div class="hero-stat-val" id="hero-venue-total">—</div><div class="hero-stat-label">Venue Fee (est.)</div></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── VENUE CALCULATOR ── -->
+  <div class="section" id="venue">
+    <h2 class="section-title">Venue Fee Estimate</h2>
+    <p class="section-sub">$185 per person covers the venue rental. All other services — catering, bar, tent, rentals, etc. — are your responsibility to source and pay for separately.</p>
+    <div class="section-divider"></div>
+
+    <div class="info-alert" style="margin-bottom:20px;">
+      <h4>ℹ️ About This Venue</h4>
+      <p>The Pavilion at Sunken Meadow is a state park venue on the Long Island Sound in Kings Park, NY. It offers stunning waterfront views and is a blank-canvas space — you bring your own caterer, bar service, rentals, and decor. Pricing details beyond $185/person are still TBD; update this planner as you get more info from the venue coordinator.</p>
+    </div>
+
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <div class="pkg-header">
+          <div class="pkg-name">Venue Rental Fee</div>
+          <div class="pkg-badge">$185 / person</div>
+        </div>
+
+        <div class="guest-control">
+          <label>Guest Count<br><span class="guest-min-note">Adjust to your expected headcount</span></label>
+          <input type="number" id="guest-count" value="150" min="1" step="5" oninput="renderAll()" />
+        </div>
+
+        <div class="pkg-row">
+          <span class="pkg-row-label">Venue Rental (<span id="pkg-guests-disp">150</span> guests × $185)</span>
+          <span class="pkg-row-val" id="pkg-base">$27,750</span>
+        </div>
+        <div class="pkg-row">
+          <span class="pkg-row-label">Tax / Additional Fees <em style="font-size:11px;color:var(--slate);">(TBD — confirm with venue)</em></span>
+          <span class="pkg-row-val" id="pkg-tax">TBD</span>
+        </div>
+        <div class="pkg-row">
+          <span class="pkg-row-label">Deposit / Payment Schedule</span>
+          <span class="pkg-row-val">TBD</span>
+        </div>
+
+        <div class="pkg-total-row">
+          <span class="pkg-total-label">Est. Venue Fee</span>
+          <span class="pkg-total-val" id="pkg-grand-total">$27,750</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="pkg-header">
+          <div class="pkg-name">What the Venue Provides</div>
+        </div>
+        <div class="pkg-row"><span class="pkg-row-label">🏛️ Pavilion space for ceremony &amp; reception</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🌊 Waterfront views — Long Island Sound</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🅿️ Parking on-site (state park lot)</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🌿 Scenic grounds for photos</span></div>
+        <div class="pkg-row" style="border-bottom:none;color:var(--red-soft);font-size:0.82rem;padding-top:16px;">
+          ⚠️ Everything else — food, bar, tent, tables, linens, lighting, AV — must be sourced by you.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WHAT YOU NEED TO BRING ── -->
+  <div class="section" id="what-you-need">
+    <h2 class="section-title">What You Need to Source</h2>
+    <p class="section-sub">Unlike an all-inclusive venue, Sunken Meadow is a blank canvas. Here's everything you'll need to arrange — with rough estimates to help with budgeting.</p>
+    <div class="section-divider"></div>
+
+    <div class="not-included-grid">
+      <div class="not-included-item">
+        <div class="icon">🍽️</div>
+        <div class="name">Caterer</div>
+        <div class="est">$100–$200/pp · ~$15k–$30k</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🍷</div>
+        <div class="name">Bar Service</div>
+        <div class="est">$40–$80/pp · ~$6k–$12k</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🪑</div>
+        <div class="name">Tables &amp; Chairs</div>
+        <div class="est">$2,000–$5,000</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🍽️</div>
+        <div class="name">Linens &amp; China</div>
+        <div class="est">$1,500–$4,000</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">💡</div>
+        <div class="name">Lighting &amp; AV</div>
+        <div class="est">$1,500–$5,000</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🎵</div>
+        <div class="name">DJ or Band</div>
+        <div class="est">$2,500–$10,000</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">📷</div>
+        <div class="name">Photography</div>
+        <div class="est">$3,000–$8,000</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🎥</div>
+        <div class="name">Videography</div>
+        <div class="est">$3,000–$7,000</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">💐</div>
+        <div class="name">Florals</div>
+        <div class="est">$3,000–$10,000+</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">💄</div>
+        <div class="name">Hair &amp; Makeup</div>
+        <div class="est">$150–$300/person</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🚽</div>
+        <div class="name">Restrooms</div>
+        <div class="est">$1,200–$3,000 (trailer)</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🚗</div>
+        <div class="name">Transportation</div>
+        <div class="est">$800–$2,500</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">💍</div>
+        <div class="name">Officiant</div>
+        <div class="est">$300–$800</div>
+      </div>
+      <div class="not-included-item">
+        <div class="icon">🎂</div>
+        <div class="name">Wedding Cake</div>
+        <div class="est">$500–$1,500</div>
+      </div>
+    </div>
+
+    <div class="warn-alert" style="margin-top:20px;">
+      <h4>⚠️ State Park Rules to Confirm</h4>
+      <ul class="warn-list">
+        <li>NY State Parks permit is required for private events — confirm lead time and fees with the venue coordinator.</li>
+        <li>Alcohol permits may be required separately through NY State Parks.</li>
+        <li>Generator use may be required and/or restricted — confirm power access at the pavilion.</li>
+        <li>All vendors may need to be pre-approved by NY State Parks.</li>
+        <li>Amplified music and event end time may be regulated by park rules.</li>
+        <li>Restroom trailer may be required if the pavilion's facilities aren't sufficient for your headcount.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── FINANCIAL SNAPSHOT ── -->
+  <div class="section" id="financial">
+    <h2 class="section-title">Financial Snapshot</h2>
+    <p class="section-sub">Venue fee plus estimated vendor costs against your $100k budget — and what gifts offset.</p>
+    <div class="section-divider"></div>
+
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">Venue Fee</div>
+        <div class="fin-main-val" id="fin-venue">—</div>
+        <div class="fin-sub-rows">
+          <div class="fin-sub-row"><span class="label">Total Budget</span><span class="val">$100,000</span></div>
+          <div class="fin-sub-row"><span class="label">Left for Vendors &amp; Extras</span><span class="val" id="fin-vendors">—</span></div>
+        </div>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-title">Gift Revenue Estimate</div>
+        <div class="fin-main-val highlight" id="fin-gifts">$30,000</div>
+        <div class="fin-input-row">
+          <div class="fin-input-group">
+            <label>Guests attending</label>
+            <input type="number" id="fin-guests" value="150" min="0" step="5" oninput="renderFinancial()" />
+          </div>
+          <div class="fin-input-group">
+            <label>Gift per head (est.)</label>
+            <input type="number" id="fin-giftpp" value="200" min="0" step="25" oninput="renderFinancial()" />
+          </div>
+        </div>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-title">Net Out-of-Pocket</div>
+        <div class="fin-main-val" id="fin-net">—</div>
+        <div style="font-size:0.75rem;color:var(--slate);margin-top:4px;">Budget consumed after gift offset</div>
+        <div class="fin-net-bar-track">
+          <div class="fin-net-bar-fill" id="fin-net-bar" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TIMELINE ── -->
+  <div class="section" id="timeline">
+    <h2 class="section-title">The Wedding Weekend</h2>
+    <p class="section-sub">June 17–19, 2027 · Click any note field to add details as plans come together.</p>
+    <div class="section-divider"></div>
+
+    <div class="itin-grid">
+
+      <!-- THURSDAY -->
+      <div class="tl-day">
+        <div class="tl-day-header">
+          <div class="tl-day-label">Day Before</div>
+          <div class="tl-day-name">Thursday</div>
+          <div class="tl-day-date">June 17, 2027</div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">Afternoon</div>
+          <div class="tl-content">
+            <div class="tl-title">Wedding Party Arrives</div>
+            <div class="tl-desc">Out-of-town guests check in to hotels in the Kings Park / Smithtown area.</div>
+            <span class="tl-badge tl-badge-tbd">Hotel TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="sm_tl_arrival">Click to add hotel block info…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~5:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Ceremony Rehearsal</div>
+            <div class="tl-desc">Run-through with wedding party and officiant — possibly at the pavilion or nearby.</div>
+            <span class="tl-badge tl-badge-tbd">Location TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="sm_tl_rehearsal">Click to add location…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~7:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Welcome Party &amp; Rehearsal Dinner</div>
+            <div class="tl-desc">Dinner with close family and wedding party at Port Jefferson Country Club.</div>
+            <span class="tl-badge tl-badge-ext">Port Jefferson Country Club</span>
+            <div contenteditable="true" class="tl-note-field" data-key="sm_tl_rehearsal_dinner">Click to add notes…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRIDAY — WEDDING DAY -->
+      <div class="tl-day">
+        <div class="tl-day-header">
+          <div class="tl-day-label">Wedding Day</div>
+          <div class="tl-day-name">Friday</div>
+          <div class="tl-day-date">June 18, 2027</div>
+        </div>
+
+        <!-- Split getting-ready section -->
+        <div style="background:var(--cream);border-bottom:1px solid var(--cream-dark);padding:12px 20px 4px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:10px;">Getting Ready — Separately</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+
+            <!-- Bride -->
+            <div style="background:white;border-radius:var(--radius-sm);padding:12px;border-left:3px solid var(--gold);">
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">👰 Bride</div>
+              <div style="font-size:0.78rem;color:var(--charcoal);line-height:1.6;">
+                <div style="margin-bottom:5px;"><span style="font-weight:700;color:var(--navy);">Morning</span><br>Hair &amp; makeup at home</div>
+                <div style="margin-bottom:5px;"><span style="font-weight:700;color:var(--navy);">~2:00 PM</span><br>Photos with bridal party at home</div>
+                <div><span style="font-weight:700;color:var(--navy);">~3:00 PM</span><br>Depart — arrive at Sunken Meadow</div>
+              </div>
+              <div contenteditable="true" class="tl-note-field" data-key="sm_tl_bride" style="margin-top:8px;">Click to add notes…</div>
+            </div>
+
+            <!-- Groom -->
+            <div style="background:white;border-radius:var(--radius-sm);padding:12px;border-left:3px solid var(--navy-light);">
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy-light);margin-bottom:8px;">🤵 Groom</div>
+              <div style="font-size:0.78rem;color:var(--charcoal);line-height:1.6;">
+                <div style="margin-bottom:5px;"><span style="font-weight:700;color:var(--navy);">Morning</span><br>Gets ready at home</div>
+                <div style="margin-bottom:5px;"><span style="font-weight:700;color:var(--navy);">~2:00 PM</span><br>Photos with groomsmen at home</div>
+                <div><span style="font-weight:700;color:var(--navy);">~3:00 PM</span><br>Depart — arrive at Sunken Meadow</div>
+              </div>
+              <div contenteditable="true" class="tl-note-field" data-key="sm_tl_groom" style="margin-top:8px;">Click to add notes…</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Shared timeline from venue arrival onward -->
+        <div class="tl-event">
+          <div class="tl-time">~3:30 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Both Arrive at Sunken Meadow</div>
+            <div class="tl-desc">Vendor setup in progress. First look, bridal party portraits, and golden hour session on the grounds.</div>
+            <span class="tl-badge tl-badge-inc">Waterfront grounds</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~6:30 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Guests Begin Arriving</div>
+            <div class="tl-desc">Couple retreats to bridal suite. Guests park and make their way to the pavilion.</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">7:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Cocktail Hour</div>
+            <div class="tl-desc">Guests mingle, bar opens, hors d'oeuvres passed. Couple is off in bridal suite — guests don't see them before the ceremony.</div>
+            <span class="tl-badge tl-badge-need">Caterer + bar vendor required</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">8:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Ceremony</div>
+            <div class="tl-desc">Guests take seats at 7:45. Ceremony begins at 8pm — golden hour light at its peak.</div>
+            <span class="tl-badge tl-badge-inc">The Pavilion / waterfront</span>
+            <div contenteditable="true" class="tl-note-field" data-key="sm_tl_ceremony">Click to add ceremony details…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">9:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Reception — Grand Entrance &amp; First Dance</div>
+            <div class="tl-desc">Couple introduced, first dance, dinner service begins.</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~10:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Toasts &amp; Parent Dances</div>
+            <div contenteditable="true" class="tl-note-field" data-key="sm_tl_toasts">Click to add speaker order / songs…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~10:30 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Cake Cutting</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">10:40 PM–12 AM</div>
+          <div class="tl-content">
+            <div class="tl-title">Open Dancing</div>
+            <div class="tl-desc">Band or DJ. Confirm music end time with state park rules.</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">12:00 AM</div>
+          <div class="tl-content">
+            <div class="tl-title">Event Ends</div>
+            <div class="tl-desc">Guests depart. Vendors break down — confirm cleanup window with venue.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SATURDAY — DAY AFTER -->
+      <div class="tl-day">
+        <div class="tl-day-header">
+          <div class="tl-day-label">Day After</div>
+          <div class="tl-day-name">Saturday</div>
+          <div class="tl-day-date">June 19, 2027</div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">Morning</div>
+          <div class="tl-content">
+            <div class="tl-title">Farewell Brunch</div>
+            <div class="tl-desc">Casual gathering for wedding party and out-of-town guests before the drive home.</div>
+            <span class="tl-badge tl-badge-tbd">Location TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="sm_tl_brunch">Click to add restaurant / location…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">Afternoon</div>
+          <div class="tl-content">
+            <div class="tl-title">Guests Check Out &amp; Head Home</div>
+            <div class="tl-desc">Hotel checkout, goodbyes, safe travels.</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">TBD</div>
+          <div class="tl-content">
+            <div class="tl-title">Honeymoon ✈️</div>
+            <span class="tl-badge tl-badge-tbd">Destination TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="sm_tl_honeymoon">Click to add destination…</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── VENDOR TRACKER ── -->
+  <div class="section" id="vendors">
+    <h2 class="section-title">Vendor Tracker</h2>
+    <p class="section-sub">Everything at Sunken Meadow must be sourced by you. Use this to track who you're considering, contacting, and booking.</p>
+    <div class="section-divider"></div>
+    <div id="vendor-tracker"><!-- rendered by JS --></div>
+  </div>
+
+  <!-- ── BUDGET ── -->
+  <div class="section" id="budget">
+    <h2 class="section-title">Budget Breakdown</h2>
+    <p class="section-sub">Total budget: $100,000. Because this is a blank-canvas venue, your vendor budget is much larger than an all-inclusive.</p>
+    <div class="section-divider"></div>
+
+    <div class="budget-layout">
+      <div class="card">
+        <div id="budget-cats"></div>
+        <div class="budget-summary-bar">
+          <span class="label">Total Allocated</span>
+          <span class="val" id="budget-total-alloc">—</span>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="budget-chart-wrap">
+            <canvas id="budget-chart" style="max-height:280px;"></canvas>
+            <div class="budget-donut-label">
+              <div class="big">$100k</div>
+              <div class="small">Budget</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OUTSTANDING QUESTIONS ── -->
+  <div class="section" id="questions">
+    <h2 class="section-title">Outstanding Questions</h2>
+    <p class="section-sub">Things to clarify with the venue, state parks, and vendors. Check off as you get answers.</p>
+    <div class="section-divider"></div>
+
+    <div id="q-list"><!-- rendered by JS --></div>
+
+    <div class="q-add-form">
+      <input type="text" id="q-text-input" class="q-add-input" placeholder="Add a question…" />
+      <input type="text" id="q-cat-input" class="q-cat-input" placeholder="Category (e.g. Venue, Permits…)" />
+      <button class="btn-primary" onclick="addQuestion()">+ Add</button>
+    </div>
+  </div>
+
+  <!-- ── THE VISTA MENU ── -->
+  <div class="section" id="menu">
+    <h2 class="section-title">🍽️ The Vista — Menu Planning</h2>
+    <p class="section-sub">The Vista at Sunken Meadow · 2026 Wedding Package · Powered by Trahanas. Select your choices below — everything saves automatically.</p>
+    <div class="section-divider"></div>
+
+    <style>
+      .menu-course { margin-bottom:2.2rem; }
+      .menu-course-hdr { display:flex; align-items:baseline; gap:.75rem; margin-bottom:.9rem; flex-wrap:wrap; }
+      .menu-course-label { font-family:'Lato',sans-serif; font-size:.65rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,0.6); background:var(--navy); padding:2px 8px; border-radius:3px; }
+      .menu-course-title { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:700; color:var(--navy); letter-spacing:.05em; }
+      .menu-course-note { font-family:'Lato',sans-serif; font-size:.8rem; color:#888; margin-left:auto; }
+      .menu-counter { font-family:'Lato',sans-serif; font-size:.8rem; font-weight:700; color:var(--navy); background:var(--cream-dark); padding:2px 10px; border-radius:20px; white-space:nowrap; }
+      .menu-counter.done { background:var(--navy); color:white; }
+
+      .menu-chips { display:flex; flex-wrap:wrap; gap:.45rem; margin-bottom:.4rem; }
+      .menu-chip { display:flex; flex-direction:column; padding:.45rem .75rem; border-radius:7px; border:1.5px solid #e0dbd0; background:#fafaf8; cursor:pointer; transition:all .18s; min-width:130px; max-width:220px; flex:0 1 auto; }
+      .menu-chip:hover { border-color:var(--navy-light); background:#f0ede6; }
+      .menu-chip.selected { border-color:var(--navy); background:var(--navy); color:white; }
+      .menu-chip.selected .mc-desc, .menu-chip.selected .mc-price { color:rgba(255,255,255,0.65); }
+      .menu-chip.locked:not(.selected) { opacity:.35; cursor:not-allowed; }
+      .mc-name { font-family:'Lato',sans-serif; font-size:.8rem; font-weight:700; }
+      .mc-desc { font-family:'Lato',sans-serif; font-size:.7rem; color:#888; margin-top:2px; line-height:1.35; }
+      .mc-price { font-family:'Lato',sans-serif; font-size:.7rem; color:var(--gold); font-weight:700; margin-top:3px; }
+
+      .menu-stations { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:.75rem; margin-bottom:.8rem; }
+      .ms-card { background:#f9f7f3; border-radius:8px; padding:.85rem 1rem; border-left:3px solid var(--gold); }
+      .ms-name { font-family:'Lato',sans-serif; font-size:.82rem; font-weight:700; color:var(--navy); margin-bottom:.35rem; }
+      .ms-items { font-family:'Lato',sans-serif; font-size:.72rem; color:#666; line-height:1.55; }
+
+      .menu-upgrades { display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:.8rem; }
+      .mu-card { display:flex; align-items:flex-start; gap:.55rem; padding:.7rem .9rem; border-radius:8px; border:1.5px solid #e0dbd0; background:#fafaf8; cursor:pointer; transition:all .18s; }
+      .mu-card:hover { border-color:var(--gold); }
+      .mu-card.selected { border-color:var(--navy); background:#eae6dc; }
+      .mu-cb { width:16px; height:16px; border:2px solid var(--navy); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:.7rem; flex-shrink:0; margin-top:1px; color:var(--navy); }
+      .mu-name { font-family:'Lato',sans-serif; font-size:.82rem; font-weight:700; color:var(--navy); }
+      .mu-desc { font-family:'Lato',sans-serif; font-size:.71rem; color:#666; margin-top:2px; line-height:1.4; max-width:240px; }
+      .mu-price { font-family:'Lato',sans-serif; font-size:.71rem; color:var(--gold); font-weight:700; margin-top:3px; }
+
+      .menu-sub-label { font-family:'Lato',sans-serif; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--slate); margin:.7rem 0 .4rem; }
+      .menu-divider-thin { border:none; border-top:1px solid var(--cream-dark); margin:1.2rem 0; }
+
+      .menu-summary-bar { background:var(--cream-dark); border-radius:8px; padding:.9rem 1.2rem; font-family:'Lato',sans-serif; font-size:.82rem; color:var(--navy); display:flex; flex-wrap:wrap; gap:.5rem 1.5rem; margin-bottom:1.5rem; }
+      .msb-item { display:flex; align-items:center; gap:.35rem; }
+      .msb-dot { width:8px; height:8px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+      .msb-dot.empty { background:#ccc; }
+    </style>
+
+    <div id="menu-content"><!-- rendered by JS --></div>
+  </div>
+
+  <!-- ── MINUTE BY MINUTE ── -->
+  <div class="section" id="mbm">
+    <h2 class="section-title">Minute by Minute Analysis</h2>
+    <p class="section-sub">The full weekend in 30-minute increments — with 10-minute sub-beats where it matters. Click each day to expand.</p>
+    <div class="section-divider"></div>
+
+    <!-- THURSDAY -->
+    <div class="mbm-day open" id="mbm-thu">
+      <div class="mbm-day-hdr" onclick="this.parentElement.classList.toggle('open')">
+        <div class="mbm-day-hdr-text">
+          <div class="mbm-day-label">Day Before · Welcome Party</div>
+          <div class="mbm-day-name">Thursday, June 17</div>
+          <div class="mbm-day-date">Port Jefferson Country Club</div>
+        </div>
+        <span class="mbm-day-chevron">▼</span>
+      </div>
+      <div class="mbm-day-body">
+        <div class="mbm-block mbm-main"><div class="mbm-time">4:00 PM</div><div class="mbm-body"><div class="mbm-title">Out-of-town guests begin arriving / checking in</div><div class="mbm-detail">Hotel blocks in Kings Park / Port Jeff area. Wedding party settles in and starts connecting.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">5:00 PM</div><div class="mbm-body"><div class="mbm-title">Ceremony rehearsal begins</div><div class="mbm-detail">Full run-through with wedding party and officiant — confirm location (PJCC grounds or nearby).</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">5:10</div><div class="mbm-body"><div class="mbm-title">Processional order practice</div><div class="mbm-detail">Walk everyone through their order, pace, and cues twice.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">5:30</div><div class="mbm-body"><div class="mbm-title">Vows & ring exchange run-through</div><div class="mbm-detail">Officiant walks couple through each beat. Practice kissing moment and recessional.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">5:45 PM</div><div class="mbm-body"><div class="mbm-title">Rehearsal wraps — transition to welcome party</div><div class="mbm-detail">Group moves into PJCC. Cocktail pre-reception begins — drinks and light bites.</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">6:00 PM</div><div class="mbm-body"><div class="mbm-title">Welcome party cocktail hour opens</div><div class="mbm-detail">PJCC bar open. Hors d'oeuvres passed. Informal mixing — first time many guests meet each other.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">6:30</div><div class="mbm-body"><div class="mbm-title">Guests seated for dinner</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">6:45 PM</div><div class="mbm-body"><div class="mbm-title">Welcome toasts</div><div class="mbm-detail">Keep it brief — 1-2 people max. Parents welcome everyone, set the tone for the weekend.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">7:00 PM</div><div class="mbm-body"><div class="mbm-title">Dinner service begins</div><div class="mbm-detail">Relaxed, family-style or plated — depending on what's arranged with PJCC.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">8:00 PM</div><div class="mbm-body"><div class="mbm-title">Dessert / lingering / open bar</div><div class="mbm-detail">No formal agenda — let it breathe. People catching up, excitement building for tomorrow.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">9:00 PM</div><div class="mbm-body"><div class="mbm-title">Couple makes graceful exit</div><div class="mbm-detail">Early night for the couple — big day tomorrow. Guests free to stay or head back to hotels.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">9:30 PM</div><div class="mbm-body"><div class="mbm-title">Welcome party ends</div><div class="mbm-detail">Last guests depart. Everyone needs to be sharp for tomorrow.</div></div></div>
+      </div>
+    </div>
+
+    <!-- FRIDAY — split morning, shared afternoon/evening -->
+    <div class="mbm-day open" id="mbm-fri">
+      <div class="mbm-day-hdr" onclick="this.parentElement.classList.toggle('open')">
+        <div class="mbm-day-hdr-text">
+          <div class="mbm-day-label">Wedding Day</div>
+          <div class="mbm-day-name">Friday, June 18</div>
+          <div class="mbm-day-date">Getting ready separately → Sunken Meadow Pavilion · 7 PM cocktails · 8 PM ceremony · Reception until 12 AM</div>
+        </div>
+        <span class="mbm-day-chevron">▼</span>
+      </div>
+      <div class="mbm-day-body">
+
+        <!-- Split morning -->
+        <div class="mbm-track-label">MORNING — Getting Ready Separately</div>
+        <div class="mbm-split">
+          <div class="mbm-col">
+            <div class="mbm-col-hdr" style="color:var(--gold);border-bottom:2px solid var(--gold);">👰 Bride — At Home</div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">7:00 AM</div><div class="mbm-body"><div class="mbm-title">Wake up</div><div class="mbm-detail">Light breakfast — nothing too heavy. Hydrate.</div></div></div>
+            <div class="mbm-block mbm-key"><div class="mbm-time">7:30 AM</div><div class="mbm-body"><div class="mbm-title">HMUA team arrives</div><div class="mbm-detail">Hair & makeup team sets up. Bride goes first — always.</div></div></div>
+            <div class="mbm-block mbm-sub"><div class="mbm-time">7:40</div><div class="mbm-body"><div class="mbm-title">Bride makeup begins</div></div></div>
+            <div class="mbm-block mbm-sub"><div class="mbm-time">8:30</div><div class="mbm-body"><div class="mbm-title">Bride hair begins</div><div class="mbm-detail">Bridesmaid 1 goes to makeup chair simultaneously.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">9:00 AM</div><div class="mbm-body"><div class="mbm-title">Bridesmaid rotation in full swing</div><div class="mbm-detail">Assembly line — 2 stylists ideally. Snacks, music, champagne toast optional.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">10:30 AM</div><div class="mbm-body"><div class="mbm-title">Bride fully done — photos begin</div><div class="mbm-detail">Detail shots: dress, shoes, rings, bouquet, invitation.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">11:00 AM</div><div class="mbm-body"><div class="mbm-title">Bridesmaids finishing up</div></div></div>
+            <div class="mbm-block mbm-key"><div class="mbm-time">11:30 AM</div><div class="mbm-body"><div class="mbm-title">Getting dressed</div><div class="mbm-detail">Maid of honor helps with dress + bustle practice. Photographer captures the moment.</div></div></div>
+            <div class="mbm-block mbm-sub"><div class="mbm-time">11:50</div><div class="mbm-body"><div class="mbm-title">First look with father (optional)</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">12:00 PM</div><div class="mbm-body"><div class="mbm-title">Bridal party photos at home</div><div class="mbm-detail">Group shots, individual portraits, candid moments.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">12:30 PM</div><div class="mbm-body"><div class="mbm-title">Family photos at home</div></div></div>
+            <div class="mbm-block mbm-key"><div class="mbm-time">1:00 PM</div><div class="mbm-body"><div class="mbm-title">Load up — depart by 1:30</div><div class="mbm-detail">Dress packed carefully. Emergency kit in the car. Leave buffer for traffic.</div></div></div>
+            <div class="mbm-block mbm-milestone"><div class="mbm-time">2:00 PM</div><div class="mbm-body"><div class="mbm-title">Arrive at Sunken Meadow</div></div></div>
+          </div>
+          <div class="mbm-col">
+            <div class="mbm-col-hdr" style="color:var(--navy-light);border-bottom:2px solid var(--navy-light);">🤵 Groom — At Home</div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">8:30 AM</div><div class="mbm-body"><div class="mbm-title">Wake up / slow morning</div><div class="mbm-detail">Breakfast with groomsmen. Keep it chill — no rushing yet.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">9:30 AM</div><div class="mbm-body"><div class="mbm-title">Groomsmen all arrive</div><div class="mbm-detail">Everyone gets ready together. Drinks optional but keep it measured.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">10:30 AM</div><div class="mbm-body"><div class="mbm-title">Getting dressed</div><div class="mbm-detail">Suits/tuxes on. Help each other with ties and boutonnieres.</div></div></div>
+            <div class="mbm-block mbm-key"><div class="mbm-time">11:00 AM</div><div class="mbm-body"><div class="mbm-title">Groomsmen photos at home</div><div class="mbm-detail">Group shots, details (shoes, cufflinks, rings), candid moments.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">11:30 AM</div><div class="mbm-body"><div class="mbm-title">Family photos at home</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">12:00 PM</div><div class="mbm-body"><div class="mbm-title">Lunch together</div><div class="mbm-detail">Eat something real. Long day ahead.</div></div></div>
+            <div class="mbm-block mbm-main"><div class="mbm-time">1:00 PM</div><div class="mbm-body"><div class="mbm-title">Letter / gift exchange with bride (optional)</div><div class="mbm-detail">Cards delivered via a bridesmaid or family member — don't see each other yet.</div></div></div>
+            <div class="mbm-block mbm-key"><div class="mbm-time">1:30 PM</div><div class="mbm-body"><div class="mbm-title">Load up and depart</div></div></div>
+            <div class="mbm-block mbm-milestone"><div class="mbm-time">2:00 PM</div><div class="mbm-body"><div class="mbm-title">Arrive at Sunken Meadow</div></div></div>
+          </div>
+        </div>
+
+        <!-- Venue / shared -->
+        <div class="mbm-track-label">AT THE VENUE — Shared Timeline</div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">10:00 AM</div><div class="mbm-body"><div class="mbm-title">Vendors arrive & setup begins</div><div class="mbm-detail">Caterer, florist, lighting/AV team, rentals all arrive. Confirm with each one that they have the access window.</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">2:00 PM</div><div class="mbm-body"><div class="mbm-title">Bride & Groom both arrive — kept separate</div><div class="mbm-detail">Each arrives via separate entrance. No seeing each other until the first look.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">2:20 PM</div><div class="mbm-body"><div class="mbm-title">First Look 💛</div><div class="mbm-detail">Groom in position, eyes closed. Bride walks up and taps his shoulder. Photographer captures the reaction.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">2:30 PM</div><div class="mbm-body"><div class="mbm-title">Couple portraits — waterfront</div><div class="mbm-detail">Just the two of you. Photographer leads — trust them. 20-25 minutes of romantic portraits on the Sound.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">3:00 PM</div><div class="mbm-body"><div class="mbm-title">Full bridal party photos</div><div class="mbm-detail">Everyone together. Group shots, rows, candids. Keep energy high.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">3:20</div><div class="mbm-body"><div class="mbm-title">Bridesmaids only</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">3:30</div><div class="mbm-body"><div class="mbm-title">Groomsmen only</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">3:40 PM</div><div class="mbm-body"><div class="mbm-title">Immediate family formals</div><div class="mbm-detail">Have a shot list ready — parents of bride, parents of groom, siblings, grandparents. Move fast.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">4:00</div><div class="mbm-body"><div class="mbm-title">Extended family formals</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">4:20 PM</div><div class="mbm-body"><div class="mbm-title">Couple retreats — private moment before ceremony</div><div class="mbm-detail">Go somewhere quiet. Eat something. Drink water. Breathe. This is the last calm moment of the day.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">3:30 PM</div><div class="mbm-body"><div class="mbm-title">Couple arrives at Sunken Meadow</div><div class="mbm-detail">Vendor setup in progress. Couple gets oriented with the space — pavilion, ceremony area, cocktail space.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">4:00 PM</div><div class="mbm-body"><div class="mbm-title">👀 First look — just the two of you</div><div class="mbm-detail">Private moment before anyone sees you together. Photographer captures pure, unscripted reaction. Take a breath here — it's the calm before the night.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">4:20 PM</div><div class="mbm-body"><div class="mbm-title">Wedding party portraits</div><div class="mbm-detail">Bridesmaids, groomsmen, full party together. Move quickly — give the photographer 45 minutes max.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">5:10 PM</div><div class="mbm-body"><div class="mbm-title">Family portraits</div><div class="mbm-detail">Run the must-have family groupings. Have a list ready for the photographer — this saves 15+ minutes of herding people.</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">6:00 PM</div><div class="mbm-body"><div class="mbm-title">Couple portraits — golden hour session</div><div class="mbm-detail">June sunset at Sunken Meadow is ~8:20pm. The 6-7pm window gives you warm side light with the Sound in the background. This is the best light of the day — protect this time.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">6:30</div><div class="mbm-body"><div class="mbm-title">Couple retreats to bridal suite</div><div class="mbm-detail">Touch-ups, quiet time, eat something, breathe. Guests are arriving — no one sees you until you walk down the aisle.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">6:30 PM</div><div class="mbm-body"><div class="mbm-title">Guests begin arriving</div><div class="mbm-detail">Ushers in place. Pre-cocktail music playing. Direct guests to cocktail area — aim for all in by 7:00.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">7:00 PM</div><div class="mbm-body"><div class="mbm-title">🍹 Cocktail hour opens</div><div class="mbm-detail">Bar opens. Hors d'oeuvres passed. Guests mingle — they don't see the couple until the processional. Build the anticipation.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">7:45</div><div class="mbm-body"><div class="mbm-title">Guests called to take their seats for the ceremony</div><div class="mbm-detail">MC or band/DJ makes the announcement. Bar pauses. Guests transition from cocktail area to ceremony space.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">7:50</div><div class="mbm-body"><div class="mbm-title">Wedding party in position backstage</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">7:56</div><div class="mbm-body"><div class="mbm-title">Officiant takes position. Music transitions to processional.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">8:00 PM</div><div class="mbm-body"><div class="mbm-title">🎶 Ceremony begins — Processional</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">8:02</div><div class="mbm-body"><div class="mbm-title">Parents of groom walk</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">8:04</div><div class="mbm-body"><div class="mbm-title">Parents of bride walk</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">8:06</div><div class="mbm-body"><div class="mbm-title">Groomsmen walk</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">8:09</div><div class="mbm-body"><div class="mbm-title">Bridesmaids walk</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">8:13</div><div class="mbm-body"><div class="mbm-title">Flower girl / ring bearer (if applicable)</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">8:15 PM</div><div class="mbm-body"><div class="mbm-title">All rise — Bride enters 👰</div><div class="mbm-detail">Music swells. Slow walk. Golden hour light streaming in. Take it in — don't rush this moment.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">8:22 PM</div><div class="mbm-body"><div class="mbm-title">Officiant opening words</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">8:27 PM</div><div class="mbm-body"><div class="mbm-title">Readings (if any)</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">8:35 PM</div><div class="mbm-body"><div class="mbm-title">Vows</div><div class="mbm-detail">Written or traditional. Groom goes first. Have tissues ready for the crowd.</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">8:47 PM</div><div class="mbm-body"><div class="mbm-title">Ring exchange</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">8:52 PM</div><div class="mbm-body"><div class="mbm-title">💍 Pronouncement + First Kiss</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">8:54 PM</div><div class="mbm-body"><div class="mbm-title">Recessional — Mr. &amp; Mrs. walk out together</div><div class="mbm-detail">Big smiles. Guests cheer. Sunset light behind you. This is the moment.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">9:00 PM</div><div class="mbm-body"><div class="mbm-title">Reception begins — guests transition to dinner room</div><div class="mbm-detail">Band/DJ cues the crowd. Energy shifts. Dinner music plays as people find their tables. Couple takes 5 min for a quick post-ceremony portrait outside — golden light is still there.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">9:05</div><div class="mbm-body"><div class="mbm-title">Wedding party introduced</div><div class="mbm-detail">Each couple/individual announced as they enter the room.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">9:10 PM</div><div class="mbm-body"><div class="mbm-title">🎶 Couple announced — First Dance</div><div class="mbm-detail">The moment the band has been building to. Own it.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">9:18</div><div class="mbm-body"><div class="mbm-title">Father-daughter dance</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">9:23</div><div class="mbm-body"><div class="mbm-title">Mother-son dance</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">9:28 PM</div><div class="mbm-body"><div class="mbm-title">Band opens the floor + dinner service begins simultaneously</div><div class="mbm-detail">Guests can dance or eat. Energy stays high. Caterer starts running courses.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">9:30 PM</div><div class="mbm-body"><div class="mbm-title">Dinner in full swing</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">10:00 PM</div><div class="mbm-body"><div class="mbm-title">Best man toast</div><div class="mbm-detail">Keep it to 3-4 minutes. Funny, heartfelt, ends on a high note.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">10:08</div><div class="mbm-body"><div class="mbm-title">Maid of honor toast</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">10:16</div><div class="mbm-body"><div class="mbm-title">Family toasts (optional — 1-2 max)</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">10:30 PM</div><div class="mbm-body"><div class="mbm-title">🎂 Cake cutting</div><div class="mbm-detail">Caterer has cake ready and plated for service immediately after.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">10:40 PM</div><div class="mbm-body"><div class="mbm-title">Full dance floor opens — peak party hours</div><div class="mbm-detail">Band turns it up. This is the 80-minute run to midnight. Build it — don't peak too early.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">11:00 PM</div><div class="mbm-body"><div class="mbm-title">Late night bites come out (optional)</div><div class="mbm-detail">Sliders, fries, a late-night snack station — keeps energy up and guests on the floor for the final hour.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">11:10</div><div class="mbm-body"><div class="mbm-title">Band reads the room — pushes energy for the final stretch</div><div class="mbm-detail">Keep the floor full. This is where a great band earns their fee — watching crowd energy and responding.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">11:15 PM</div><div class="mbm-body"><div class="mbm-title">Bar last call — confirm timing with venue</div><div class="mbm-detail">Depending on state park rules, bar may close before midnight. Announce it 10 min early so guests get one last round.</div></div></div>
+        <div class="mbm-block mbm-sub"><div class="mbm-time">11:00 PM</div><div class="mbm-body"><div class="mbm-title">Bar closes if curfew applies — DJ keeps the room alive</div><div class="mbm-detail">If the venue's bar has an 11pm cutoff, announce it 10 minutes ahead so nobody is caught off guard. Floor keeps going.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">11:30 PM</div><div class="mbm-body"><div class="mbm-title">DJ announces last 30 minutes</div><div class="mbm-detail">Energy should be at a peak going into the final stretch. Request a few personal favorites. Don't let the room thin — keep people on the floor.</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">11:45 PM</div><div class="mbm-body"><div class="mbm-title">Last dance</div><div class="mbm-detail">Pick something deeply meaningful to both of you. Slow it down. Couple in the center, guests form a circle. This is the final memory of the night.</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">11:52 PM</div><div class="mbm-body"><div class="mbm-title">Couple send-off / grand exit</div><div class="mbm-detail">Line guests up in a tunnel outside — bubbles, ribbon wands, sparkler alternative. Walk out as a married couple. Photographer captures the exit shot.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">12:00 AM</div><div class="mbm-body"><div class="mbm-title">🎉 Reception officially ends. Vendors begin breakdown.</div><div class="mbm-detail">It's officially June 19. Confirm cleanup window with venue — vendors need enough time to strike before the facility hard-close.</div></div></div>
+      </div>
+    </div>
+
+    <!-- SATURDAY -->
+    <div class="mbm-day" id="mbm-sat">
+      <div class="mbm-day-hdr" onclick="this.parentElement.classList.toggle('open')">
+        <div class="mbm-day-hdr-text">
+          <div class="mbm-day-label">Day After</div>
+          <div class="mbm-day-name">Saturday, June 19</div>
+          <div class="mbm-day-date">Farewell Brunch · Goodbyes · Honeymoon</div>
+        </div>
+        <span class="mbm-day-chevron">▼</span>
+      </div>
+      <div class="mbm-day-body">
+        <div class="mbm-block mbm-main"><div class="mbm-time">9:00 AM</div><div class="mbm-body"><div class="mbm-title">Newlyweds wake up — take it slow</div><div class="mbm-detail">You earned a slow morning. Room service if possible.</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">10:00 AM</div><div class="mbm-body"><div class="mbm-title">Farewell brunch begins</div><div class="mbm-detail">Casual, relaxed. Location TBD — a restaurant with a private room works great. 1-1.5 hours is plenty.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">11:00 AM</div><div class="mbm-body"><div class="mbm-title">Guests begin departing</div><div class="mbm-detail">Out-of-town guests checking out of hotels. Lots of hugs and handshakes.</div></div></div>
+        <div class="mbm-block mbm-main"><div class="mbm-time">11:30 AM</div><div class="mbm-body"><div class="mbm-title">Brunch winds down</div></div></div>
+        <div class="mbm-block mbm-key"><div class="mbm-time">12:00 PM</div><div class="mbm-body"><div class="mbm-title">Final goodbyes</div><div class="mbm-detail">Last hugs, photos, well-wishes. It's over — and it was everything.</div></div></div>
+        <div class="mbm-block mbm-milestone"><div class="mbm-time">Afternoon</div><div class="mbm-body"><div class="mbm-title">✈️ Honeymoon begins</div><div class="mbm-detail">Head to the airport or wherever the adventure starts. Destination TBD.</div></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── GAME PLAN ── -->
+  <div class="section" id="gameplan">
+    <h2 class="section-title">Game Plan &amp; Action Items</h2>
+    <p class="section-sub">9 months out as of September 2026. Check things off as you lock them in — progress saves automatically.</p>
+    <div class="section-divider"></div>
+
+    <div class="gp-summary-bar">
+      <div>
+        <div class="big" id="gp-pct">0%</div>
+        <div class="label">Complete</div>
+      </div>
+      <div class="gp-overall-track">
+        <div class="gp-overall-fill" id="gp-overall-fill" style="width:0%"></div>
+      </div>
+      <div style="text-align:right;">
+        <div class="big" id="gp-count" style="font-size:1.4rem;">0 / 0</div>
+        <div class="label">Items Done</div>
+      </div>
+    </div>
+
+    <div id="gp-phases"><!-- rendered by JS --></div>
+  </div>
+
+  <!-- ── SPECIFIC OUTSTANDING QUESTIONS ── -->
+  <div class="section" id="venue-qs">
+    <h2 class="section-title">📋 Specific Outstanding Questions for the Venue Coordinator</h2>
+    <p class="section-sub">Every question that still needs an answer from the Sunken Meadow / NY State Parks coordinator. Go through this list on your next call or visit.</p>
+    <div class="section-divider"></div>
+
+    <style>
+      .vq-group { margin-bottom:2rem; }
+      .vq-group-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700; color:var(--navy); letter-spacing:.05em; text-transform:uppercase; border-bottom:1px solid var(--gold); padding-bottom:.3rem; margin-bottom:.8rem; }
+      .vq-item { display:flex; align-items:flex-start; gap:.75rem; padding:.6rem .8rem; border-radius:6px; margin-bottom:.4rem; background:#f9f7f3; transition:background .2s; }
+      .vq-item:hover { background:#f1ede4; }
+      .vq-item input[type=checkbox] { margin-top:3px; accent-color:var(--navy); width:16px; height:16px; flex-shrink:0; cursor:pointer; }
+      .vq-item label { font-family:'Lato',sans-serif; font-size:.93rem; line-height:1.5; color:#333; cursor:pointer; }
+      .vq-item.answered label { text-decoration:line-through; color:#999; }
+      .vq-note { font-size:.8rem; color:var(--sage); font-style:italic; display:block; margin-top:.2rem; }
+      .vq-priority { display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.05em; padding:1px 6px; border-radius:3px; margin-right:.4rem; vertical-align:middle; }
+      .vq-priority.p1 { background:#b44;color:#fff; }
+      .vq-priority.p2 { background:var(--gold);color:#1A3344; }
+      .vq-priority.p3 { background:#8B9E7A;color:#fff; }
+    </style>
+
+    <div id="venue-qs-list"></div>
+  </div>
+
+</div>
+
+<footer>
+  Alex &amp; Jenna · The Pavilion at Sunken Meadow · June 18, 2027 · Estimates only — confirm all pricing with vendors · Data saved locally in your browser.
+</footer>
+
+<script>
+const WEDDING_DATE = new Date('2027-06-18T18:00:00');
+const TOTAL_BUDGET = 100000;
+const PPP = 185;
+
+let budgetChart = null;
+
+const BUDGET_CATS = [
+  { key:'venue',      label:'🏛️  Venue Rental Fee',       color:'#1A3344', locked:true,  alloc:27750, spent:0 },
+  { key:'catering',   label:'🍽️  Catering',               color:'#C4A55A', locked:false, alloc:20000, spent:0 },
+  { key:'bar',        label:'🍷  Bar Service',             color:'#5A8A7E', locked:false, alloc:8000,  spent:0 },
+  { key:'rentals',    label:'🪑  Tables, Chairs &amp; Linens', color:'#6B7A8D', locked:false, alloc:5000,  spent:0 },
+  { key:'photo',      label:'📷  Photography',             color:'#B8A040', locked:false, alloc:6000,  spent:0 },
+  { key:'video',      label:'🎥  Videography',             color:'#7A9E7E', locked:false, alloc:4000,  spent:0 },
+  { key:'dj',         label:'🎵  DJ / Entertainment',      color:'#8B7A6B', locked:false, alloc:3500,  spent:0 },
+  { key:'floral',     label:'💐  Florals',                 color:'#D4A5A5', locked:false, alloc:5000,  spent:0 },
+  { key:'hmua',       label:'💄  Hair &amp; Makeup',       color:'#A5C4D4', locked:false, alloc:3000,  spent:0 },
+  { key:'rehearsal',  label:'🍴  Rehearsal Dinner',        color:'#C4B5A5', locked:false, alloc:6000,  spent:0 },
+  { key:'attire',     label:'👗  Attire &amp; Rings',      color:'#9E8B7A', locked:false, alloc:6000,  spent:0 },
+  { key:'transport',  label:'🚗  Transportation',          color:'#8B9E7A', locked:false, alloc:2000,  spent:0 },
+  { key:'misc',       label:'🎁  Misc / Buffer',           color:'#A5B5C4', locked:false, alloc:750,   spent:0 },
+];
+
+const VENDOR_CATS = [
+  {
+    key:'catering', emoji:'🍽️', title:'Catering', badge:'Book First', badgeClass:'',
+    note:'You must bring your own caterer. Confirm they are approved for state park events and carry $1M+ liability insurance.',
+    vendors:[
+      { id:'sm_cat1', name:'Caterer — Your Pick', role:'Full-service catering', location:'Long Island', estimate:'$100–$200/pp', estimateNote:'~$15k–$30k for 150 guests' },
+    ]
+  },
+  {
+    key:'bar', emoji:'🍷', title:'Bar Service', badge:'Book Required', badgeClass:'',
+    note:'Confirm whether the alcohol permit is included in your venue fee or must be obtained separately from NY State Parks.',
+    vendors:[
+      { id:'sm_bar1', name:'Bar Service — Your Pick', role:'Open bar, beer & wine, mixers', location:'Long Island', estimate:'$40–$80/pp', estimateNote:'~$6k–$12k for 150 guests' },
+    ]
+  },
+  {
+    key:'rentals', emoji:'🪑', title:'Tables, Chairs &amp; Rentals', badge:'Book Required', badgeClass:'',
+    note:'Confirm with the venue what furniture is provided vs. what must be rented — see outstanding questions below.',
+    vendors:[
+      { id:'sm_tables', name:'Table &amp; Chair Rental Company', role:'Tables, chairs, linens, china', location:'Long Island', estimate:'$2,000–$5,000' },
+      { id:'sm_light', name:'Lighting &amp; AV', role:'String lights, uplighting, sound system', location:'Long Island', estimate:'$1,500–$5,000' },
+      { id:'sm_restroom', name:'Luxury Restroom Trailer', role:'Guest restrooms (if needed)', location:'Long Island', estimate:'$1,200–$3,000' },
+    ]
+  },
+  {
+    key:'music', emoji:'🎵', title:'Music &amp; Entertainment', badge:'Book Required', badgeClass:'needed',
+    note:'Confirm amplified music rules and end time with NY State Parks before booking.',
+    vendors:[
+      { id:'sm_dj1', name:'DJ / Emcee', role:'Ceremony, cocktail hour &amp; reception', location:'Long Island', estimate:'$2,500–$5,000' },
+      { id:'sm_band1', name:'Live Band', role:'Reception band (4–8 piece)', location:'NY Metro', estimate:'$6,000–$15,000+' },
+    ]
+  },
+  {
+    key:'photo', emoji:'📷', title:'Photography', badge:'Book Required', badgeClass:'needed',
+    note:'The waterfront setting at Sunken Meadow makes for incredible photos — find a photographer who knows natural light.',
+    vendors:[
+      { id:'sm_photo1', name:'Photographer', role:'Full-day coverage', location:'Long Island / NY', estimate:'$3,000–$8,000' },
+      { id:'sm_photo2', name:'Second Shooter', role:'Additional coverage', location:'NY', estimate:'$800–$1,500' },
+    ]
+  },
+  {
+    key:'video', emoji:'🎥', title:'Videography', badge:'Book Required', badgeClass:'needed',
+    vendors:[
+      { id:'sm_vid1', name:'Videographer', role:'Highlight film + ceremony', location:'Long Island / NY', estimate:'$3,000–$7,000' },
+    ]
+  },
+  {
+    key:'floral', emoji:'💐', title:'Florals', badge:'Book Required', badgeClass:'needed',
+    vendors:[
+      { id:'sm_floral1', name:'Florist', role:'Bouquets, centerpieces, ceremony arch', location:'Long Island', estimate:'$3,000–$10,000+' },
+    ]
+  },
+  {
+    key:'hmua', emoji:'💄', title:'Hair &amp; Makeup', badge:'Book Required', badgeClass:'needed',
+    vendors:[
+      { id:'sm_hmua1', name:'Hair Stylist', role:'Bride + bridal party', location:'On-site or salon', estimate:'$150–$300/person' },
+      { id:'sm_hmua2', name:'Makeup Artist', role:'Bride + bridal party', location:'On-site or salon', estimate:'$150–$300/person' },
+    ]
+  },
+  {
+    key:'officiant', emoji:'💍', title:'Officiant', badge:'Book Required', badgeClass:'needed',
+    vendors:[
+      { id:'sm_off1', name:'Officiant', role:'Ceremony officiant', location:'Suffolk County NY', estimate:'$300–$800' },
+    ]
+  },
+  {
+    key:'cake', emoji:'🎂', title:'Wedding Cake', badge:'Book Required', badgeClass:'needed',
+    vendors:[
+      { id:'sm_cake1', name:'Bakery / Cake Maker', role:'Wedding cake + cutting', location:'Long Island', estimate:'$500–$1,500' },
+    ]
+  },
+  {
+    key:'transport', emoji:'🚗', title:'Transportation', badge:'Optional', badgeClass:'needed',
+    note:'State park lots are free but guests coming from NYC may need shuttle coordination.',
+    vendors:[
+      { id:'sm_limo1', name:'Limo / Party Bus', role:'Couple + wedding party', location:'Suffolk County', estimate:'$800–$2,500' },
+      { id:'sm_shuttle1', name:'Guest Shuttles', role:'Hotel-to-venue shuttles', location:'Kings Park area', estimate:'$500–$1,500' },
+    ]
+  },
+  {
+    key:'stationery', emoji:'✉️', title:'Stationery &amp; Invitations', badge:'Plan Early', badgeClass:'needed',
+    vendors:[
+      { id:'sm_stat1', name:'Invitation Designer / Printer', role:'Save-the-dates, invites, programs', location:'Online or local', estimate:'$500–$2,000+' },
+    ]
+  },
+];
+
+const DEFAULT_QUESTIONS = [
+  { id:'q_permit', text:'What is the process for obtaining the NY State Parks permit for a private wedding event? What is the lead time, cost, and any restrictions?', cat:'Venue / Permits', resolved:false },
+  { id:'q_alcohol', text:'Does the $185/person venue fee include an alcohol permit, or does that need to be obtained separately through NY State Parks?', cat:'Bar & Permits', resolved:false },
+  { id:'q_tent', text:'Are tents and temporary structures allowed on the grounds? Is there a preferred setup location, and are there restrictions on tent size or anchoring?', cat:'Venue / Tent', resolved:false },
+  { id:'q_power', text:'Is there electrical power available at the pavilion for catering, lighting, and DJ equipment, or will vendors need to bring generators?', cat:'Venue / Logistics', resolved:false },
+  { id:'q_music_time', text:'What is the latest time amplified music is allowed? Are there noise restrictions as a state park?', cat:'Music / Logistics', resolved:false },
+  { id:'q_vendors', text:'Does the venue or NY State Parks have any approved vendor list or restrictions on outside vendors? Do all vendors need to submit proof of insurance?', cat:'Vendors', resolved:false },
+  { id:'q_restrooms', text:'Are the on-site restroom facilities adequate for 150 guests, or do we need to rent a luxury restroom trailer?', cat:'Venue / Logistics', resolved:false },
+  { id:'q_tax', text:'Are there any additional taxes, fees, or gratuities on top of the $185/person venue rental fee?', cat:'Pricing', resolved:false },
+  { id:'q_layout', text:'How flexible is the layout of the pavilion? Can we customize the arrangement of tables and the dance floor? Do you provide the chairs and tables, or does that need to come from a separate rental company? Is seating included in the $185/person fee or is it an additional cost?', cat:'Venue / Layout', resolved:false },
+  { id:'q_linens', text:'Are linens, china, glassware, and flatware included in the per-person fee, or do we need to rent those separately?', cat:'Venue / Inclusions', resolved:false },
+  { id:'q_dj', text:'DJ or band — is there a preferred or in-house option, or do we need to source our own entertainment? Are there any restrictions on sound equipment or amplification at the state park?', cat:'Music / Entertainment', resolved:false },
+];
+
+// ── UTILS ──
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function setEl(id, v) { const e = document.getElementById(id); if(e) e.textContent = v; }
+function getGuests() { return Math.max(1, parseInt(document.getElementById('guest-count')?.value) || 150); }
+
+function loadState() {
+  const saved = localStorage.getItem('sm_budget');
+  if (saved) {
+    try {
+      const obj = JSON.parse(saved);
+      BUDGET_CATS.forEach(c => { if (obj[c.key] !== undefined && !c.locked) c.alloc = obj[c.key]; });
+    } catch(e) {}
+  }
+}
+function saveState() {
+  const obj = {};
+  BUDGET_CATS.forEach(c => obj[c.key] = c.alloc);
+  localStorage.setItem('sm_budget', JSON.stringify(obj));
+}
+
+// ── COUNTDOWN ──
+function updateCountdown() {
+  const diff = WEDDING_DATE - new Date();
+  if (diff <= 0) { setEl('cd-days','0');setEl('cd-hrs','0');setEl('cd-min','0');setEl('cd-sec','0'); return; }
+  setEl('cd-days', Math.floor(diff/86400000));
+  setEl('cd-hrs',  Math.floor((diff%86400000)/3600000));
+  setEl('cd-min',  Math.floor((diff%3600000)/60000));
+  setEl('cd-sec',  Math.floor((diff%60000)/1000));
+}
+
+// ── PACKAGE ──
+function renderPackage() {
+  const g = getGuests();
+  const base = PPP * g;
+  setEl('pkg-guests-disp', g);
+  setEl('pkg-base', fmt(base));
+  setEl('pkg-grand-total', fmt(base));
+  setEl('nav-total', fmt(base));
+  setEl('hero-venue-total', fmt(base));
+  setEl('hero-guests', g);
+  const vcat = BUDGET_CATS.find(c => c.key === 'venue');
+  if (vcat) vcat.alloc = base;
+}
+
+// ── FINANCIAL ──
+function renderFinancial() {
+  const g = getGuests();
+  const venueTotal = PPP * g;
+  const vendorBudget = Math.max(0, TOTAL_BUDGET - venueTotal);
+  const fGuests = Math.max(0, parseInt(document.getElementById('fin-guests')?.value) || 150);
+  const giftPP  = Math.max(0, parseInt(document.getElementById('fin-giftpp')?.value)  || 200);
+  const gifts   = fGuests * giftPP;
+  const net     = Math.max(0, TOTAL_BUDGET - gifts);
+  const pct     = Math.min(100, (net / TOTAL_BUDGET) * 100);
+  setEl('fin-venue',   fmt(venueTotal));
+  setEl('fin-vendors', fmt(vendorBudget));
+  setEl('fin-gifts',   fmt(gifts));
+  setEl('fin-net',     fmt(net));
+  const bar = document.getElementById('fin-net-bar');
+  if (bar) bar.style.width = pct + '%';
+}
+
+// ── BUDGET ──
+function renderBudget() {
+  const totalAlloc = BUDGET_CATS.reduce((s,c) => s + c.alloc, 0);
+  const over = totalAlloc > TOTAL_BUDGET;
+  let html = '';
+  BUDGET_CATS.forEach(c => {
+    const pct = totalAlloc > 0 ? Math.round((c.alloc/totalAlloc)*100) : 0;
+    html += `<div class="budget-cat-row">
+      <div class="budget-cat-dot" style="background:${c.color}"></div>
+      <div class="budget-cat-label">${c.label}</div>
+      <div class="budget-cat-pct">${pct}%</div>
+      ${c.locked
+        ? `<div class="budget-cat-val">${fmt(c.alloc)}</div>`
+        : `<input type="number" class="budget-alloc-input" value="${c.alloc}" min="0" step="500" oninput="updateBudgetCat('${c.key}',this.value)" />`
+      }
+    </div>`;
+  });
+  document.getElementById('budget-cats').innerHTML = html;
+  const el = document.getElementById('budget-total-alloc');
+  if (el) { el.textContent = fmt(totalAlloc); el.className = 'val' + (over?' budget-over':''); }
+
+  const data   = BUDGET_CATS.map(c => c.alloc);
+  const colors = BUDGET_CATS.map(c => c.color);
+  const labels = BUDGET_CATS.map(c => c.label);
+  if (budgetChart) { budgetChart.data.datasets[0].data = data; budgetChart.update(); }
+  else {
+    const ctx = document.getElementById('budget-chart')?.getContext('2d');
+    if (ctx) {
+      budgetChart = new Chart(ctx, {
+        type:'doughnut',
+        data:{ labels, datasets:[{ data, backgroundColor:colors, borderWidth:2, borderColor:'#F9F6F0' }] },
+        options:{ cutout:'65%', plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c=>' '+c.label+': '+fmt(c.raw) } } } }
+      });
+    }
+  }
+}
+
+function updateBudgetCat(key, val) {
+  const c = BUDGET_CATS.find(c => c.key === key);
+  if (c) c.alloc = Math.max(0, parseInt(val)||0);
+  saveState(); renderBudget(); renderFinancial();
+}
+
+// ── VENDORS ──
+function loadVD(id) { try { return JSON.parse(localStorage.getItem('sm_v_'+id))||{}; } catch(e){ return {}; } }
+function saveVD(id, field, val) {
+  const d = loadVD(id); d[field]=val;
+  localStorage.setItem('sm_v_'+id, JSON.stringify(d));
+  if (field==='status'||field==='chosen') renderVendors();
+}
+function toggleChosen(id, e) { e.stopPropagation(); const d=loadVD(id); saveVD(id,'chosen',!d.chosen); }
+function toggleVcat(key) { document.querySelector(`.vcat[data-key="${key}"]`)?.classList.toggle('open'); }
+function toggleVrow(id)  { document.querySelector(`.vrow[data-id="${id}"]`)?.classList.toggle('open'); }
+
+function renderVendors() {
+  const wrap = document.getElementById('vendor-tracker');
+  if (!wrap) return;
+  let html = '';
+  VENDOR_CATS.forEach(cat => {
+    const chosenCount = cat.vendors.filter(v=>loadVD(v.id).chosen).length;
+    const bookedCount = cat.vendors.filter(v=>(loadVD(v.id).status||'')==='booked').length;
+    let meta = `${cat.vendors.length} option${cat.vendors.length!==1?'s':''}`;
+    if (chosenCount) meta += ` · ⭐ ${chosenCount} chosen`;
+    if (bookedCount) meta += ` · ✅ ${bookedCount} booked`;
+
+    html += `<div class="vcat" data-key="${cat.key}">
+      <div class="vcat-hdr" onclick="toggleVcat('${cat.key}')">
+        <span class="vcat-emoji">${cat.emoji}</span>
+        <div class="vcat-hdr-text"><div class="vcat-hdr-title">${cat.title}</div><div class="vcat-hdr-meta">${meta}</div></div>
+        ${cat.badge?`<span class="vcat-badge ${cat.badgeClass||''}">${cat.badge}</span>`:''}
+        <span class="vcat-chevron">▼</span>
+      </div>
+      <div class="vcat-body">
+        ${cat.note?`<div class="vcat-note">${cat.note}</div>`:''}`;
+
+    cat.vendors.forEach(v => {
+      const vd=loadVD(v.id), status=vd.status||'none', chosen=vd.chosen||false, notes=vd.notes||'';
+      const sLabels={none:'No Status',researching:'Researching',contacted:'contacted',booked:'Booked',passed:'Passed'};
+      const sCls   ={researching:'researching',contacted:'contacted',booked:'booked',passed:'passed'};
+      html += `<div class="vrow${chosen?' chosen':''}" data-id="${v.id}">
+        <div class="vrow-summary" onclick="toggleVrow('${v.id}')">
+          <span class="chosen-star" onclick="toggleChosen('${v.id}',event)">⭐</span>
+          <div style="flex:1"><div class="vrow-name">${v.name}</div><div class="vrow-role">${v.role||''}</div></div>
+          ${v.estimate?`<span class="estimate-badge">${v.estimate}</span>`:''}
+          <span class="vrow-status ${sCls[status]||''}">${sLabels[status]||'No Status'}</span>
+          <span class="vrow-expand">▸</span>
+        </div>
+        <div class="vrow-detail">
+          <div class="vdetail-grid">
+            ${v.location?`<div class="vdetail-field"><label>Location</label><span>${v.location}</span></div>`:''}
+            ${v.estimate?`<div class="vdetail-field"><label>Estimate</label><span>${v.estimate}${v.estimateNote?' — '+v.estimateNote:''}</span></div>`:''}
+          </div>
+          <textarea class="vdetail-notes" placeholder="Notes, quotes, contact info…" oninput="saveVD('${v.id}','notes',this.value)">${notes}</textarea>
+          <div class="vdetail-actions">
+            <label>Status:</label>
+            <select onchange="saveVD('${v.id}','status',this.value)">
+              <option value="none"        ${status==='none'?'selected':''}>No Status</option>
+              <option value="researching" ${status==='researching'?'selected':''}>Researching</option>
+              <option value="contacted"   ${status==='contacted'?'selected':''}>Contacted</option>
+              <option value="booked"      ${status==='booked'?'selected':''}>Booked ✅</option>
+              <option value="passed"      ${status==='passed'?'selected':''}>Passed</option>
+            </select>
+            <button class="btn-chosen" onclick="toggleChosen('${v.id}',event)">${chosen?'⭐ Your Pick':'☆ Mark as Pick'}</button>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  wrap.innerHTML = html;
+}
+
+// ── TIMELINE NOTES ──
+function initTimelineNotes() {
+  document.querySelectorAll('.tl-note-field[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    const saved = localStorage.getItem(key);
+    if (saved) el.textContent = saved;
+    el.addEventListener('input', () => localStorage.setItem(key, el.textContent));
+  });
+}
+
+// ── QUESTIONS ──
+function loadQuestions() { try { return JSON.parse(localStorage.getItem('sm_questions'))||DEFAULT_QUESTIONS; } catch(e){ return DEFAULT_QUESTIONS; } }
+function saveQs(qs) { localStorage.setItem('sm_questions', JSON.stringify(qs)); }
+function renderQuestions() {
+  const qs = loadQuestions();
+  const wrap = document.getElementById('q-list');
+  if (!wrap) return;
+  if (!qs.length) { wrap.innerHTML='<p style="color:var(--slate);font-size:0.88rem;margin-bottom:16px;">No questions yet.</p>'; return; }
+  wrap.innerHTML = qs.map(q=>`
+    <div class="q-item ${q.resolved?'resolved':''}" id="qitem-${q.id}">
+      <div class="q-check" onclick="toggleQ('${q.id}')">${q.resolved?'✓':''}</div>
+      <div class="q-body"><div class="q-cat">${q.cat}</div><div class="q-text">${q.text}</div></div>
+      <button class="q-del" onclick="deleteQ('${q.id}')">✕</button>
+    </div>`).join('');
+}
+function toggleQ(id) { const qs=loadQuestions(); const q=qs.find(x=>x.id===id); if(q){q.resolved=!q.resolved;saveQs(qs);renderQuestions();} }
+function deleteQ(id)  { saveQs(loadQuestions().filter(x=>x.id!==id)); renderQuestions(); }
+function addQuestion() {
+  const textEl=document.getElementById('q-text-input'), catEl=document.getElementById('q-cat-input');
+  const text=textEl.value.trim(), cat=catEl.value.trim()||'General';
+  if(!text) return;
+  const qs=loadQuestions(); qs.push({id:'q_'+Date.now(),text,cat,resolved:false});
+  saveQs(qs); textEl.value=''; catEl.value=''; renderQuestions();
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Enter'&&document.activeElement.id==='q-text-input') addQuestion(); });
+function scrollTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+// ── GAME PLAN DATA ──
+const GP_PHASES = [
+  {
+    key: 'now',
+    title: 'Right Now — Lock the Foundations',
+    dates: 'September – October 2026',
+    color: '#C4655A',
+    items: [
+      { id:'gp_venue_dep',    title:'Pay venue deposit & confirm June 18, 2027 in writing', desc:'Get written confirmation from Sunken Meadow / NY State Parks that the date is locked.', tag:'urgent' },
+      { id:'gp_permit',       title:'Start the NY State Parks permit process', desc:'This can take weeks — call the parks office immediately. Ask about lead time, fees, and alcohol permit.', tag:'urgent' },
+      { id:'gp_photographer', title:'Book photographer', desc:'June dates fill up 12+ months out. This is your single most time-sensitive vendor to book.', tag:'urgent', defaultDone:true },
+      { id:'gp_caterer',      title:'Book caterer', desc:'You need food, bar, linens, china — your caterer may bundle these or refer you to rentals. Meet with at least 2-3 options.', tag:'urgent', defaultDone:true },
+      { id:'gp_dj',           title:'Book DJ or band', desc:'Good DJs are gone for June by now. Start calling immediately. Get them to hold the date while you vet others.', tag:'urgent', defaultDone:true },
+      { id:'gp_std',          title:'Send save-the-dates', desc:'9 months out is slightly late for a June wedding. Get these out ASAP so out-of-town guests can plan travel.', tag:'urgent' },
+      { id:'gp_dress',        title:'Start wedding dress shopping', desc:'Dresses need 4-6 months to arrive plus time for alterations. Order by November at the latest.', tag:'high' },
+      { id:'gp_videographer', title:'Book videographer', desc:'Often booked alongside photographer — many shoot together. Lock in while you\'re booking photo.', tag:'high' },
+      { id:'gp_hotel_block',  title:'Research and hold hotel room blocks', desc:'Kings Park / Smithtown / Hauppauge area. Call hotels and ask about group rates and hold policies.', tag:'high' },
+      { id:'gp_guest_list',   title:'Finalize guest list headcount', desc:'You need a number to give caterers for quotes. Locking in ~150 now lets you start getting real pricing.', tag:'high' },
+      { id:'gp_ceremony_loc', title:'Decide: ceremony in main pavilion room or side tent?', desc:'This drives the entire floor plan. If you flip the room (ceremony → reception), you need to know how long that takes. If side tent, confirm the tent/outdoor area is part of your rental.', tag:'high' },
+      { id:'gp_floor_concept',title:'Map out ideal floor plan concept', desc:'Where does the dance floor go? How does cocktail hour flow into dinner? Sketch the pavilion layout — ceremony zone, cocktail area, dinner tables, dance floor, bar placement — so you can walk in with a vision when you meet the venue coordinator.', tag:'high' },
+      { id:'gp_night_flow',   title:'Finalize the reception night flow', desc:'Lock in the order: grand entrance → first dance → parent dances → dinner service → toasts → cake → dancing. Share with the band and caterer so everyone is working from the same script.', tag:'high' },
+      { id:'gp_sig_cocktails',title:'Pick your 2 signature cocktails (his & hers)', desc:'The Vista includes 2 signature cocktails — one for the bride, one for the groom. Browse the full list in the Menu section and pick your two. Ask Emma about custom naming and bar signage options.', tag:'high' },
+      { id:'gp_officiant_dec',title:'Figure out your officiant', desc:'Do you want a friend/family member ordained, a religious officiant, or a professional celebrant? This affects tone, ceremony length, and personalization. Decide the type first, then start reaching out — popular officiants book up fast for June.', tag:'high' },
+      { id:'gp_bridesmaids',  title:'Decide on bridesmaids — roles, placement & photos', desc:'Do you want traditional bridesmaids standing at the altar, or a more relaxed role (just in photos, seated in front row, etc.)? Nail down: who, what they wear, whether they walk in the processional, where they stand during the ceremony, and which photo groupings they join.', tag:'high' },
+      { id:'gp_permit_emma',  title:'Ask Emma about the NY State Parks permit', desc:'Get clarity on exactly who handles the permit — does The Vista handle it as part of the package, or does the couple need to apply directly with NY State Parks? What is the timeline, cost, and what paperwork is needed from us?', tag:'urgent' },
+      { id:'gp_transport_day',title:'Figure out day-of transportation logistics', desc:'Map out the full to/from plan: how does the bridal party get from home to venue, how do guests get to/from the park (shuttle from hotels?), how do the couple leave at the end of the night. Look into a party bus or limo for the wedding party and a shuttle for out-of-town guests.', tag:'high' },
+      { id:'gp_transcripts',  title:'Transcribe planning recordings → to-do lists', desc:'Go through any voice memos, phone recordings, or notes from planning conversations. Pull out every action item and add it here. This doc is only as good as what\'s in it.', tag:'high' },
+    ]
+  },
+  {
+    key: 'fall',
+    title: 'Fall 2026 — Fill In the Team',
+    dates: 'November – December 2026',
+    color: '#C4A55A',
+    items: [
+      { id:'gp_florist',      title:'Book florist', desc:'Meet 2-3 florists, share your vision, get quotes. Budget $5k+ for 150 guests with ceremony + reception florals.', tag:'high' },
+      { id:'gp_officiant',    title:'Book officiant', desc:'If using someone you know, confirm availability. If hiring, interview a few options — personality matters here.', tag:'high' },
+      { id:'gp_hmua',         title:'Book hair & makeup', desc:'Schedule a trial run well before the wedding. Popular HMUA artists book out fast for Fridays in June.', tag:'high' },
+      { id:'gp_invite_design',title:'Design & order invitations', desc:'Invites go out in February/March — order now so there\'s time for printing and addressing.', tag:'high' },
+      { id:'gp_rehearsal_venue', title:'Book rehearsal dinner venue', desc:'Lock in a restaurant or private dining room for the evening of June 17. Book now before they fill.', tag:'high' },
+      { id:'gp_transport',    title:'Book limo or party bus', desc:'For the couple + wedding party on the day-of. Also look into a shuttle option for guests from hotels.', tag:'normal' },
+      { id:'gp_dress_order',  title:'Place wedding dress order', desc:'Must be ordered by November/December to ensure delivery with enough time for fittings.', tag:'high' },
+      { id:'gp_cake',         title:'Schedule cake tastings', desc:'Book by end of year. Many bakers need 6+ months for June orders.', tag:'normal' },
+      { id:'gp_budget_final', title:'Finalize full vendor budget', desc:'You should have caterer, photo, DJ quotes in hand by now. Reconcile against the $100k budget.', tag:'normal' },
+    ]
+  },
+  {
+    key: 'winter',
+    title: 'Winter 2027 — Nail the Details',
+    dates: 'January – February 2027',
+    color: '#5A8A7E',
+    items: [
+      { id:'gp_invites_send', title:'Send invitations', desc:'RSVP deadline should be ~May 1 to give you 6 weeks to finalize headcount before the wedding.', tag:'high' },
+      { id:'gp_ins_certs',    title:'Collect vendor insurance certificates', desc:'All outside vendors need $1M liability naming the venue as additional insured. Start collecting now.', tag:'high' },
+      { id:'gp_menu_final',   title:'Finalize catering menu & service style', desc:'Sit-down? Stations? Buffet? Lock in with your caterer and do a tasting.', tag:'high' },
+      { id:'gp_floor_plan',   title:'Create floor plan with venue', desc:'Work with the caterer and venue coordinator to finalize table layout, dance floor, bar placement.', tag:'normal' },
+      { id:'gp_cake_book',    title:'Book wedding cake', desc:'Final booking and flavor confirmation after tasting.', tag:'normal' },
+      { id:'gp_dress_fit1',   title:'First dress fitting', desc:'Dress should be in by now — schedule the first fitting with your seamstress/alterations.', tag:'normal' },
+      { id:'gp_music_list',   title:'Build DJ music list & do-not-play list', desc:'Share song preferences, must-plays, and any songs you absolutely don\'t want.', tag:'normal' },
+    ]
+  },
+  {
+    key: 'spring',
+    title: 'Spring 2027 — Final Stretch',
+    dates: 'March – May 2027',
+    color: '#6B7A8D',
+    items: [
+      { id:'gp_rsvp_close',   title:'Close RSVPs & finalize headcount', desc:'RSVP deadline ~May 1. Chase non-responders. Give final count to caterer within a week.', tag:'high' },
+      { id:'gp_seating',      title:'Build seating chart', desc:'Once RSVPs are in, create your seating arrangement and share with caterer for table setup.', tag:'high' },
+      { id:'gp_vendor_timeline', title:'Create & distribute day-of vendor timeline', desc:'One master document with every vendor\'s arrival time, setup window, and contact info.', tag:'high' },
+      { id:'gp_walkthrough',  title:'Final venue walkthrough with key vendors', desc:'Bring caterer, DJ, and florist to the pavilion for a site visit and final logistics run-through.', tag:'high' },
+      { id:'gp_dress_fit2',   title:'Final dress fitting', desc:'Final fitting — dress should be ready to pick up ~2 weeks before the wedding.', tag:'normal' },
+      { id:'gp_payments',     title:'Make final vendor payments', desc:'Most vendors require full payment 1-4 weeks before. Confirm payment deadlines with each one.', tag:'high' },
+      { id:'gp_license',      title:'Get marriage license', desc:'NY State marriage licenses are valid for 60 days and require a 24-hour waiting period. Apply in May.', tag:'high' },
+      { id:'gp_gift_bag',     title:'Assemble hotel welcome bags (optional)', desc:'If doing welcome bags for out-of-town guests, assemble and deliver to hotel front desks by June 16.', tag:'normal' },
+    ]
+  },
+  {
+    key: 'final',
+    title: 'Final Week — Show Time',
+    dates: 'June 11–18, 2027',
+    color: '#1A3344',
+    items: [
+      { id:'gp_confirm_vendors', title:'Confirm all vendors day-of details', desc:'Call or text every vendor to confirm arrival time, address, and contact on the day.', tag:'high' },
+      { id:'gp_rings',        title:'Pick up rings', desc:'Make sure both rings are sized, polished, and in a safe spot before the rehearsal.', tag:'high' },
+      { id:'gp_bustle',       title:'Learn the dress bustle', desc:'Have your maid of honor practice bustling the dress before the wedding day.', tag:'normal' },
+      { id:'gp_rehearsal_day',title:'Rehearsal — June 17', desc:'Run the full ceremony with wedding party, officiant, and any musicians playing for the ceremony.', tag:'high' },
+      { id:'gp_rehearsal_dinner_day', title:'Rehearsal dinner — June 17 evening', desc:'Dinner with close family and wedding party. Enjoy it — last night before the wedding!', tag:'normal' },
+      { id:'gp_wedding',      title:'🎉 Get married — June 18, 2027', desc:'Sunken Meadow Pavilion. 5pm ceremony. You\'ve earned this.', tag:'done' },
+    ]
+  },
+];
+
+// ── GAME PLAN FUNCTIONS ──
+function loadGP() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('sm_gp'));
+    if (saved) return saved;
+    // Seed defaults for pre-booked items on first load
+    const defaults = {};
+    GP_PHASES.forEach(p => p.items.forEach(i => { if (i.defaultDone) defaults[i.id] = true; }));
+    return defaults;
+  } catch(e) { return {}; }
+}
+function saveGP(state) { localStorage.setItem('sm_gp', JSON.stringify(state)); }
+
+function toggleGPItem(id) {
+  const state = loadGP();
+  state[id] = !state[id];
+  saveGP(state);
+  renderGamePlan();
+}
+
+function toggleGPPhase(key) {
+  document.querySelector(`.gp-phase[data-key="${key}"]`)?.classList.toggle('open');
+}
+
+function renderGamePlan() {
+  const wrap = document.getElementById('gp-phases');
+  if (!wrap) return;
+  const state = loadGP();
+
+  const allItems = GP_PHASES.flatMap(p => p.items);
+  const doneCount = allItems.filter(i => state[i.id]).length;
+  const pct = allItems.length ? Math.round((doneCount / allItems.length) * 100) : 0;
+
+  setEl('gp-pct', pct + '%');
+  setEl('gp-count', doneCount + ' / ' + allItems.length);
+  const fill = document.getElementById('gp-overall-fill');
+  if (fill) fill.style.width = pct + '%';
+
+  const tagLabels = { urgent:'🔴 Do Now', high:'🟡 High Priority', normal:'Upcoming', done:'🎉 The Day' };
+
+  let html = '';
+  GP_PHASES.forEach((phase, pi) => {
+    const phaseDone  = phase.items.filter(i => state[i.id]).length;
+    const phaseTotal = phase.items.length;
+    const phasePct   = phaseTotal ? Math.round((phaseDone / phaseTotal) * 100) : 0;
+    const isOpen     = pi === 0; // first phase open by default on first render
+
+    html += `<div class="gp-phase${isOpen && doneCount === 0 ? ' open' : ''}" data-key="${phase.key}">
+      <div class="gp-phase-hdr" onclick="toggleGPPhase('${phase.key}')">
+        <div class="gp-phase-dot" style="background:${phase.color}"></div>
+        <div class="gp-phase-info">
+          <div class="gp-phase-title">${phase.title}</div>
+          <div class="gp-phase-dates">${phase.dates}</div>
+        </div>
+        <div class="gp-phase-prog">
+          <div class="gp-prog-track"><div class="gp-prog-fill" style="width:${phasePct}%;background:${phase.color}"></div></div>
+          <div class="gp-prog-label">${phaseDone}/${phaseTotal}</div>
+        </div>
+        <span class="gp-phase-chevron">▼</span>
+      </div>
+      <div class="gp-phase-body">`;
+
+    phase.items.forEach(item => {
+      const done = !!state[item.id];
+      html += `<div class="gp-item${done ? ' done' : ''}" id="gpitem-${item.id}">
+        <div class="gp-cb" onclick="toggleGPItem('${item.id}')">${done ? '✓' : ''}</div>
+        <div class="gp-item-body">
+          <div class="gp-item-title">${item.title}</div>
+          <div class="gp-item-desc">${item.desc}</div>
+        </div>
+        <span class="gp-item-tag ${done ? 'gp-tag-done' : 'gp-tag-' + item.tag}">${done ? '✅ Done' : tagLabels[item.tag]}</span>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  wrap.innerHTML = html;
+}
+
+// ── VENUE COORDINATOR QUESTIONS ──
+const VENUE_QS = [
+  {
+    group: '💰 Pricing & Inclusions',
+    items: [
+      { id:'vq_included',    p:1, q:'What exactly is included in the $185 per-person fee?', note:'Does it cover tables, chairs, linens, china, glassware, flatware, staffing, setup/breakdown? Get an itemized list in writing.' },
+      { id:'vq_tax',         p:1, q:'Are there additional taxes or facility fees on top of the per-person rate?', note:'NY State Parks may charge a separate permit or facility fee. Confirm the all-in cost per person.' },
+      { id:'vq_payment',     p:2, q:'What is the payment schedule and deposit structure?', note:'How much is the deposit to lock the date? When are the remaining installments due?' },
+      { id:'vq_cancellation',p:2, q:'What is the cancellation and refund policy?', note:'If something forces a postponement, what happens to the deposit and any installments already paid?' },
+      { id:'vq_headcount',   p:2, q:'Is there a minimum guest count requirement, and what happens if we come in under that number?', note:'Some venues require a minimum spend even if headcount drops.' },
+    ]
+  },
+  {
+    group: '📋 What\'s Included vs. What We Source',
+    items: [
+      { id:'vq_linens',      p:1, q:'Are linens, napkins, china, glassware, and flatware included or do we rent separately?', note:'This is a big cost variable. If not included, ask if they have preferred rental vendors.' },
+      { id:'vq_tables',      p:1, q:'Are tables and chairs provided, or do we need to rent those as well?', note:'Confirm style/quantity of tables and chairs, and whether setup/breakdown is covered.' },
+      { id:'vq_staffing',    p:1, q:'Is there venue staffing included (event manager, servers, etc.) or is that through the caterer?', note:'Understand who is in charge of what on the day.' },
+      { id:'vq_bridal_suite',p:2, q:'Is there a bridal suite or changing room available for the wedding party?', note:'We need a space for the bride to finish getting ready and have the first look on-site around 2pm.' },
+      { id:'vq_decor',       p:3, q:'Are there any restrictions on décor, candles, or floral installations?', note:'Some state park venues prohibit open flames or adhesive on surfaces.' },
+    ]
+  },
+  {
+    group: '🎵 Music, Sound & Curfews',
+    items: [
+      { id:'vq_music_curfew',p:1, q:'What is the hard music/sound curfew?', note:'Our reception runs until 11pm. Is amplified music allowed through 11pm, or does it cut off earlier?' },
+      { id:'vq_sound_reqs',  p:2, q:'Are there any noise ordinance requirements or decibel limits the DJ/band must follow?', note:'State park venues often have stricter rules than private venues. Get specifics for the band.' },
+      { id:'vq_outside_band',p:2, q:'Can we bring our own band, or do we need to use a preferred vendor list for entertainment?', note:'Confirm that our booked band is allowed and what their insurance/vendor approval requirements are.' },
+    ]
+  },
+  {
+    group: '🏗️ Layout & Logistics',
+    items: [
+      { id:'vq_layout',      p:1, q:'How flexible is the room layout? Can we customize table arrangements, ceremony placement, and cocktail hour space?', note:'We want ceremony, cocktail, and reception all within the pavilion footprint. What are the options?' },
+      { id:'vq_ceremony_loc',p:1, q:'Can we hold the ceremony inside the main pavilion room, then flip the room for dinner and reception — and if so, how long does that room flip/turnaround take?', note:'We\'re trying to decide between (a) ceremony in the main room with a full flip or (b) using a separate tent or outdoor area for the ceremony. This decision drives the entire floor plan.' },
+      { id:'vq_dance_floor', p:1, q:'Can the dance floor go inside the main ceremony/reception room, and what does that look like with 150 guests at tables?', note:'We need to know if the room can fit tables + dance floor simultaneously, or if the dance floor requires clearing space.' },
+      { id:'vq_floorplan_ex',p:2, q:'Can you walk us through floor plan configurations that have worked well for ~150-person weddings at this space?', note:'Any examples or sample layouts would be extremely helpful as we plan our setup.' },
+      { id:'vq_chairs',      p:1, q:'What chairs do you provide as part of the venue — style, quantity, and color?', note:'Ask Emma specifically. We need to know if they\'re the look we want or if we should rent upgraded chairs (chiavari, ghost, etc.) through a rental company.' },
+      { id:'vq_chair_rental',p:1, q:'If we want different chairs, how do we go about booking rental chairs — do we arrange that ourselves, or does the venue coordinate it?', note:'Get vendor recommendations or find out if there\'s a preferred rental partner. Same question for the dance floor — who supplies it, how large can it be, and what\'s the process to add one?' },
+      { id:'vq_dancefloor',  p:1, q:'How do we go about adding a dance floor — does the venue provide one, or do we rent it separately? What sizes are available for 150 guests?', note:'Ask Emma. Need to know cost, whether we rent direct or through the venue, and where it fits in the room layout.' },
+      { id:'vq_capacity',    p:1, q:'What is the official capacity for a seated dinner? Is there room for a dance floor?', note:'We\'re planning ~150 guests. Confirm whether that leaves adequate space for a dance floor.' },
+      { id:'vq_access',      p:2, q:'What time can vendors access the venue for setup, and when do they need to be out?', note:'We have a caterer, band, florist, photographer, and rentals company all needing setup time.' },
+      { id:'vq_breakdown',   p:2, q:'When does vendor breakdown need to be complete?', note:'Does everything need to be out by midnight, or do vendors have until the next morning?' },
+      { id:'vq_parking',     p:2, q:'What is the parking situation for guests at Sunken Meadow State Park on a June evening?', note:'Does the park lot stay open late? Is there a shuttle or overflow lot option?' },
+      { id:'vq_outdoor',     p:3, q:'Is there an outdoor ceremony or cocktail space, and can we use it as part of our event?', note:'The park grounds are beautiful — confirm what outdoor areas are part of our pavilion rental.' },
+    ]
+  },
+  {
+    group: '🌧️ Weather & Contingencies',
+    items: [
+      { id:'vq_rain',        p:1, q:'What is the weather contingency plan if it rains during the ceremony?', note:'Is there an indoor backup within the pavilion? Can we do ceremony inside if needed without extra cost?' },
+      { id:'vq_tent',        p:3, q:'If we wanted to add an outdoor tent for cocktail hour, is that allowed on the grounds, and who arranges it?', note:'Just good to know even if we don\'t plan to use one.' },
+    ]
+  },
+  {
+    group: '🍷 Alcohol & Permits',
+    items: [
+      { id:'vq_alcohol_lic', p:1, q:'Is an alcohol/liquor permit required separately, and if so, who obtains it — us, the caterer, or the venue?', note:'NY State Parks rules on alcohol can differ from regular venues. Confirm the permit process end to end.' },
+      { id:'vq_bar_type',    p:2, q:'Can our caterer provide full bar service, or are there restrictions on the type of alcohol that can be served?', note:'Beer & wine only? Full open bar? Confirm there are no NY State Parks limitations.' },
+      { id:'vq_his_hers',   p:1, q:'Can we do "his and hers" signature cocktails — one for the bride, one for the groom — with the 2 included signature cocktail selections?', note:'Ask Emma how they present the cocktails (signage, menu cards, bartender announcing them). Can they be custom-named? Is there a display card at the bar?' },
+    ]
+  },
+  {
+    group: '🎪 Vendor Rules & Requirements',
+    items: [
+      { id:'vq_vendor_list', p:1, q:'Is there a preferred or required vendor list we must use, or are we free to bring our own vendors?', note:'If there\'s an approved list for caterers, florists, etc., we need it ASAP to see if our current bookings qualify.' },
+      { id:'vq_vendor_ins',  p:1, q:'What insurance requirements must vendors carry, and do we need to provide certificates of insurance?', note:'Most venues require vendors to carry $1M+ liability. Confirm the requirements so we can notify our vendors.' },
+      { id:'vq_outside_food',p:2, q:'Can we bring in outside dessert/cake from a bakery, or does food have to be exclusively from the caterer?', note:'Common restriction — just want to confirm.' },
+    ]
+  },
+  {
+    group: '📅 Day-of Coordination & Rehearsal',
+    items: [
+      { id:'vq_coordinator', p:1, q:'Will there be a dedicated venue coordinator or state parks contact on-site the day of the wedding?', note:'Who is our point of contact if something needs to be resolved quickly during the event?' },
+      { id:'vq_rehearsal',   p:2, q:'Can we do a rehearsal at the venue the day before (June 17)?', note:'We have our rehearsal dinner at Port Jeff Country Club Thursday night. Can we do a quick run-through at Sunken Meadow Thursday afternoon or Friday morning?' },
+      { id:'vq_permit_proc', p:2, q:'Walk us through the NY State Parks permit process — timelines, paperwork, fees, and who we contact.', note:'We know permits take weeks. What are the exact steps and deadlines from your side?' },
+      { id:'vq_restrooms',   p:2, q:'How many restrooms are accessible for guests during a 150-person event? Are they indoor or are port-a-potties required?', note:'Confirm restroom capacity and whether we need to arrange any supplemental facilities.' },
+      { id:'vq_power',       p:2, q:'What power/electrical access is available for the band and caterer?', note:'The band will need 20-amp circuits. Caterer may need power for warming equipment. Confirm available circuits and locations.' },
+    ]
+  },
+];
+
+function loadVenueQs() {
+  try { return JSON.parse(localStorage.getItem('sm_venue_qs')) || {}; } catch(e) { return {}; }
+}
+function toggleVenueQ(id) {
+  const state = loadVenueQs();
+  state[id] = !state[id];
+  localStorage.setItem('sm_venue_qs', JSON.stringify(state));
+  renderVenueQs();
+}
+function renderVenueQs() {
+  const wrap = document.getElementById('venue-qs-list');
+  if (!wrap) return;
+  const state = loadVenueQs();
+  const pLabels = { 1:'CRITICAL', 2:'IMPORTANT', 3:'NICE TO KNOW' };
+  let total = 0, answered = 0;
+  VENUE_QS.forEach(g => g.items.forEach(i => { total++; if(state[i.id]) answered++; }));
+
+  let html = `<div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+    <div style="font-family:'Lato',sans-serif;font-size:.9rem;color:var(--navy);">
+      <span style="font-size:1.6rem;font-weight:700;">${answered}</span> / <span style="font-size:1.2rem;">${total}</span> answered
+    </div>
+    <div style="flex:1;min-width:160px;background:#e5e0d5;border-radius:4px;height:8px;overflow:hidden;">
+      <div style="height:100%;width:${total?Math.round(answered/total*100):0}%;background:var(--navy);border-radius:4px;transition:width .4s;"></div>
+    </div>
+    <div style="font-size:.85rem;color:#888;font-family:'Lato',sans-serif;">${total?Math.round(answered/total*100):0}% complete</div>
+  </div>`;
+
+  VENUE_QS.forEach(g => {
+    html += `<div class="vq-group">
+      <div class="vq-group-title">${g.group}</div>`;
+    g.items.forEach(item => {
+      const done = !!state[item.id];
+      html += `<div class="vq-item${done?' answered':''}">
+        <input type="checkbox" id="vq_${item.id}" ${done?'checked':''} onchange="toggleVenueQ('${item.id}')">
+        <label for="vq_${item.id}">
+          <span class="vq-priority p${item.p}">${pLabels[item.p]}</span>${item.q}
+          ${item.note ? `<span class="vq-note">💡 ${item.note}</span>` : ''}
+        </label>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  wrap.innerHTML = html;
+}
+
+// ── THE VISTA MENU DATA ──
+const VISTA_HORS = [
+  { id:'h_arancini',    name:'Arancini',                 desc:'Mushroom & Parmesan Rice Balls, Truffle Aioli' },
+  { id:'h_scallops',   name:'Bacon Wrapped Scallops',    desc:'Spicy Honey' },
+  { id:'h_sliders',    name:'Beef Burger Sliders',       desc:'Dill Pickle, American Cheese, Sesame Brioche' },
+  { id:'h_cauli',      name:'Buffalo Cauliflower',       desc:'Blue Cheese' },
+  { id:'h_bce',        name:'Buffalo Chicken Empanadas', desc:'Blue Cheese' },
+  { id:'h_shrimp',     name:'Coconut Shrimp',            desc:'Curry Mango, Onion Chutney' },
+  { id:'h_crab',       name:'Crab Cakes',                desc:'The Vista Sauce, Basil' },
+  { id:'h_edamame',    name:'Edamame Dumpling',          desc:'Sweet Soy' },
+  { id:'h_franks',     name:'Franks en Croûte',          desc:'Dijon Mustard' },
+  { id:'h_hotchicken', name:'Hot Chicken',               desc:'Crème Fraîche, Caviar, Honey' },
+  { id:'h_beef_emp',   name:'Mini Beef Empanadas',       desc:'Flakey Handmade Crust, Slow-Cooked Beef' },
+  { id:'h_fishtaco',   name:'Mini Fish Taco',            desc:'Mahi, Pico de Gallo, Cilantro' },
+  { id:'h_lobster',    name:'Spicy Lobster',             desc:'Sesame, Tobiko' },
+  { id:'h_crostini',   name:'Tomato Crostini',           desc:'Ricotta, Roasted Tomato, Smoked Olive Oil' },
+  { id:'h_truffle',    name:'Truffle Potato Croquette',  desc:'Chopped Black Truffles, Parmesan, Breadcrumbs' },
+  { id:'h_watermelon', name:'Watermelon & Feta',         desc:'White Balsamic' },
+];
+const VISTA_HORS_ENH = [
+  { id:'he_filet',  name:'Filet Mignon Sliders',      desc:'Horseradish', price:'+$3/pp' },
+  { id:'he_lamb',   name:'Baby Lamb Chops',           desc:'Herb-Marinated, Mustard, Breadcrumbs', price:'+$3/pp' },
+  { id:'he_lobroll',name:'Mini Lobster Rolls',        desc:'Lobster Salad, Brioche', price:'+$3/pp' },
+];
+const VISTA_STATIONS = [
+  { id:'st_welcome', name:'Welcome Station',       items:'Artisanal Cheese & Charcuterie · Fresh Mozzarella w/ Tomatoes & Balsamic · Bread Assortment · Fresh & Dried Fruit' },
+  { id:'st_italian', name:'Italian Station',       items:'Homemade Beef Meatballs · Rigatoni Ala Vodka w/ Stracciatella · Chicken Marsala · Tortellini Alfredo' },
+  { id:'st_taco',    name:'Taco Station',          items:'Braised Beef, Slow-Cooked Pork, Pulled Chicken · Pico de Gallo, Guacamole, Sour Cream, Tortilla Chips, Crispy Plantains' },
+  { id:'st_seafood', name:'Seafood Station',       items:'Fried Calamari · Seafood Paella (Shrimp, Mussels, Clams, Squid, Saffron Rice) · Baked Clams' },
+  { id:'st_med',     name:'Mediterranean Station', items:'Made-to-Order Gyros · Hummus, Tzatziki, Stuffed Grape Leaves, Spicy Feta Dip · Chicken Souvlaki · Spanakopita · Pita Chips' },
+];
+const VISTA_UPGRADES = [
+  { id:'up_sushi',   name:'Sushi Station',   desc:'Rainbow Roll, Shrimp Tempura, California Roll, Triple Spicy Roll, Salmon Avocado Roll + Sashimi Display (Madai, Hamachi, Bluefin Tuna, Salmon)', price:'+$18/pp' },
+  { id:'up_carving', name:'Carving Station', desc:'Choose 2: Prime Rib, Stuffed Turkey Breast, Roasted Leg of Lamb, or Spinach & Mushroom Stuffed Pork Loin · with Creamed Spinach & Whipped Potato', price:'+$15/pp' },
+  { id:'up_rawbar',  name:'Raw Bar',         desc:'East Coast Oysters · Long Island Little Neck Clams · Jumbo Shrimp Cocktail · Crab Claws · Add: Lobster Tails or King Crab (MKT)', price:'+$16/pp' },
+];
+const VISTA_SALADS = [
+  { id:'sal_burrata', name:'Burrata & Tomato', desc:'Burrata, Marinated Confit Tomato, Arugula, Aged Vinegar' },
+  { id:'sal_apple',   name:'Apple Salad',      desc:'Diced Apples, Cranberries, Cider Vinaigrette, Gorgonzola, Toasted Almonds, Mesclun' },
+  { id:'sal_walnut',  name:'Walnut Salad',     desc:'Candied Walnuts, Goat Cheese, Raspberries, Organic Baby Greens, Rose Vinaigrette' },
+  { id:'sal_chop',    name:'Chop Salad',       desc:'Chickpeas, Olives, Carrots, Feta, Tomato, Cucumbers' },
+];
+const VISTA_ENTREES = [
+  { id:'ent_pork',     name:'Roasted Pork Chop',      desc:'Red Onion Apple Jam · Whipped Potato, Baby Vegetables' },
+  { id:'ent_chicken',  name:'Roasted Chicken Breast', desc:'Rosemary Au Jus · Whipped Potato, Baby Vegetables' },
+  { id:'ent_strip',    name:'Grilled NY Strip',        desc:'Red Wine Demi-Glace · Whipped Potato, Baby Vegetables' },
+  { id:'ent_salmon',   name:'Roasted Salmon',          desc:'Spinach, Tzatziki, Lemon Dill Orzo' },
+  { id:'ent_eggplant', name:'Eggplant Parmesan',       desc:'Crispy Eggplant, Basil, Fresh Mozzarella · Whipped Potato, Baby Vegetables (V)' },
+  { id:'ent_filet',    name:'Filet Mignon',            desc:'Substitute for NY Strip · Whipped Potato, Baby Vegetables', price:'+$5/pp' },
+];
+const VISTA_COCKTAILS = [
+  { cat:'Dark Spirits', items:[
+    { id:'c_sidecar',      name:'Sidecar',            desc:'Cognac, Lemon, Triple Sec, Dehydrated Orange' },
+    { id:'c_manhattan',    name:'Manhattan',           desc:'Rye Whiskey, Sweet Vermouth, Bitters, Brandied Cherries' },
+    { id:'c_maple_man',    name:'Maple Rye Manhattan', desc:'Local Maple Syrup, Rye Whiskey, Orange Bitters' },
+    { id:'c_oldfashioned', name:'Old Fashioned',       desc:'Bourbon, Bitters, Demerara Syrup, Orange Peel' },
+    { id:'c_whiskeysour',  name:'Whiskey Sour',        desc:'Whiskey, Lemon Juice, Simple Syrup, Fee Foam, Orange Bitters' },
+  ]},
+  { cat:'Gin', items:[
+    { id:'c_dirty_gin',    name:'Dirty Martini',      desc:'Gin, Blue Cheese Olives, Vermouth, Lemon Twist, Olive Juice' },
+    { id:'c_french_blonde',name:'French Blonde',      desc:'Grapefruit Juice, Lillet Blanc, Gin, Elderflower, Lemon Juice, Bitters' },
+    { id:'c_teatime',      name:'Tea Time',           desc:'Earl Gray Syrup, Muddled Blueberries, Thyme, Gin, Ginger Beer' },
+    { id:'c_negroni',      name:'Classic Negroni',    desc:'Gin, Vermouth, Campari, Orange (Variations: Mezcal or Bourbon)' },
+    { id:'c_lucky_lady',   name:'Lucky Lady',         desc:'Gin, Champagne, Lemon Juice, Simple Syrup, Lemon Twist' },
+  ]},
+  { cat:'Rum', items:[
+    { id:'c_side_ryder',   name:'Citrus Side Ryder', desc:'Dark Rum, Cointreau, Orange Bitters, Dehydrated Orange' },
+    { id:'c_mojito',       name:'Mojito',            desc:'Mint, Rum, Lime Juice, Simple Syrup, Club Soda' },
+    { id:'c_fruit_mojito', name:'Fruit Mojito',      desc:'Choice of: Raspberry, Strawberry, or Blackberry · Muddled Fruit, Lime Juice, Simple Syrup' },
+    { id:'c_rum_punch',    name:'Rum Punch',         desc:'Light & Dark Rum, Pineapple, Orange & Lime Juice, Grenadine' },
+  ]},
+  { cat:'Sangria', items:[
+    { id:'c_red_sangria',  name:'Red Sangria',   desc:'Red Wine, Brandy, Triple Sec, Apples, Grapes, Raspberries, Club Soda' },
+    { id:'c_white_sangria',name:'White Sangria', desc:'White Wine, Brandy, Triple Sec, Apples, Grapes, Raspberries, Club Soda' },
+  ]},
+  { cat:'Spritzes', items:[
+    { id:'c_aperol',      name:'Aperol Spritz',      desc:'Aperol, Prosecco, Club Soda, Fresh Orange' },
+    { id:'c_elderflower', name:'Elderflower Spritz', desc:'St-Germain, Gin, Prosecco, Club Soda, Lemon' },
+    { id:'c_hugo',        name:'Hugo Spritz',        desc:'St-Germain, Mint, Prosecco, Soda Water, Lemon' },
+    { id:'c_rose_spritz', name:'Rosé Spritz',        desc:'Hampton Water Rosé, Vodka, Rosemary, Prosecco, Grapefruit' },
+  ]},
+  { cat:'Tequila', items:[
+    { id:'c_marg_classic', name:'Classic Margarita',         desc:'Tequila, Lime, Agave (Optional: Salt & Tajin Rim)' },
+    { id:'c_marg_spicy',   name:'Spicy Margarita',           desc:'Muddled Jalapeño, Tequila, Lime, Agave' },
+    { id:'c_cadillac',     name:'Cadillac Margarita',        desc:'Tequila, Grand Marnier, Agave, Lime' },
+    { id:'c_reposado',     name:'Reposado Margarita',        desc:'Tequila Reposado, Agave, Lime, Tajin Rim, Dehydrated Lime' },
+    { id:'c_bee_sting',    name:'Bee Sting',                 desc:'Tequila Reposado, Honey Water, Lemon, Sweet Vermouth' },
+    { id:'c_pink_lady_t',  name:'Pink Lady',                 desc:'Tequila, Grapefruit, Lime, Club Soda, Agave' },
+    { id:'c_straw_spicy',  name:'Strawberry Spicy Margarita',desc:'Muddled Jalapeño & Strawberry, Tequila, Agave, Lime' },
+  ]},
+  { cat:'Vodka', items:[
+    { id:'c_lychee',    name:'Lychee Martini',  desc:'Lychee Juice, Lychee Nuts, Vodka' },
+    { id:'c_dirty_vod', name:'Dirty Martini',   desc:'Vodka, Blue Cheese Olives, Vermouth, Lemon Twist, Olive Juice' },
+    { id:'c_espresso',  name:'Espresso Martini',desc:'Vodka, Espresso, Mr. Black Coffee Liqueur, Simple Syrup' },
+    { id:'c_vesper',    name:'Vesper',          desc:'Gin, Vodka, Lillet Blanc, Lemon Twist' },
+    { id:'c_cosmo',     name:'Classic Cosmo',   desc:'Citron Vodka, Cranberry, Cointreau (Gin, Tequila, or Mezcal variations)' },
+    { id:'c_mule',      name:'Classic Mule',    desc:'Vodka, Ginger Beer, Fresh Lime' },
+  ]},
+];
+
+function loadMenu() { try { return JSON.parse(localStorage.getItem('sm_menu')) || {}; } catch(e) { return {}; } }
+function saveMenu(s) { localStorage.setItem('sm_menu', JSON.stringify(s)); }
+function toggleMenuChip(id, listKey, max) {
+  const s = loadMenu(); const arr = s[listKey] || []; const idx = arr.indexOf(id);
+  if (idx > -1) arr.splice(idx, 1); else if (arr.length < max) arr.push(id);
+  s[listKey] = arr; saveMenu(s); renderMenu();
+}
+function toggleMenuSingle(id, key) { const s = loadMenu(); s[key] = (s[key]===id)?null:id; saveMenu(s); renderMenu(); }
+function toggleMenuBool(key) { const s = loadMenu(); s[key] = !s[key]; saveMenu(s); renderMenu(); }
+
+function renderMenu() {
+  const wrap = document.getElementById('menu-content'); if (!wrap) return;
+  const s = loadMenu();
+  const hors = s.hors||[], enhs = s.enhs||[], ups = s.ups||[];
+  const salad = s.salad||null, entrees = s.entrees||[];
+  const cocktails = s.cocktails||[], exitStation = s.exitStation||false;
+  const horsMax=6, cMax=2;
+  const horsLocked = hors.length>=horsMax, cLocked = cocktails.length>=cMax;
+
+  let html = '';
+
+  // Hors d'oeuvres
+  html += `<div class="menu-course"><div class="menu-course-hdr"><span class="menu-course-label">Cocktail Hour</span><span class="menu-course-title">Passed Hors d'oeuvres</span><span class="menu-counter${hors.length===horsMax?' done':''}">Choose ${horsMax} &nbsp;·&nbsp; ${hors.length}/${horsMax}</span></div><div class="menu-chips">`;
+  VISTA_HORS.forEach(h => { const sel=hors.includes(h.id), locked=!sel&&horsLocked;
+    html+=`<div class="menu-chip${sel?' selected':''}${locked?' locked':''}" onclick="toggleMenuChip('${h.id}','hors',${horsMax})"><span class="mc-name">${h.name}</span><span class="mc-desc">${h.desc}</span></div>`; });
+  html += `</div><div class="menu-sub-label">Enhancements <span style="font-weight:400;color:#bbb;font-size:.65rem;">+$3/pp each — pick any</span></div><div class="menu-chips">`;
+  VISTA_HORS_ENH.forEach(h => { const sel=enhs.includes(h.id);
+    html+=`<div class="menu-chip${sel?' selected':''}" onclick="toggleMenuChip('${h.id}','enhs',99)"><span class="mc-name">${h.name}</span><span class="mc-desc">${h.desc}</span><span class="mc-price">${h.price}</span></div>`; });
+  html += `</div></div>`;
+
+  // Stations
+  html += `<div class="menu-course"><div class="menu-course-hdr"><span class="menu-course-label">Cocktail Hour</span><span class="menu-course-title">Cocktail Stations <span style="font-size:.8rem;font-weight:400;color:var(--sage);">all included</span></span></div><div class="menu-stations">`;
+  VISTA_STATIONS.forEach(st => { html+=`<div class="ms-card"><div class="ms-name">${st.name}</div><div class="ms-items">${st.items}</div></div>`; });
+  html += `</div><div class="menu-sub-label">Upgrade Stations <span style="font-weight:400;color:#bbb;font-size:.65rem;">optional add-ons</span></div><div class="menu-upgrades">`;
+  VISTA_UPGRADES.forEach(u => { const sel=ups.includes(u.id);
+    html+=`<div class="mu-card${sel?' selected':''}" onclick="toggleMenuChip('${u.id}','ups',99)"><div class="mu-cb">${sel?'✓':''}</div><div><div class="mu-name">${u.name}</div><div class="mu-desc">${u.desc}</div><div class="mu-price">${u.price}</div></div></div>`; });
+  html += `</div></div><hr class="menu-divider-thin">`;
+
+  // Salad
+  html += `<div class="menu-course"><div class="menu-course-hdr"><span class="menu-course-label">Dinner</span><span class="menu-course-title">Salad</span><span class="menu-counter${salad?' done':''}">Choose 1 &nbsp;·&nbsp; ${salad?'Selected ✓':'None yet'}</span></div><div class="menu-chips">`;
+  VISTA_SALADS.forEach(sal => { const sel=salad===sal.id;
+    html+=`<div class="menu-chip${sel?' selected':''}" onclick="toggleMenuSingle('${sal.id}','salad')"><span class="mc-name">${sal.name}</span><span class="mc-desc">${sal.desc}</span></div>`; });
+  html += `</div></div>`;
+
+  // Entrées
+  html += `<div class="menu-course"><div class="menu-course-hdr"><span class="menu-course-label">Dinner</span><span class="menu-course-title">Entrées</span><span class="menu-counter${entrees.length?' done':''}">Pick what to offer &nbsp;·&nbsp; ${entrees.length} selected</span></div><div class="menu-chips">`;
+  VISTA_ENTREES.forEach(e => { const sel=entrees.includes(e.id);
+    html+=`<div class="menu-chip${sel?' selected':''}" onclick="toggleMenuChip('${e.id}','entrees',99)"><span class="mc-name">${e.name}</span><span class="mc-desc">${e.desc}</span>${e.price?`<span class="mc-price">${e.price}</span>`:''}</div>`; });
+  html += `</div></div><hr class="menu-divider-thin">`;
+
+  // Dessert
+  html += `<div class="menu-course"><div class="menu-course-hdr"><span class="menu-course-label">Dessert</span><span class="menu-course-title">Dessert & Exit Station</span></div>
+    <div class="menu-stations" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
+      <div class="ms-card"><div class="ms-name">Dessert (Included)</div><div class="ms-items">Sliced Wedding Cake</div></div>
+      <div class="ms-card"><div class="ms-name">Passed Desserts (Included)</div><div class="ms-items">Chocolate Covered Strawberries · Fried Oreos · Assorted Shooters (Chocolate Mousse, Tiramisu, Carrot Cake) · Fruit Tarts</div></div>
+    </div>
+    <div class="menu-upgrades"><div class="mu-card${exitStation?' selected':''}" onclick="toggleMenuBool('exitStation')">
+      <div class="mu-cb">${exitStation?'✓':''}</div>
+      <div><div class="mu-name">Exit Station</div><div class="mu-desc">Warm Pretzels (Mustard, Cheese Sauce) · Chocolate Chip Cookies · Churros · Coffee & Tea</div><div class="mu-price">+$10/pp</div></div>
+    </div></div></div><hr class="menu-divider-thin">`;
+
+  // Bar & Cocktails
+  html += `<div class="menu-course"><div class="menu-course-hdr"><span class="menu-course-label">Bar</span><span class="menu-course-title">Bar & Beverages</span></div>
+    <div class="menu-stations" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:1.2rem;">
+      <div class="ms-card"><div class="ms-name">Open Bar (Included)</div><div class="ms-items">Top-Shelf Liquor (Premium Unlimited) · Imported & Domestic Beers · Sommelier Selected Wines</div></div>
+      <div class="ms-card"><div class="ms-name">Non-Alcohol (Included)</div><div class="ms-items">Sodas & Juices · Organic Coffee · Espresso · Cappuccino & Specialty Tea</div></div>
+    </div>
+    <div class="menu-course-hdr"><span class="menu-course-title" style="font-size:1rem;">Signature Cocktails</span><span class="menu-counter${cocktails.length===cMax?' done':''}">Choose 2 &nbsp;·&nbsp; ${cocktails.length}/${cMax}</span></div>`;
+  VISTA_COCKTAILS.forEach(cat => {
+    html += `<div class="menu-sub-label">${cat.cat}</div><div class="menu-chips">`;
+    cat.items.forEach(c => { const sel=cocktails.includes(c.id), locked=!sel&&cLocked;
+      html+=`<div class="menu-chip${sel?' selected':''}${locked?' locked':''}" onclick="toggleMenuChip('${c.id}','cocktails',${cMax})"><span class="mc-name">${c.name}</span><span class="mc-desc">${c.desc}</span></div>`; });
+    html += `</div>`;
+  });
+  html += `</div>`;
+
+  wrap.innerHTML = html;
+}
+
+// ── RENDER ALL ──
+function renderAll() { renderPackage(); renderBudget(); renderFinancial(); }
+
+// ── INIT ──
+loadState();
+renderAll();
+renderVendors();
+renderQuestions();
+renderGamePlan();
+renderVenueQs();
+renderMenu();
+initTimelineNotes();
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>

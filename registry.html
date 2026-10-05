@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registry — Alex & Jenna, June 18, 2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shared.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Lato', sans-serif; background: #fffdf9; color: #3d3532; line-height: 1.7; }
+
+  .page-hero {
+    background: linear-gradient(135deg, #fdf6f0 0%, #f5e9e2 100%);
+    padding: 60px 32px 52px; text-align: center; border-bottom: 1px solid #e8ddd5;
+  }
+  .page-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #b8924f; margin-bottom: 12px; }
+  .page-title { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 400; color: #2d1f1a; margin-bottom: 12px; }
+  .page-sub { font-size: 14px; color: #8a7d75; max-width: 480px; margin: 0 auto; }
+
+  .main { max-width: 860px; margin: 0 auto; padding: 56px 32px 80px; }
+
+  .note-card {
+    background: #fdf5ec; border: 1px solid #d4b896; border-radius: 12px;
+    padding: 24px 28px; margin-bottom: 40px; font-size: 14px; color: #6b5233; line-height: 1.7;
+  }
+  .note-card strong { color: #4a3520; }
+
+  .registry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+
+  .registry-card {
+    background: white; border: 1px solid #e8ddd5; border-radius: 14px;
+    padding: 32px 28px; text-align: center; transition: all .25s;
+  }
+  .registry-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.07); border-color: #d4b896; }
+  .registry-logo { font-size: 36px; margin-bottom: 16px; display: block; }
+  .registry-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: #2d1f1a; margin-bottom: 8px; }
+  .registry-desc { font-size: 13px; color: #9a8880; margin-bottom: 20px; line-height: 1.6; }
+  .registry-btn {
+    display: inline-block; background: #b8924f; color: white; text-decoration: none;
+    padding: 10px 26px; border-radius: 6px; font-size: 12px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; transition: background .2s;
+  }
+  .registry-btn:hover { background: #9a7a3f; }
+  .registry-btn.placeholder {
+    background: #e8ddd5; color: #9a8880; cursor: default;
+    pointer-events: none;
+  }
+
+  .placeholder-section {
+    background: white; border: 1.5px dashed #d4b896; border-radius: 14px;
+    padding: 48px 40px; text-align: center; margin-top: 32px;
+  }
+  .placeholder-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+  .placeholder-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; color: #2d1f1a; margin-bottom: 8px; }
+  .placeholder-desc { font-size: 14px; color: #9a8880; line-height: 1.7; }
+
+  .footer { text-align: center; padding: 32px; font-size: 11px; letter-spacing: 1.5px; color: #c5b5aa; text-transform: uppercase; border-top: 1px solid #ede5de; }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a class="nav-brand" href="index.html">
+    <span class="nav-brand-name">Alex &amp; Jenna</span>
+    <span class="nav-brand-date">June 18, 2027</span>
+  </a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="sunken-meadow.html">📋 Planner</a>
+    <a href="britt-call-notes.html">📸 Photographer</a>
+    <a href="venue.html">📍 Venue &amp; Travel</a>
+    <a href="registry.html" class="active-page">🎁 Registry</a>
+    <a href="wedding-party.html">💐 Wedding Party</a>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-eyebrow">Our Wishlist</div>
+  <h1 class="page-title">Registry</h1>
+  <div class="page-sub">Your presence is the greatest gift of all — but if you'd like to celebrate with us in another way, we'd be so grateful.</div>
+</div>
+
+<div class="main">
+
+  <div class="note-card">
+    <strong>A note from Alex & Jenna:</strong> We are so lucky to already have a wonderful home together, so our registry focuses on things that will help us build a life and make memories. We appreciate anything you choose — and truly, just having you there with us is the best gift we could ask for.
+  </div>
+
+  <div class="registry-grid">
+
+    <!-- Add your actual registry links below -->
+    <div class="registry-card">
+      <span class="registry-logo">🏪</span>
+      <div class="registry-name">Coming Soon</div>
+      <div class="registry-desc">We're still putting our registry together — check back soon and we'll have everything linked here.</div>
+      <span class="registry-btn placeholder">Link Coming Soon</span>
+    </div>
+
+  </div>
+
+  <div class="placeholder-section">
+    <span class="placeholder-icon">💌</span>
+    <div class="placeholder-title">A Honeymoon Fund</div>
+    <div class="placeholder-desc">If you'd like to contribute to our honeymoon, we'll be setting up a fund here too. Details coming soon.</div>
+  </div>
+
+</div>
+
+<div class="footer">Alex &amp; Jenna · June 18, 2027 · Kings Park, New York</div>
+
+</body>
+</html>

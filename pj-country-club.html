@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex &amp; Jenna — Port Jefferson Country Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy:        #1A2E44;
+      --navy-light:  #2C4A68;
+      --cream:       #F9F6F0;
+      --cream-dark:  #EDE9DF;
+      --gold:        #C4A55A;
+      --gold-light:  #E0C882;
+      --sage:        #7A9E7E;
+      --sage-dark:   #4E7353;
+      --slate:       #6B7A8D;
+      --charcoal:    #2C3040;
+      --white:       #FFFFFF;
+      --red-soft:    #C4655A;
+      --shadow:      0 4px 24px rgba(26,46,68,0.10);
+      --shadow-lg:   0 8px 40px rgba(26,46,68,0.16);
+      --radius:      14px;
+      --radius-sm:   8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--charcoal); line-height: 1.6; }
+    h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--navy); color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 54px;
+    }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; opacity: 0.9; }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-link {
+      padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; color: rgba(255,255,255,0.7);
+      background: transparent; border: none; cursor: pointer; transition: all 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.12); color: white; }
+    .nav-total {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+      color: var(--gold-light); font-weight: 600;
+    }
+    .nav-total span { font-family: 'Lato', sans-serif; font-size: 11px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; margin-right: 6px; }
+    @media (max-width: 700px) { .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 80px 24px 100px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(196,165,90,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(122,158,126,0.08) 0%, transparent 60%);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      border: 1px solid rgba(196,165,90,0.5);
+      border-radius: 100px; padding: 5px 20px;
+      font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 400; font-style: italic;
+      margin-bottom: 12px; letter-spacing: 0.5px;
+    }
+    .hero h1 em { font-style: normal; font-weight: 700; color: var(--gold-light); }
+    .hero-venue {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      opacity: 0.75; margin-bottom: 6px; font-weight: 300; letter-spacing: 1px;
+    }
+    .hero-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      color: var(--gold-light); margin-bottom: 40px;
+    }
+    .countdown {
+      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .cd-block {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm); padding: 16px 24px; min-width: 80px;
+    }
+    .cd-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; line-height: 1; }
+    .cd-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; margin-top: 4px; }
+    .hero-stats {
+      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-val { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); font-weight: 600; }
+    .hero-stat-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.5; }
+
+    /* ── LAYOUT ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+    .section { margin-bottom: 60px; }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--navy); margin-bottom: 6px;
+    }
+    .section-sub { color: var(--slate); font-size: 0.9rem; margin-bottom: 28px; }
+    .section-divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 28px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 28px;
+    }
+    .card-grid { display: grid; gap: 20px; }
+    .card-grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .card-grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+    /* ── PACKAGE CALCULATOR ── */
+    .pkg-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .pkg-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--navy); }
+    .pkg-badge {
+      background: var(--gold); color: var(--navy);
+      border-radius: 100px; padding: 4px 14px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .pkg-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; border-bottom: 1px solid var(--cream-dark);
+    }
+    .pkg-row:last-of-type { border-bottom: none; }
+    .pkg-row-label { font-size: 0.9rem; color: var(--slate); }
+    .pkg-row-val { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--navy); font-weight: 600; }
+    .pkg-total-row {
+      background: var(--navy); border-radius: var(--radius-sm);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 20px; margin-top: 16px;
+    }
+    .pkg-total-label { color: rgba(255,255,255,0.8); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+    .pkg-total-val { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--gold-light); font-weight: 700; }
+
+    /* guest count input */
+    .guest-control {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--cream); border-radius: var(--radius-sm);
+      padding: 14px 18px; margin-bottom: 20px;
+    }
+    .guest-control label { font-size: 0.85rem; color: var(--slate); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; flex: 1; }
+    .guest-control input {
+      width: 90px; padding: 8px 12px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; text-align: center; color: var(--navy); background: white;
+    }
+    .guest-min-note { font-size: 11px; color: var(--slate); opacity: 0.7; }
+
+    /* ── FINE PRINT ALERT ── */
+    .fine-print-alert {
+      background: #FFF8E8; border: 1px solid #E8C97A; border-radius: var(--radius);
+      padding: 20px 24px; margin-bottom: 20px;
+    }
+    .fine-print-alert h4 { color: #8B6914; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 12px; }
+    .fine-print-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .fine-print-list li { font-size: 0.85rem; color: #5A4A1A; display: flex; gap: 10px; line-height: 1.5; }
+    .fine-print-list li::before { content: '⚠️'; flex-shrink: 0; }
+
+    .rule-alert {
+      background: #FFF0F0; border: 1px solid #E8A0A0; border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .rule-alert h4 { color: #8B2020; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 12px; }
+    .rule-alert li { color: #5A1A1A; }
+    .rule-alert li::before { content: '🚫'; }
+
+    /* ── PAYMENT SCHEDULE ── */
+    .payment-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 0; border-bottom: 1px solid var(--cream-dark);
+    }
+    .payment-row:last-child { border-bottom: none; }
+    .payment-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+    .payment-dot.paid { background: var(--sage); }
+    .payment-dot.upcoming { background: var(--gold); }
+    .payment-dot.future { background: var(--cream-dark); border: 2px solid var(--slate); }
+    .payment-date { font-weight: 700; font-size: 0.85rem; color: var(--navy); min-width: 100px; }
+    .payment-label { color: var(--slate); font-size: 0.85rem; flex: 1; }
+    .payment-amount { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--navy); font-weight: 600; }
+    .payment-status {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .payment-status.paid { background: #E8F5E9; color: var(--sage-dark); }
+    .payment-status.due { background: #FFF8E8; color: #8B6914; }
+    .payment-status.future { background: var(--cream-dark); color: var(--slate); }
+    .payment-note {
+      font-size: 11px; color: var(--slate); padding: 12px 0 0;
+      border-top: 1px dashed var(--cream-dark); margin-top: 8px;
+    }
+
+    /* ── GRATUITY CALCULATOR ── */
+    .grat-calc { display: flex; flex-direction: column; gap: 16px; }
+    .grat-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--cream); border-radius: var(--radius-sm); padding: 14px 18px; gap: 12px;
+    }
+    .grat-label { flex: 1; }
+    .grat-label strong { font-size: 0.9rem; color: var(--navy); display: block; }
+    .grat-label small { font-size: 0.78rem; color: var(--slate); }
+    .grat-input-wrap { display: flex; align-items: center; gap: 8px; }
+    .grat-input-wrap label { font-size: 0.8rem; color: var(--slate); }
+    .grat-input-wrap input {
+      width: 70px; padding: 7px 10px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; text-align: center; color: var(--navy); background: white;
+    }
+    .grat-amount { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--navy); font-weight: 600; min-width: 80px; text-align: right; }
+    .grat-total-bar {
+      background: var(--navy); border-radius: var(--radius-sm);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 18px;
+    }
+    .grat-total-bar .label { color: rgba(255,255,255,0.8); font-size: 0.85rem; }
+    .grat-total-bar .val { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold-light); font-weight: 700; }
+    .grat-note {
+      font-size: 0.78rem; color: var(--red-soft); font-style: italic;
+      background: #FFF0EE; border-radius: var(--radius-sm); padding: 10px 14px;
+    }
+
+    /* ── FINANCIAL SNAPSHOT ── */
+    .fin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .fin-card {
+      background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 24px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .fin-card-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--slate); }
+    .fin-main-val { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--navy); font-weight: 700; line-height: 1; }
+    .fin-main-val.highlight { color: var(--sage-dark); }
+    .fin-sub-rows { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+    .fin-sub-row { display: flex; justify-content: space-between; font-size: 0.82rem; }
+    .fin-sub-row .label { color: var(--slate); }
+    .fin-sub-row .val { font-weight: 700; color: var(--navy); }
+    .fin-input-row { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .fin-input-group { display: flex; justify-content: space-between; align-items: center; }
+    .fin-input-group label { font-size: 0.82rem; color: var(--slate); }
+    .fin-input-group input {
+      width: 90px; padding: 6px 10px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; text-align: center; color: var(--navy); background: var(--cream);
+    }
+    .fin-net-bar-wrap { margin-top: 8px; }
+    .fin-net-bar-track {
+      height: 8px; background: var(--cream-dark); border-radius: 100px; overflow: hidden; margin-top: 6px;
+    }
+    .fin-net-bar-fill {
+      height: 100%; background: linear-gradient(90deg, var(--sage), var(--gold));
+      border-radius: 100px; transition: width 0.4s;
+    }
+
+    /* ── TIMELINE ── */
+    .itin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+    @media (max-width: 900px) { .itin-grid { grid-template-columns: 1fr; } }
+    .tl-day { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .tl-day-header {
+      background: var(--navy); color: white;
+      padding: 18px 20px;
+    }
+    .tl-day-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55; margin-bottom: 4px; }
+    .tl-day-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
+    .tl-day-date { font-size: 0.8rem; color: var(--gold-light); margin-top: 2px; }
+    .tl-event {
+      display: flex; gap: 14px; padding: 14px 20px;
+      border-bottom: 1px solid var(--cream-dark); align-items: flex-start;
+    }
+    .tl-event:last-child { border-bottom: none; }
+    .tl-time {
+      min-width: 68px; font-size: 0.75rem; font-weight: 700; color: var(--gold);
+      letter-spacing: 0.5px; padding-top: 2px; flex-shrink: 0;
+    }
+    .tl-content { flex: 1; }
+    .tl-title { font-weight: 700; color: var(--navy); font-size: 0.88rem; }
+    .tl-desc { font-size: 0.8rem; color: var(--slate); margin-top: 2px; line-height: 1.4; }
+    .tl-location {
+      font-size: 0.75rem; color: var(--sage-dark); font-weight: 700;
+      letter-spacing: 0.5px; margin-top: 4px;
+    }
+    .tl-badge {
+      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      padding: 2px 9px; border-radius: 100px; margin-top: 5px;
+    }
+    .tl-badge-inc  { background: #E8F5E9; color: var(--sage-dark); }
+    .tl-badge-tbd  { background: var(--cream-dark); color: var(--slate); }
+    .tl-badge-ext  { background: #E8F0FF; color: #2C4A8B; }
+    .tl-note-field {
+      font-size: 0.8rem; color: var(--slate); font-style: italic;
+      min-height: 20px; outline: none; border-radius: 4px; padding: 2px 6px;
+      border: 1px dashed transparent; transition: border 0.2s; margin-top: 4px; display: block;
+    }
+    .tl-note-field:hover, .tl-note-field:focus { border-color: var(--gold); background: #FFFBF0; }
+
+    /* ── VENDOR TRACKER ── */
+    .vcat {
+      background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
+      overflow: hidden; margin-bottom: 16px;
+    }
+    .vcat-hdr {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 24px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .vcat-hdr:hover { background: var(--cream); }
+    .vcat-emoji { font-size: 1.4rem; }
+    .vcat-hdr-text { flex: 1; }
+    .vcat-hdr-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--navy); }
+    .vcat-hdr-meta { font-size: 0.78rem; color: var(--slate); margin-top: 1px; }
+    .vcat-badge {
+      font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 100px;
+      background: #FFF8E8; color: #8B6914; letter-spacing: 0.5px;
+    }
+    .vcat-badge.included { background: #E8F5E9; color: var(--sage-dark); }
+    .vcat-badge.needed { background: var(--cream-dark); color: var(--slate); }
+    .vcat-chevron { color: var(--slate); font-size: 0.8rem; transition: transform 0.2s; }
+    .vcat.open .vcat-chevron { transform: rotate(180deg); }
+    .vcat-body { display: none; border-top: 1px solid var(--cream-dark); }
+    .vcat.open .vcat-body { display: block; }
+    .vcat-note {
+      font-size: 0.82rem; color: var(--slate); font-style: italic;
+      padding: 12px 24px; background: var(--cream); border-bottom: 1px solid var(--cream-dark);
+    }
+
+    .vrow { border-bottom: 1px solid var(--cream-dark); }
+    .vrow:last-child { border-bottom: none; }
+    .vrow-summary {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px; cursor: pointer; transition: background 0.15s;
+    }
+    .vrow-summary:hover { background: var(--cream); }
+    .vrow.chosen .vrow-summary { background: #F0FAF0; }
+    .vrow-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); flex: 1; }
+    .vrow-role { font-size: 0.78rem; color: var(--slate); }
+    .vrow-status {
+      font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 100px;
+      letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer;
+      border: none; background: var(--cream-dark); color: var(--slate);
+    }
+    .vrow-status.researching { background: #E8F0FF; color: #2C4A8B; }
+    .vrow-status.contacted  { background: #FFF8E8; color: #8B6914; }
+    .vrow-status.booked     { background: #E8F5E9; color: var(--sage-dark); }
+    .vrow-status.passed     { background: #FFE8E8; color: var(--red-soft); }
+    .chosen-star { font-size: 0.9rem; cursor: pointer; opacity: 0.3; transition: opacity 0.2s; }
+    .vrow.chosen .chosen-star { opacity: 1; }
+    .vrow-expand { font-size: 0.8rem; color: var(--slate); }
+
+    .vrow-detail { display: none; padding: 16px 24px 20px; background: var(--cream); border-top: 1px solid var(--cream-dark); }
+    .vrow.open .vrow-detail { display: block; }
+    .vdetail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 14px; }
+    .vdetail-field label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--slate); display: block; margin-bottom: 3px; }
+    .vdetail-field span { font-size: 0.85rem; color: var(--charcoal); }
+    .vdetail-notes {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-family: 'Lato', sans-serif; font-size: 0.85rem;
+      color: var(--charcoal); background: var(--white); resize: vertical; min-height: 64px;
+    }
+    .vdetail-notes:focus { outline: none; border-color: var(--gold); }
+    .vdetail-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+    .vdetail-actions label { font-size: 0.82rem; color: var(--slate); margin-right: 4px; }
+    .vdetail-actions select {
+      padding: 6px 10px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-size: 0.82rem; background: white; color: var(--charcoal);
+    }
+    .btn-chosen {
+      padding: 7px 16px; border-radius: 100px; border: none; cursor: pointer;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px;
+      background: var(--cream-dark); color: var(--slate); transition: all 0.2s;
+    }
+    .btn-chosen:hover { background: var(--sage); color: white; }
+    .vrow.chosen .btn-chosen { background: var(--sage); color: white; }
+    .estimate-badge {
+      display: inline-block; background: var(--navy); color: var(--gold-light);
+      font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 100px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── BUDGET ── */
+    .budget-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+    @media (max-width: 768px) { .budget-layout { grid-template-columns: 1fr; } }
+    .budget-chart-wrap { position: relative; }
+    .budget-donut-label {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      text-align: center; pointer-events: none;
+    }
+    .budget-donut-label .big { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--navy); }
+    .budget-donut-label .small { font-size: 0.75rem; color: var(--slate); letter-spacing: 1px; text-transform: uppercase; }
+    .budget-cats { display: flex; flex-direction: column; gap: 10px; }
+    .budget-cat-row { display: flex; align-items: center; gap: 12px; }
+    .budget-cat-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .budget-cat-label { font-size: 0.82rem; flex: 1; color: var(--charcoal); }
+    .budget-cat-pct { font-size: 0.8rem; color: var(--slate); }
+    .budget-cat-val { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--navy); font-weight: 600; min-width: 80px; text-align: right; }
+    .budget-alloc-input {
+      width: 90px; padding: 5px 8px; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; text-align: center; color: var(--navy); background: var(--cream);
+    }
+    .budget-over { color: var(--red-soft) !important; }
+    .budget-summary-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--navy); border-radius: var(--radius-sm); padding: 14px 18px; margin-top: 20px;
+    }
+    .budget-summary-bar .label { color: rgba(255,255,255,0.7); font-size: 0.8rem; }
+    .budget-summary-bar .val { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold-light); font-weight: 700; }
+
+    /* ── QUESTIONS ── */
+    .q-item {
+      background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow);
+      padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .q-item.resolved { opacity: 0.55; }
+    .q-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--cream-dark); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px; transition: all 0.2s; background: white;
+    }
+    .q-item.resolved .q-check { background: var(--sage); border-color: var(--sage); color: white; }
+    .q-body { flex: 1; }
+    .q-cat { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .q-text { font-size: 0.88rem; color: var(--charcoal); line-height: 1.5; }
+    .q-del { background: none; border: none; color: var(--slate); cursor: pointer; opacity: 0.4; padding: 4px; font-size: 1rem; }
+    .q-del:hover { opacity: 1; color: var(--red-soft); }
+    .q-add-form {
+      display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap;
+    }
+    .q-add-input {
+      flex: 1; min-width: 200px; padding: 10px 14px;
+      border: 1px solid var(--cream-dark); border-radius: var(--radius-sm);
+      font-family: 'Lato', sans-serif; font-size: 0.85rem; color: var(--charcoal);
+    }
+    .q-add-input:focus { outline: none; border-color: var(--gold); }
+    .q-cat-input {
+      width: 160px; padding: 10px 14px;
+      border: 1px solid var(--cream-dark); border-radius: var(--radius-sm);
+      font-size: 0.85rem; color: var(--charcoal); background: white;
+    }
+    .btn-primary {
+      padding: 10px 20px; background: var(--navy); color: white;
+      border: none; border-radius: var(--radius-sm); cursor: pointer;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--navy-light); }
+
+    /* ── OUTSIDE VENDOR RULES ── */
+    .vendor-rules {
+      background: #F0F4FF; border: 1px solid #B8C8E8; border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .vendor-rules h4 { color: var(--navy); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 12px; }
+    .vendor-rules li::before { content: '📋'; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 40px 24px;
+      font-size: 0.8rem; color: var(--slate); border-top: 1px solid var(--cream-dark);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Alex &amp; Jenna</div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="scrollTo('pkg')">Package</button>
+    <button class="nav-link" onclick="scrollTo('payments')">Payments</button>
+    <button class="nav-link" onclick="scrollTo('gratuity')">Gratuity</button>
+    <button class="nav-link" onclick="scrollTo('fine-print')">Fine Print</button>
+    <button class="nav-link" onclick="scrollTo('financial')">Finances</button>
+    <button class="nav-link" onclick="scrollTo('timeline')">Timeline</button>
+    <button class="nav-link" onclick="scrollTo('vendors')">Vendors</button>
+    <button class="nav-link" onclick="scrollTo('budget')">Budget</button>
+    <button class="nav-link" onclick="scrollTo('questions')">Questions</button>
+  </div>
+  <div class="nav-total">
+    <span>Venue Total</span>
+    <span id="nav-total">—</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Port Jefferson Country Club · Lessing's</div>
+  <h1>Alex &amp; <em>Jenna</em></h1>
+  <div class="hero-venue">Port Jefferson Country Club — Port Jefferson, NY</div>
+  <div class="hero-date">Friday, June 18, 2027</div>
+  <div class="countdown">
+    <div class="cd-block"><div class="cd-num" id="cd-days">—</div><div class="cd-label">Days</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-hrs">—</div><div class="cd-label">Hours</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-min">—</div><div class="cd-label">Minutes</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-sec">—</div><div class="cd-label">Seconds</div></div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-val" id="hero-guests">150</div><div class="hero-stat-label">Guests (min)</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">$169</div><div class="hero-stat-label">Per Person</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">5 hrs</div><div class="hero-stat-label">Reception</div></div>
+    <div class="hero-stat"><div class="hero-stat-val" id="hero-venue-total">—</div><div class="hero-stat-label">Venue Total</div></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── PACKAGE CALCULATOR ── -->
+  <div class="section" id="pkg">
+    <h2 class="section-title">Package Calculator</h2>
+    <p class="section-sub">Base price is $169/person with a 150-person minimum. Adjust guest count to see your total.</p>
+    <div class="section-divider"></div>
+
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <div class="pkg-header">
+          <div class="pkg-name">Lessing's Event Package</div>
+          <div class="pkg-badge">$169 / person</div>
+        </div>
+
+        <div class="guest-control">
+          <label>Guest Count<br><span class="guest-min-note">Minimum 150 guaranteed</span></label>
+          <input type="number" id="guest-count" value="150" min="150" step="5" oninput="renderAll()" />
+        </div>
+
+        <div class="pkg-row">
+          <span class="pkg-row-label">Base Package (<span id="pkg-guests-disp">150</span> guests × $169)</span>
+          <span class="pkg-row-val" id="pkg-base">$25,350</span>
+        </div>
+        <div class="pkg-row">
+          <span class="pkg-row-label">22% Administrative Fee <em style="font-size:11px;color:var(--red-soft);">(≠ gratuity — does not go to staff)</em></span>
+          <span class="pkg-row-val" id="pkg-admin">$5,577</span>
+        </div>
+        <div class="pkg-row">
+          <span class="pkg-row-label">8.75% Suffolk County Sales Tax</span>
+          <span class="pkg-row-val" id="pkg-tax">$2,706</span>
+        </div>
+
+        <div class="pkg-total-row">
+          <span class="pkg-total-label">Venue Grand Total</span>
+          <span class="pkg-total-val" id="pkg-grand-total">$33,633</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="pkg-header">
+          <div class="pkg-name">What's Included</div>
+        </div>
+        <div class="pkg-row"><span class="pkg-row-label">🍷 Open bar — full 5-hour service</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🍽️ Dinner (buffet or plated — confirm with coordinator)</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🥂 Cocktail hour — hors d'oeuvres + bar cart (optional add-on)</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🎂 Cake cutting service</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🧹 Venue setup & cleanup</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🅿️ Parking included on-site</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">💐 Centerpiece tables included</span></div>
+        <div class="pkg-row"><span class="pkg-row-label">🎙️ Maître d' + bridal attendant</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PAYMENT SCHEDULE ── -->
+  <div class="section" id="payments">
+    <h2 class="section-title">Payment Schedule</h2>
+    <p class="section-sub">Five installments due before the wedding — final payment three weeks before the date.</p>
+    <div class="section-divider"></div>
+
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <div class="payment-row" id="pay-row-1">
+          <div class="payment-dot upcoming" id="pay-dot-1"></div>
+          <div class="payment-date">Aug 8, 2026</div>
+          <div class="payment-label">1st Deposit — Booking</div>
+          <div class="payment-amount">$5,000</div>
+          <div class="payment-status due" id="pay-status-1">Due Soon</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-dot future" id="pay-dot-2"></div>
+          <div class="payment-date">Nov 4, 2026</div>
+          <div class="payment-label">2nd Installment</div>
+          <div class="payment-amount">$5,000</div>
+          <div class="payment-status future" id="pay-status-2">Upcoming</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-dot future"></div>
+          <div class="payment-date">Feb 4, 2027</div>
+          <div class="payment-label">3rd Installment</div>
+          <div class="payment-amount">$5,000</div>
+          <div class="payment-status future">Upcoming</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-dot future"></div>
+          <div class="payment-date">Apr 3, 2027</div>
+          <div class="payment-label">4th Installment</div>
+          <div class="payment-amount" id="pay-4">$9,317</div>
+          <div class="payment-status future">Upcoming</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-dot future"></div>
+          <div class="payment-date">Jun 4, 2027</div>
+          <div class="payment-label">Final Payment (14 days before)</div>
+          <div class="payment-amount" id="pay-5">$9,316</div>
+          <div class="payment-status future">Upcoming</div>
+        </div>
+        <div class="payment-note">
+          ⚠️ Credit cards accepted up to <strong>$5,000 maximum per transaction</strong>. Remaining balance must be paid by check or cash.
+          Payments 4 &amp; 5 adjust when guest count changes.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="pkg-header">
+          <div class="pkg-name">Payment Summary</div>
+        </div>
+        <div class="pkg-row">
+          <span class="pkg-row-label">Installments 1–3 (fixed)</span>
+          <span class="pkg-row-val">$15,000</span>
+        </div>
+        <div class="pkg-row">
+          <span class="pkg-row-label">Installments 4–5 (balance)</span>
+          <span class="pkg-row-val" id="pay-balance">$18,633</span>
+        </div>
+        <div class="pkg-total-row">
+          <span class="pkg-total-label">Total Paid to Venue</span>
+          <span class="pkg-total-val" id="pay-total-disp">$33,633</span>
+        </div>
+        <div style="margin-top:16px; font-size:0.82rem; color:var(--slate); line-height:1.6;">
+          The balance (payments 4 &amp; 5) is split evenly across the final two installments and updates automatically when you change your guest count above.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GRATUITY CALCULATOR ── -->
+  <div class="section" id="gratuity">
+    <h2 class="section-title">Gratuity Calculator</h2>
+    <p class="section-sub">The 22% administrative fee does <strong>not</strong> go to staff. These are the suggested gratuities per the contract — separate from your venue total.</p>
+    <div class="section-divider"></div>
+
+    <div class="card">
+      <div class="grat-note" style="margin-bottom:20px;">
+        ⚠️ The 22% admin fee is a Lessing's administrative charge — it is explicitly <em>not gratuity</em> and does not go to your service staff. Plan to tip separately.
+      </div>
+      <div class="grat-calc" id="grat-calc">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FINE PRINT ── -->
+  <div class="section" id="fine-print">
+    <h2 class="section-title">Fine Print &amp; Rules</h2>
+    <p class="section-sub">Key clauses from the Lessing's contract — read before signing anything.</p>
+    <div class="section-divider"></div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="fine-print-alert">
+        <h4>💰 Financial Fine Print</h4>
+        <ul class="fine-print-list">
+          <li>The <strong>22% administrative fee is NOT gratuity</strong> — it does not go to the staff. You must tip separately (see Gratuity section above).</li>
+          <li>Credit cards are accepted for a <strong>maximum of $5,000 per transaction</strong>. Remaining balance must be paid by check or cash.</li>
+          <li>If additional labor is required (beyond the contracted staff), charges are <strong>$250/person per hour</strong>, plus the 22% admin fee and 8.75% sales tax.</li>
+          <li>Guest count is <strong>guaranteed at 150 minimum</strong>. You will be charged for at least 150 people regardless of actual attendance.</li>
+          <li>Final payment is due <strong>14 days before the event</strong> — failure to pay may result in cancellation.</li>
+        </ul>
+      </div>
+
+      <div class="rule-alert">
+        <h4>🚫 Prohibited Items &amp; Violations</h4>
+        <ul class="fine-print-list">
+          <li>Throwing <strong>confetti, glitter, or rice</strong> is strictly prohibited. Violation results in a <strong>$2,000 cleanup fee</strong> charged to the client.</li>
+          <li><strong>No pyrotechnics</strong> of any kind (sparklers, fireworks, smoke bombs, etc.).</li>
+          <li>No <strong>open flames</strong> other than those approved by the venue coordinator.</li>
+          <li>Client is responsible for any <strong>damage to the venue</strong> caused by guests or vendors.</li>
+        </ul>
+      </div>
+
+      <div class="vendor-rules">
+        <h4>📋 Outside Vendor Requirements</h4>
+        <ul class="fine-print-list">
+          <li>All outside vendors <strong>must carry $1,000,000 general liability insurance</strong> and name Lessing's as an additional insured.</li>
+          <li>Vendors must be <strong>submitted for approval at least 15 days</strong> before the event date.</li>
+          <li>Lessing's reserves the right to <strong>reject any vendor</strong> that does not meet their standards or insurance requirements.</li>
+          <li>Food and beverage service is <strong>exclusive to Lessing's</strong> — no outside food or drink vendors permitted.</li>
+          <li>Outside vendors must arrive, set up, and break down within the <strong>contracted venue access window</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FINANCIAL SNAPSHOT ── -->
+  <div class="section" id="financial">
+    <h2 class="section-title">Financial Snapshot</h2>
+    <p class="section-sub">Your full cost picture — venue, vendors, and estimated gift income offset.</p>
+    <div class="section-divider"></div>
+
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-card-title">Venue Cost</div>
+        <div class="fin-main-val" id="fin-venue">—</div>
+        <div class="fin-sub-rows">
+          <div class="fin-sub-row"><span class="label">Total Budget</span><span class="val" id="fin-total-disp">$100,000</span></div>
+          <div class="fin-sub-row"><span class="label">Remaining for Vendors</span><span class="val" id="fin-vendors">—</span></div>
+        </div>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-title">Gift Revenue Estimate</div>
+        <div class="fin-main-val highlight" id="fin-gifts">$30,000</div>
+        <div class="fin-input-row">
+          <div class="fin-input-group">
+            <label>Guests attending</label>
+            <input type="number" id="fin-guests" value="150" min="0" step="5" oninput="renderFinancial()" />
+          </div>
+          <div class="fin-input-group">
+            <label>Gift per head (est.)</label>
+            <input type="number" id="fin-giftpp" value="200" min="0" step="25" oninput="renderFinancial()" />
+          </div>
+        </div>
+      </div>
+
+      <div class="fin-card">
+        <div class="fin-card-title">Net Out-of-Pocket</div>
+        <div class="fin-main-val" id="fin-net">—</div>
+        <div class="fin-net-bar-wrap">
+          <div style="font-size:0.75rem;color:var(--slate);">Budget consumed after gift offset</div>
+          <div class="fin-net-bar-track">
+            <div class="fin-net-bar-fill" id="fin-net-bar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TIMELINE ── -->
+  <div class="section" id="timeline">
+    <h2 class="section-title">The Wedding Weekend</h2>
+    <p class="section-sub">June 17–19, 2027 · Click any note field to add your own details.</p>
+    <div class="section-divider"></div>
+
+    <div class="itin-grid">
+
+      <!-- THURSDAY -->
+      <div class="tl-day">
+        <div class="tl-day-header">
+          <div class="tl-day-label">Day Before</div>
+          <div class="tl-day-name">Thursday</div>
+          <div class="tl-day-date">June 17, 2027</div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">Afternoon</div>
+          <div class="tl-content">
+            <div class="tl-title">Wedding Party Arrives</div>
+            <div class="tl-desc">Out-of-town guests check in, bridal party settles in.</div>
+            <span class="tl-badge tl-badge-tbd">Accommodation TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_arrival">Click to add hotel / location…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~5:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Ceremony Rehearsal</div>
+            <div class="tl-desc">Run-through with wedding party and officiant.</div>
+            <span class="tl-badge tl-badge-ext">Off-site</span>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_rehearsal">Click to add location…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~7:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Rehearsal Dinner</div>
+            <div class="tl-desc">Dinner with close family and wedding party.</div>
+            <span class="tl-badge tl-badge-ext">Off-site — venue TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_rehearsal_dinner">Click to add restaurant / venue…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRIDAY — WEDDING DAY -->
+      <div class="tl-day">
+        <div class="tl-day-header">
+          <div class="tl-day-label">Wedding Day</div>
+          <div class="tl-day-name">Friday</div>
+          <div class="tl-day-date">June 18, 2027</div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">Morning</div>
+          <div class="tl-content">
+            <div class="tl-title">Hair &amp; Makeup</div>
+            <div class="tl-desc">Bridal party gets ready — start time depends on party size.</div>
+            <span class="tl-badge tl-badge-ext">Off-site or hotel</span>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_hmua">Click to add HMUA / location…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">4:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Suites Open at PJCC</div>
+            <div class="tl-desc">Bridal and groom suites available for final prep and touch-ups.</div>
+            <span class="tl-badge tl-badge-inc">Included</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~5:30 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Vendor Setup Deadline</div>
+            <div class="tl-desc">DJ, florist, all outside vendors must be fully set up.</div>
+            <span class="tl-badge tl-badge-inc">Ballroom &amp; Jefferson Room</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">6:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Ceremony</div>
+            <div class="tl-desc">Wedding ceremony begins.</div>
+            <span class="tl-badge tl-badge-tbd">Location TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_ceremony">Click to add ceremony details…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">6–7 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Cocktail Hour</div>
+            <div class="tl-desc">Hors d'oeuvres &amp; open bar for guests while couple takes photos.</div>
+            <span class="tl-badge tl-badge-inc">Jefferson Room — Included</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">7:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Grand Entrance &amp; First Dance</div>
+            <div class="tl-desc">Couple introduced, first dance, dinner service begins.</div>
+            <span class="tl-badge tl-badge-inc">Ballroom — Included</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~8:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Toasts &amp; Parent Dances</div>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_toasts">Click to add speaker order / song choices…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">~8:30 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Cake Cutting</div>
+            <span class="tl-badge tl-badge-inc">Included</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">8:30–11 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Open Dancing</div>
+            <div class="tl-desc">DJ or band keeps the floor going through end of night.</div>
+            <span class="tl-badge tl-badge-inc">Ballroom</span>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">11:00 PM</div>
+          <div class="tl-content">
+            <div class="tl-title">Reception Ends</div>
+            <div class="tl-desc">Venue closes. Guests depart, vendors begin breakdown.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SATURDAY — DAY AFTER -->
+      <div class="tl-day">
+        <div class="tl-day-header">
+          <div class="tl-day-label">Day After</div>
+          <div class="tl-day-name">Saturday</div>
+          <div class="tl-day-date">June 19, 2027</div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">Morning</div>
+          <div class="tl-content">
+            <div class="tl-title">Farewell Brunch</div>
+            <div class="tl-desc">Optional gathering for out-of-town guests and wedding party before everyone heads home.</div>
+            <span class="tl-badge tl-badge-tbd">Location TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_brunch">Click to add restaurant / location…</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">Afternoon</div>
+          <div class="tl-content">
+            <div class="tl-title">Guests Check Out &amp; Depart</div>
+            <div class="tl-desc">Hotel checkout, goodbyes, safe travels for everyone.</div>
+          </div>
+        </div>
+        <div class="tl-event">
+          <div class="tl-time">TBD</div>
+          <div class="tl-content">
+            <div class="tl-title">Honeymoon Departure ✈️</div>
+            <div class="tl-desc">Begin the next chapter.</div>
+            <span class="tl-badge tl-badge-tbd">Destination TBD</span>
+            <div contenteditable="true" class="tl-note-field" data-key="pjcc_tl_honeymoon">Click to add destination…</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── VENDOR TRACKER ── -->
+  <div class="section" id="vendors">
+    <h2 class="section-title">Vendor Tracker</h2>
+    <p class="section-sub">Food, bar, and cake cutting are included in the Lessing's package. Everything else is yours to book.</p>
+    <div class="section-divider"></div>
+
+    <div style="margin-bottom:16px;" class="vendor-rules">
+      <h4>📋 Outside Vendor Requirements (Lessing's Contract)</h4>
+      <ul class="fine-print-list">
+        <li>All outside vendors must carry <strong>$1M general liability insurance</strong> naming Lessing's as an additional insured.</li>
+        <li>Submit vendor names &amp; insurance certificates <strong>at least 15 days before the event</strong>.</li>
+        <li>Vendors must set up and break down within the contracted <strong>venue access window</strong>.</li>
+      </ul>
+    </div>
+
+    <div id="vendor-tracker"><!-- rendered by JS --></div>
+  </div>
+
+  <!-- ── BUDGET ── -->
+  <div class="section" id="budget">
+    <h2 class="section-title">Budget Breakdown</h2>
+    <p class="section-sub">Total budget: $100,000. Adjust allocations to fit your priorities.</p>
+    <div class="section-divider"></div>
+
+    <div class="budget-layout">
+      <div class="card">
+        <div id="budget-cats"></div>
+        <div class="budget-summary-bar">
+          <span class="label">Total Allocated</span>
+          <span class="val" id="budget-total-alloc">—</span>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="budget-chart-wrap">
+            <canvas id="budget-chart" style="max-height:280px;"></canvas>
+            <div class="budget-donut-label">
+              <div class="big" id="budget-chart-center">$100k</div>
+              <div class="small">Budget</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OUTSTANDING QUESTIONS ── -->
+  <div class="section" id="questions">
+    <h2 class="section-title">Outstanding Questions</h2>
+    <p class="section-sub">Things to clarify with Lessing's or vendors before finalizing. Check off as resolved.</p>
+    <div class="section-divider"></div>
+
+    <div id="q-list"><!-- rendered by JS --></div>
+
+    <div class="q-add-form">
+      <input type="text" id="q-text-input" class="q-add-input" placeholder="Add a question…" />
+      <input type="text" id="q-cat-input" class="q-cat-input" placeholder="Category (e.g. Bar, DJ…)" />
+      <button class="btn-primary" onclick="addQuestion()">+ Add</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Alex &amp; Jenna · Port Jefferson Country Club · June 18, 2027 · All prices per Lessing's contract · Data saved locally in your browser.
+</footer>
+
+<script>
+// ── CONSTANTS ──
+const WEDDING_DATE = new Date('2027-06-18T18:00:00');
+const TOTAL_BUDGET = 100000;
+const PPP        = 169;       // price per person
+const ADMIN_RATE = 0.22;      // Lessing's admin fee
+const TAX_RATE   = 0.0875;    // Suffolk County sales tax
+const MIN_GUESTS = 150;
+
+// ── BUDGET CATEGORIES ──
+let BUDGET_CATS = [
+  { key:'venue',     label:'🏛️  Venue (PJCC)',          color:'#1A2E44', locked:true,  alloc:33633, spent:0 },
+  { key:'photo',     label:'📷  Photography',            color:'#C4A55A', locked:false, alloc:6000,  spent:0 },
+  { key:'video',     label:'🎥  Videography',            color:'#7A9E7E', locked:false, alloc:4000,  spent:0 },
+  { key:'dj',        label:'🎵  DJ / Entertainment',     color:'#6B7A8D', locked:false, alloc:4000,  spent:0 },
+  { key:'floral',    label:'💐  Florals',                color:'#D4A5A5', locked:false, alloc:5000,  spent:0 },
+  { key:'hmua',      label:'💄  Hair & Makeup',          color:'#A5C4D4', locked:false, alloc:3000,  spent:0 },
+  { key:'transport', label:'🚗  Transportation',         color:'#8B9E7A', locked:false, alloc:2000,  spent:0 },
+  { key:'attire',    label:'👗  Attire & Rings',         color:'#9E8B7A', locked:false, alloc:8000,  spent:0 },
+  { key:'rehearsal', label:'🍴  Rehearsal Dinner',       color:'#C4B5A5', locked:false, alloc:8000,  spent:0 },
+  { key:'stationery',label:'✉️  Stationery & Invites',   color:'#B5C4A5', locked:false, alloc:1500,  spent:0 },
+  { key:'gratuity',  label:'💝  Gratuity (est.)',         color:'#D4C4A5', locked:false, alloc:2000,  spent:0 },
+  { key:'misc',      label:'🎁  Misc / Buffer',           color:'#A5B5C4', locked:false, alloc:22867, spent:0 },
+];
+
+// ── VENDOR CATEGORIES ──
+const VENDOR_CATS = [
+  {
+    key: 'included',
+    emoji: '✅',
+    title: 'Included in Lessing\'s Package',
+    badge: 'Included',
+    badgeClass: 'included',
+    note: 'These services are covered in your $169/pp package — no outside vendors needed.',
+    vendors: [
+      { id:'incl_catering', name:'Catering & Dinner Service', role:'Full dinner service (buffet or plated)', estimate:'Included in package' },
+      { id:'incl_bar',      name:'Open Bar — Full Service',   role:'5-hour open bar, spirits, beer, wine',  estimate:'Included in package' },
+      { id:'incl_cocktail', name:'Cocktail Hour Service',     role:'Hors d\'oeuvres & beverages',           estimate:'Included in package' },
+      { id:'incl_cake',     name:'Cake Cutting Service',      role:'Venue handles cake cutting & service',  estimate:'Included in package' },
+      { id:'incl_matred',   name:'Maître d\'',               role:'Day-of coordination & service lead',    estimate:'Included — tip separately ($5–7/guest)' },
+      { id:'incl_attendant',name:'Bridal Attendant',          role:'Personal attendant for the couple',     estimate:'Included — tip separately (~$200)' },
+    ]
+  },
+  {
+    key: 'music',
+    emoji: '🎵',
+    title: 'Music & Entertainment',
+    badge: 'Book Required',
+    badgeClass: 'needed',
+    note: 'DJ or live band for cocktail hour and reception. Must provide $1M liability insurance.',
+    vendors: [
+      { id:'dj1', name:'DJ — Your Pick', role:'DJ / Emcee', location:'Long Island / North Shore', estimate:'$2,500 – $5,000', estimateNote:'4–5 hr package with emcee' },
+      { id:'band1', name:'Live Band', role:'Band (4–8 piece)', location:'NY Metro Area', estimate:'$6,000 – $15,000+', estimateNote:'typically pricier than DJ' },
+    ]
+  },
+  {
+    key: 'photo',
+    emoji: '📷',
+    title: 'Photography',
+    badge: 'Book Required',
+    badgeClass: 'needed',
+    note: 'Book early — good photographers fill up fast for June dates.',
+    vendors: [
+      { id:'photo1', name:'Photographer', role:'Wedding Photographer', location:'Long Island / NY', estimate:'$3,000 – $8,000', estimateNote:'full day, edited gallery' },
+      { id:'photo2', name:'Second Shooter', role:'Photographer — Assistant', location:'NY', estimate:'$800 – $1,500', estimateNote:'add-on to primary package' },
+    ]
+  },
+  {
+    key: 'video',
+    emoji: '🎥',
+    title: 'Videography',
+    badge: 'Book Required',
+    badgeClass: 'needed',
+    note: 'Highlight film + full ceremony edit is the typical package.',
+    vendors: [
+      { id:'vid1', name:'Videographer', role:'Wedding Videographer', location:'Long Island / NY', estimate:'$3,000 – $7,000', estimateNote:'highlight film + full ceremony' },
+    ]
+  },
+  {
+    key: 'floral',
+    emoji: '💐',
+    title: 'Florals',
+    badge: 'Book Required',
+    badgeClass: 'needed',
+    note: 'Venue centerpieces are included; these are for ceremony, bridal party, and accent pieces.',
+    vendors: [
+      { id:'floral1', name:'Florist', role:'Bridal Bouquet, Ceremony, Accents', location:'Long Island / Port Jeff area', estimate:'$3,000 – $8,000+', estimateNote:'highly variable by style and size' },
+    ]
+  },
+  {
+    key: 'hmua',
+    emoji: '💄',
+    title: 'Hair & Makeup',
+    badge: 'Book Required',
+    badgeClass: 'needed',
+    vendors: [
+      { id:'hmua1', name:'Hair Stylist', role:'Bride + bridal party', location:'On-site or salon', estimate:'$150 – $300/person', estimateNote:'bride typically $250–$400' },
+      { id:'hmua2', name:'Makeup Artist', role:'Bride + bridal party', location:'On-site or salon', estimate:'$150 – $300/person', estimateNote:'bride typically $250–$400' },
+    ]
+  },
+  {
+    key: 'officiant',
+    emoji: '💍',
+    title: 'Officiant',
+    badge: 'Book Required',
+    badgeClass: 'needed',
+    vendors: [
+      { id:'off1', name:'Officiant', role:'Ceremony Officiant', location:'Suffolk County NY', estimate:'$300 – $800', estimateNote:'some include rehearsal' },
+    ]
+  },
+  {
+    key: 'transport',
+    emoji: '🚗',
+    title: 'Transportation',
+    badge: 'Book Required',
+    badgeClass: 'needed',
+    note: 'Parking is available on-site at PJCC. Transport for couple and/or guests is optional.',
+    vendors: [
+      { id:'limo1', name:'Limo / Party Bus', role:'Guest Transportation', location:'Suffolk County', estimate:'$800 – $2,500', estimateNote:'hourly rates vary' },
+      { id:'shuttle1', name:'Shuttle Service', role:'Guest Shuttles', location:'Port Jefferson area', estimate:'$500 – $1,500', estimateNote:'for hotels to venue' },
+    ]
+  },
+  {
+    key: 'stationery',
+    emoji: '✉️',
+    title: 'Stationery & Invitations',
+    badge: 'Plan Early',
+    badgeClass: 'needed',
+    note: 'Save-the-dates typically go out 9–12 months before; invitations 6–8 weeks before.',
+    vendors: [
+      { id:'stat1', name:'Invitation Designer / Printer', role:'Save-the-dates, Invitations, Programs', location:'Online or local', estimate:'$500 – $2,000+', estimateNote:'varies by quantity & style' },
+    ]
+  },
+  {
+    key: 'extras',
+    emoji: '🎁',
+    title: 'Extras & Day-of',
+    badge: 'Optional',
+    badgeClass: '',
+    vendors: [
+      { id:'photo_booth', name:'Photo Booth', role:'Guest entertainment', estimate:'$800 – $1,500' },
+      { id:'bustle1', name:'Wedding Favors', role:'Guest gifts / favors', estimate:'$3 – $15/person', estimateNote:'~$450–$2,250 for 150 guests' },
+      { id:'hotel1', name:'Hotel Room Block', role:'Guest accommodations', location:'Port Jefferson area', estimate:'Negotiate block rate', estimateNote:'Port Jeff village has several options' },
+    ]
+  },
+];
+
+// ── DEFAULT QUESTIONS ──
+const DEFAULT_QUESTIONS = [
+  {
+    id: 'q_admin_fee',
+    text: 'The contract lists a 22% "administrative fee" — can you confirm in writing that this does not go to the service staff and that gratuity is expected separately? We want to make sure we\'re budgeting correctly.',
+    cat: 'Contract / Fees',
+    resolved: false
+  },
+  {
+    id: 'q_bar_cart',
+    text: 'Is the cocktail hour bar cart an add-on cost or included in the base $169/person package? The contract mentions it as an option but doesn\'t specify the price.',
+    cat: 'Bar & Drinks',
+    resolved: false
+  },
+  {
+    id: 'q_ceremony_location',
+    text: 'Where can the ceremony take place within the venue? Is there an outdoor option, and is there an additional fee for ceremony setup?',
+    cat: 'Ceremony',
+    resolved: false
+  },
+  {
+    id: 'q_vendor_ins',
+    text: 'Our DJ and photographer will need to submit $1M liability certificates naming Lessing\'s as additional insured — what\'s the correct legal entity name to put on the certificate?',
+    cat: 'Vendors / Insurance',
+    resolved: false
+  },
+  {
+    id: 'q_final_headcount',
+    text: 'When is the final guaranteed guest count due? We want to know our last opportunity to adjust before being locked into a number.',
+    cat: 'Guest Count',
+    resolved: false
+  }
+];
+
+// ── GRATUITY DEFINITIONS ──
+const GRAT_ITEMS = [
+  { id:'g_matred',    label:"Maître d'",       note:'Suggested $5–7 per guest', perGuest:true,  defaultPP:6, fixed:0 },
+  { id:'g_staff',     label:'Service Staff',    note:'Suggested $5–7 per guest, split among team', perGuest:true, defaultPP:6, fixed:0 },
+  { id:'g_attendant', label:'Bridal Attendant', note:'Suggested $200 flat',      perGuest:false, defaultPP:0, fixed:200 },
+];
+
+// ── STATE ──
+let budgetChart = null;
+
+// ── UTILS ──
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtDec(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+function setEl(id, v) { const e = document.getElementById(id); if(e) e.textContent = v; }
+function getGuests() { return Math.max(MIN_GUESTS, parseInt(document.getElementById('guest-count')?.value) || MIN_GUESTS); }
+
+function loadState() {
+  const saved = localStorage.getItem('pjcc_budget');
+  if (saved) {
+    try {
+      const obj = JSON.parse(saved);
+      BUDGET_CATS.forEach(c => { if (obj[c.key] !== undefined) c.alloc = obj[c.key]; });
+    } catch(e) {}
+  }
+}
+
+function saveState() {
+  const obj = {};
+  BUDGET_CATS.forEach(c => obj[c.key] = c.alloc);
+  localStorage.setItem('pjcc_budget', JSON.stringify(obj));
+}
+
+// ── COUNTDOWN ──
+function updateCountdown() {
+  const now = new Date();
+  const diff = WEDDING_DATE - now;
+  if (diff <= 0) { setEl('cd-days','0'); setEl('cd-hrs','0'); setEl('cd-min','0'); setEl('cd-sec','0'); return; }
+  const days = Math.floor(diff / 86400000);
+  const hrs  = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000)  / 60000);
+  const secs = Math.floor((diff % 60000)    / 1000);
+  setEl('cd-days', days); setEl('cd-hrs', hrs); setEl('cd-min', mins); setEl('cd-sec', secs);
+}
+
+// ── PACKAGE / VENUE CALC ──
+function getVenueTotal(guests) {
+  const g    = guests || getGuests();
+  const base = PPP * g;
+  const admin = base * ADMIN_RATE;
+  const tax  = (base + admin) * TAX_RATE;
+  return { base, admin, tax, total: base + admin + tax };
+}
+
+function renderPackage() {
+  const g = getGuests();
+  const { base, admin, tax, total } = getVenueTotal(g);
+  setEl('pkg-guests-disp', g);
+  setEl('pkg-base', fmtDec(base));
+  setEl('pkg-admin', fmtDec(admin));
+  setEl('pkg-tax', fmtDec(tax));
+  setEl('pkg-grand-total', fmtDec(total));
+  setEl('nav-total', fmt(total));
+  setEl('hero-venue-total', fmt(total));
+  setEl('hero-guests', g);
+
+  // update venue budget cat
+  const vcat = BUDGET_CATS.find(c => c.key === 'venue');
+  if (vcat) { vcat.alloc = Math.round(total); }
+
+  // payment schedule
+  const bal  = total - 15000;
+  const p4   = Math.ceil(bal / 2);
+  const p5   = total - 15000 - p4;
+  setEl('pay-4', fmtDec(p4));
+  setEl('pay-5', fmtDec(p5));
+  setEl('pay-balance', fmtDec(bal));
+  setEl('pay-total-disp', fmtDec(total));
+}
+
+// ── GRATUITY CALCULATOR ──
+function renderGratuity() {
+  const g = getGuests();
+  const wrap = document.getElementById('grat-calc');
+  if (!wrap) return;
+
+  let totalGrat = 0;
+
+  let html = '';
+  GRAT_ITEMS.forEach(item => {
+    const savedPP = localStorage.getItem('pjcc_grat_' + item.id);
+    const savedFixed = localStorage.getItem('pjcc_gratfix_' + item.id);
+    const ppVal = savedPP !== null ? parseFloat(savedPP) : item.defaultPP;
+    const fixedVal = savedFixed !== null ? parseFloat(savedFixed) : item.fixed;
+
+    let amt = 0;
+    if (item.perGuest) {
+      amt = ppVal * g;
+      html += `<div class="grat-row">
+        <div class="grat-label"><strong>${item.label}</strong><small>${item.note}</small></div>
+        <div class="grat-input-wrap">
+          <label>$/guest</label>
+          <input type="number" value="${ppVal}" min="0" step="1"
+            oninput="localStorage.setItem('pjcc_grat_${item.id}',this.value);renderGratuity()"
+          />
+        </div>
+        <div class="grat-amount" id="grat-amt-${item.id}">${fmt(amt)}</div>
+      </div>`;
+    } else {
+      amt = fixedVal;
+      html += `<div class="grat-row">
+        <div class="grat-label"><strong>${item.label}</strong><small>${item.note}</small></div>
+        <div class="grat-input-wrap">
+          <label>$ flat</label>
+          <input type="number" value="${fixedVal}" min="0" step="25"
+            oninput="localStorage.setItem('pjcc_gratfix_${item.id}',this.value);renderGratuity()"
+          />
+        </div>
+        <div class="grat-amount" id="grat-amt-${item.id}">${fmt(amt)}</div>
+      </div>`;
+    }
+    totalGrat += amt;
+  });
+
+  html += `<div class="grat-total-bar"><span class="label">Total Suggested Gratuity</span><span class="val">${fmt(totalGrat)}</span></div>`;
+  html += `<div class="grat-note">This is separate from your $${Math.round(getVenueTotal().total).toLocaleString()} venue total. Budget ~${fmt(totalGrat)} in addition to all other costs.</div>`;
+
+  wrap.innerHTML = html;
+}
+
+// ── FINANCIAL SNAPSHOT ──
+function renderFinancial() {
+  const { total: venueTotal } = getVenueTotal();
+  const vendorBudget = Math.max(0, TOTAL_BUDGET - venueTotal);
+  const guests = Math.max(0, parseInt(document.getElementById('fin-guests')?.value) || 150);
+  const giftPP = Math.max(0, parseInt(document.getElementById('fin-giftpp')?.value) || 200);
+  const gifts  = guests * giftPP;
+  const net    = Math.max(0, TOTAL_BUDGET - gifts);
+  const pct    = Math.min(100, (net / TOTAL_BUDGET) * 100);
+
+  setEl('fin-venue',    fmtDec(venueTotal));
+  setEl('fin-vendors',  fmt(vendorBudget));
+  setEl('fin-total-disp', fmt(TOTAL_BUDGET));
+  setEl('fin-gifts',    fmt(gifts));
+  setEl('fin-net',      fmt(net));
+  const bar = document.getElementById('fin-net-bar');
+  if (bar) bar.style.width = pct + '%';
+}
+
+// ── BUDGET ──
+function renderBudget() {
+  const totalAlloc = BUDGET_CATS.reduce((s, c) => s + c.alloc, 0);
+  const over = totalAlloc > TOTAL_BUDGET;
+
+  let catsHtml = '';
+  BUDGET_CATS.forEach(c => {
+    const pct = totalAlloc > 0 ? Math.round((c.alloc / totalAlloc) * 100) : 0;
+    catsHtml += `<div class="budget-cat-row" style="margin-bottom:10px;">
+      <div class="budget-cat-dot" style="background:${c.color}"></div>
+      <div class="budget-cat-label">${c.label}</div>
+      <div class="budget-cat-pct">${pct}%</div>
+      ${c.locked
+        ? `<div class="budget-cat-val">${fmt(c.alloc)}</div>`
+        : `<input type="number" class="budget-alloc-input" value="${c.alloc}" min="0" step="500"
+            oninput="updateBudgetCat('${c.key}', this.value)" />`
+      }
+    </div>`;
+  });
+
+  document.getElementById('budget-cats').innerHTML = catsHtml;
+  setEl('budget-total-alloc', fmt(totalAlloc));
+  const totalEl = document.getElementById('budget-total-alloc');
+  if (totalEl) totalEl.className = 'val' + (over ? ' budget-over' : '');
+
+  // chart
+  const labels = BUDGET_CATS.map(c => c.label);
+  const data   = BUDGET_CATS.map(c => c.alloc);
+  const colors = BUDGET_CATS.map(c => c.color);
+
+  if (budgetChart) {
+    budgetChart.data.datasets[0].data = data;
+    budgetChart.update();
+  } else {
+    const ctx = document.getElementById('budget-chart')?.getContext('2d');
+    if (ctx) {
+      budgetChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels, datasets:[{ data, backgroundColor:colors, borderWidth:2, borderColor:'#F9F6F0' }] },
+        options: {
+          cutout: '65%',
+          plugins: { legend: { display:false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + fmt(ctx.raw) } } }
+        }
+      });
+    }
+  }
+}
+
+function updateBudgetCat(key, val) {
+  const c = BUDGET_CATS.find(c => c.key === key);
+  if (c) { c.alloc = Math.max(0, parseInt(val) || 0); }
+  saveState();
+  renderBudget();
+  renderFinancial();
+}
+
+// ── VENDORS ──
+function loadVD(id) {
+  try { return JSON.parse(localStorage.getItem('pjcc_v_' + id)) || {}; } catch(e) { return {}; }
+}
+function saveVD(id, field, val) {
+  const d = loadVD(id);
+  d[field] = val;
+  localStorage.setItem('pjcc_v_' + id, JSON.stringify(d));
+  if (field === 'status' || field === 'chosen') renderVendors();
+}
+function toggleChosen(id, e) {
+  e.stopPropagation();
+  const d = loadVD(id);
+  saveVD(id, 'chosen', !d.chosen);
+}
+function toggleVcat(key) {
+  const el = document.querySelector(`.vcat[data-key="${key}"]`);
+  if (el) el.classList.toggle('open');
+}
+function toggleVrow(id) {
+  const el = document.querySelector(`.vrow[data-id="${id}"]`);
+  if (el) el.classList.toggle('open');
+}
+
+function renderVendors() {
+  const wrap = document.getElementById('vendor-tracker');
+  if (!wrap) return;
+
+  let html = '';
+  VENDOR_CATS.forEach(cat => {
+    const chosenCount = cat.vendors.filter(v => loadVD(v.id).chosen).length;
+    const bookedCount = cat.vendors.filter(v => (loadVD(v.id).status || '') === 'booked').length;
+    let meta = `${cat.vendors.length} option${cat.vendors.length!==1?'s':''}`;
+    if (chosenCount) meta += ` · ⭐ ${chosenCount} chosen`;
+    if (bookedCount) meta += ` · ✅ ${bookedCount} booked`;
+
+    html += `<div class="vcat" data-key="${cat.key}">
+      <div class="vcat-hdr" onclick="toggleVcat('${cat.key}')">
+        <span class="vcat-emoji">${cat.emoji}</span>
+        <div class="vcat-hdr-text">
+          <div class="vcat-hdr-title">${cat.title}</div>
+          <div class="vcat-hdr-meta">${meta}</div>
+        </div>
+        ${cat.badge ? `<span class="vcat-badge ${cat.badgeClass||''}">${cat.badge}</span>` : ''}
+        <span class="vcat-chevron">▼</span>
+      </div>
+      <div class="vcat-body">
+        ${cat.note ? `<div class="vcat-note">${cat.note}</div>` : ''}`;
+
+    cat.vendors.forEach(v => {
+      const vd = loadVD(v.id);
+      const status = vd.status || 'none';
+      const chosen = vd.chosen || false;
+      const notes  = vd.notes  || '';
+      const statusLabels = { none:'No Status', researching:'Researching', contacted:'Contacted', booked:'Booked', passed:'Passed' };
+      const statusCls    = { researching:'researching', contacted:'contacted', booked:'booked', passed:'passed' };
+
+      html += `<div class="vrow${chosen?' chosen':''}" data-id="${v.id}">
+        <div class="vrow-summary" onclick="toggleVrow('${v.id}')">
+          <span class="chosen-star" onclick="toggleChosen('${v.id}',event)" title="Mark as your pick">⭐</span>
+          <div style="flex:1">
+            <div class="vrow-name">${v.name}</div>
+            <div class="vrow-role">${v.role||''}</div>
+          </div>
+          ${v.estimate ? `<span class="estimate-badge">${v.estimate}</span>` : ''}
+          <span class="vrow-status ${statusCls[status]||''}">${statusLabels[status]||'No Status'}</span>
+          <span class="vrow-expand">▸</span>
+        </div>
+        <div class="vrow-detail">
+          <div class="vdetail-grid">
+            ${v.location ? `<div class="vdetail-field"><label>Location</label><span>${v.location}</span></div>` : ''}
+            ${v.phone    ? `<div class="vdetail-field"><label>Phone</label><span>${v.phone}</span></div>` : ''}
+            ${v.email    ? `<div class="vdetail-field"><label>Email</label><span>${v.email}</span></div>` : ''}
+            ${v.web      ? `<div class="vdetail-field"><label>Website</label><span>${v.web}</span></div>` : ''}
+            ${v.estimate ? `<div class="vdetail-field"><label>Estimate</label><span>${v.estimate}${v.estimateNote?' — '+v.estimateNote:''}</span></div>` : ''}
+          </div>
+          <textarea class="vdetail-notes" placeholder="Notes, quotes, contact details…"
+            oninput="saveVD('${v.id}','notes',this.value)">${notes}</textarea>
+          <div class="vdetail-actions">
+            <label>Status:</label>
+            <select onchange="saveVD('${v.id}','status',this.value)">
+              <option value="none"        ${status==='none'?'selected':''}>No Status</option>
+              <option value="researching" ${status==='researching'?'selected':''}>Researching</option>
+              <option value="contacted"   ${status==='contacted'?'selected':''}>Contacted</option>
+              <option value="booked"      ${status==='booked'?'selected':''}>Booked ✅</option>
+              <option value="passed"      ${status==='passed'?'selected':''}>Passed</option>
+            </select>
+            <button class="btn-chosen" onclick="toggleChosen('${v.id}',event)">
+              ${chosen ? '⭐ Your Pick' : '☆ Mark as Pick'}
+            </button>
+          </div>
+        </div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  wrap.innerHTML = html;
+}
+
+// ── TIMELINE NOTES ──
+function initTimelineNotes() {
+  document.querySelectorAll('.tl-note-field[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    const saved = localStorage.getItem(key);
+    if (saved) el.textContent = saved;
+    el.addEventListener('input', () => localStorage.setItem(key, el.textContent));
+  });
+}
+
+// ── QUESTIONS ──
+function loadQuestions() {
+  try { return JSON.parse(localStorage.getItem('pjcc_questions')) || DEFAULT_QUESTIONS; }
+  catch(e) { return DEFAULT_QUESTIONS; }
+}
+function saveQs(qs) { localStorage.setItem('pjcc_questions', JSON.stringify(qs)); }
+
+function renderQuestions() {
+  const qs = loadQuestions();
+  const wrap = document.getElementById('q-list');
+  if (!wrap) return;
+
+  if (qs.length === 0) {
+    wrap.innerHTML = '<p style="color:var(--slate);font-size:0.88rem;margin-bottom:16px;">No questions yet — add one below.</p>';
+    return;
+  }
+
+  wrap.innerHTML = qs.map((q, i) => `
+    <div class="q-item ${q.resolved ? 'resolved' : ''}" id="qitem-${q.id}">
+      <div class="q-check" onclick="toggleQ('${q.id}')">${q.resolved ? '✓' : ''}</div>
+      <div class="q-body">
+        <div class="q-cat">${q.cat}</div>
+        <div class="q-text">${q.text}</div>
+      </div>
+      <button class="q-del" onclick="deleteQ('${q.id}')" title="Delete">✕</button>
+    </div>
+  `).join('');
+}
+
+function toggleQ(id) {
+  const qs = loadQuestions();
+  const q = qs.find(x => x.id === id);
+  if (q) { q.resolved = !q.resolved; saveQs(qs); renderQuestions(); }
+}
+
+function deleteQ(id) {
+  const qs = loadQuestions().filter(x => x.id !== id);
+  saveQs(qs); renderQuestions();
+}
+
+function addQuestion() {
+  const textEl = document.getElementById('q-text-input');
+  const catEl  = document.getElementById('q-cat-input');
+  const text = textEl.value.trim();
+  const cat  = catEl.value.trim() || 'General';
+  if (!text) return;
+  const qs = loadQuestions();
+  qs.push({ id: 'q_' + Date.now(), text, cat, resolved: false });
+  saveQs(qs);
+  textEl.value = ''; catEl.value = '';
+  renderQuestions();
+}
+
+// q-text-input enter key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.activeElement.id === 'q-text-input') addQuestion();
+});
+
+// nav scroll
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ── RENDER ALL ──
+function renderAll() {
+  renderPackage();
+  renderBudget();
+  renderFinancial();
+  renderGratuity();
+}
+
+// ── INIT ──
+loadState();
+renderAll();
+renderVendors();
+renderQuestions();
+initTimelineNotes();
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>

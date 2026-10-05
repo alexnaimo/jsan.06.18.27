@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex &amp; Jenna — Breeze Hill Farm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy:        #1A2E44;
+      --navy-light:  #2C4A68;
+      --cream:       #F9F6F0;
+      --cream-dark:  #EDE9DF;
+      --gold:        #C4A55A;
+      --gold-light:  #E0C882;
+      --sage:        #7A9E7E;
+      --sage-dark:   #4E7353;
+      --slate:       #6B7A8D;
+      --charcoal:    #2C3040;
+      --white:       #FFFFFF;
+      --red-soft:    #C4655A;
+      --shadow:      0 4px 24px rgba(26,46,68,0.10);
+      --shadow-lg:   0 8px 40px rgba(26,46,68,0.16);
+      --radius:      14px;
+      --radius-sm:   8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--charcoal); line-height: 1.6; }
+
+    h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--navy); color: white;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 54px;
+    }
+    .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; opacity: 0.9; }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-link {
+      padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; text-transform: uppercase; color: rgba(255,255,255,0.7);
+      background: transparent; border: none; cursor: pointer; transition: all 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.12); color: white; }
+    .nav-total {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+      color: var(--gold-light); font-weight: 600;
+    }
+    .nav-total span { font-family: 'Lato', sans-serif; font-size: 11px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; margin-right: 6px; }
+    @media (max-width: 700px) { .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 80px 24px 100px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(196,165,90,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 50%, rgba(122,158,126,0.08) 0%, transparent 60%);
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      border: 1px solid rgba(196,165,90,0.5);
+      border-radius: 100px; padding: 5px 20px;
+      font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 400; font-style: italic;
+      margin-bottom: 12px; letter-spacing: 0.5px;
+    }
+    .hero h1 em { font-style: normal; font-weight: 700; color: var(--gold-light); }
+    .hero-venue {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      opacity: 0.75; margin-bottom: 6px; font-weight: 300; letter-spacing: 1px;
+    }
+    .hero-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      color: var(--gold-light); margin-bottom: 40px;
+    }
+    .countdown {
+      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .cd-block {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm); padding: 16px 24px; min-width: 80px;
+    }
+    .cd-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+    .cd-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-top: 4px; }
+    .hero-summary {
+      display: inline-flex; gap: 32px; flex-wrap: wrap; justify-content: center;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius); padding: 20px 32px;
+    }
+    .hero-stat .hs-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.5; }
+    .hero-stat .hs-val { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: white; }
+    .wave-bottom { display: block; margin-top: -2px; width: 100%; height: 50px; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 64px 0; }
+    .section-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--navy); margin-bottom: 6px; }
+    .section-sub { color: var(--slate); font-size: 14px; font-weight: 300; margin-bottom: 40px; }
+    .divider { height: 1px; background: var(--cream-dark); }
+
+    /* ── PACKAGE BUILDER ── */
+    .pkg-layout { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
+    @media (max-width: 900px) { .pkg-layout { grid-template-columns: 1fr; } }
+
+    .pkg-group { margin-bottom: 28px; }
+    .pkg-group-title { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--slate); font-weight: 700; margin-bottom: 12px; }
+    .pkg-options { display: flex; flex-direction: column; gap: 10px; }
+    .pkg-option {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: white; border: 2px solid var(--cream-dark);
+      border-radius: var(--radius-sm); padding: 14px 18px;
+      cursor: pointer; transition: all 0.2s; user-select: none;
+    }
+    .pkg-option:hover { border-color: var(--navy-light); }
+    .pkg-option.selected { border-color: var(--navy); background: rgba(26,46,68,0.03); }
+    .pkg-option.selected .po-radio { background: var(--navy); border-color: var(--navy); }
+    .pkg-option.selected .po-radio::after { opacity: 1; }
+    .po-radio {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid var(--cream-dark); background: white;
+      flex-shrink: 0; margin-top: 2px; position: relative; transition: all 0.15s;
+    }
+    .po-radio::after {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 7px; height: 7px; border-radius: 50%;
+      background: white; opacity: 0;
+    }
+    .po-body { flex: 1; }
+    .po-name { font-weight: 700; font-size: 14px; color: var(--charcoal); }
+    .po-desc { font-size: 12px; color: var(--slate); margin-top: 2px; font-weight: 300; }
+    .po-cost { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .po-included { font-size: 11px; color: var(--sage-dark); font-weight: 700; letter-spacing: 0.5px; }
+
+    /* Checkbox style option */
+    .pkg-option.checkbox .po-radio { border-radius: 4px; }
+    .pkg-option.checkbox.selected .po-radio::after {
+      content: '✓'; font-size: 10px; font-weight: 700;
+      width: auto; height: auto; background: transparent; color: white;
+      opacity: 1; transform: translate(-50%,-52%);
+    }
+
+    /* Running total sidebar */
+    .total-card {
+      background: var(--navy); color: white;
+      border-radius: var(--radius); padding: 28px;
+      position: sticky; top: 70px;
+      box-shadow: var(--shadow-lg);
+    }
+    .total-card h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 20px; }
+    .total-line { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 13px; }
+    .total-line:last-of-type { border-bottom: none; }
+    .total-line .tl-name { opacity: 0.75; }
+    .total-line .tl-amt { font-weight: 700; color: var(--gold-light); }
+    .total-line .tl-included { font-size: 11px; color: var(--sage); font-weight: 700; }
+    .total-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 12px 0; }
+    .total-grand { display: flex; justify-content: space-between; align-items: baseline; }
+    .total-grand .tg-label { font-size: 13px; font-weight: 700; }
+    .total-grand .tg-amt { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--gold-light); }
+    .total-remaining { margin-top: 16px; background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 14px; }
+    .tr-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; }
+    .tr-val { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--sage); margin-top: 2px; }
+    .tr-bar-track { height: 6px; background: rgba(255,255,255,0.1); border-radius: 100px; margin-top: 8px; overflow: hidden; }
+    .tr-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--red-soft), var(--gold)); transition: width 0.4s ease; }
+
+    /* ── ITINERARY ── */
+    #section-itinerary { background: var(--navy); }
+    .itin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .itin-grid { grid-template-columns: 1fr; } }
+
+    .day-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden; }
+    .day-header { padding: 20px 24px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .day-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-light); opacity: 0.7; }
+    .day-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: white; font-weight: 600; }
+    .day-date { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .day-total { display: inline-block; margin-top: 10px; background: rgba(196,165,90,0.15); border-radius: 100px; padding: 3px 12px; font-size: 12px; font-weight: 700; color: var(--gold-light); }
+
+    .events { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .event {
+      display: flex; gap: 12px; padding: 12px 14px;
+      background: rgba(255,255,255,0.04); border-radius: var(--radius-sm);
+      border-left: 3px solid transparent;
+    }
+    .event.has-cost { border-left-color: var(--gold); }
+    .event.included { border-left-color: var(--sage); }
+    .event.tbd { border-left-color: rgba(255,255,255,0.15); opacity: 0.65; }
+    .event-time { font-size: 11px; color: rgba(255,255,255,0.45); width: 48px; flex-shrink: 0; padding-top: 2px; font-weight: 700; letter-spacing: 0.5px; }
+    .event-body { flex: 1; }
+    .event-name { font-size: 13px; color: white; font-weight: 700; }
+    .event-loc { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 1px; }
+    .event-badge {
+      display: inline-block; border-radius: 100px; padding: 2px 10px;
+      font-size: 10px; font-weight: 700; margin-top: 5px; letter-spacing: 0.5px;
+    }
+    .badge-cost { background: rgba(196,165,90,0.2); color: var(--gold-light); }
+    .badge-inc  { background: rgba(122,158,126,0.2); color: #9EC9A2; }
+    .badge-tbd  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+    .badge-ext  { background: rgba(107,122,141,0.2); color: rgba(255,255,255,0.5); }
+
+    .add-event-btn {
+      width: 100%; background: transparent; border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm); color: rgba(255,255,255,0.35);
+      font-family: 'Lato', sans-serif; font-size: 12px; padding: 10px;
+      cursor: pointer; transition: all 0.2s; margin-top: 4px;
+    }
+    .add-event-btn:hover { border-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.6); }
+
+    /* ── BUDGET TRACKER ── */
+    .budget-layout { display: grid; grid-template-columns: 1fr 280px; gap: 40px; align-items: start; }
+    @media (max-width: 860px) { .budget-layout { grid-template-columns: 1fr; } }
+
+    .budget-table { width: 100%; border-collapse: collapse; }
+    .budget-table thead tr { background: var(--navy); color: white; }
+    .budget-table th { padding: 12px 16px; text-align: left; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+    .budget-table th:not(:first-child) { text-align: right; }
+    .budget-table tbody tr { border-bottom: 1px solid var(--cream-dark); }
+    .budget-table tbody tr:hover { background: rgba(26,46,68,0.03); }
+    .budget-table td { padding: 12px 16px; font-size: 14px; }
+    .budget-table td:not(:first-child) { text-align: right; }
+    .bt-locked { background: rgba(26,46,68,0.04) !important; }
+    .bt-lock-icon { font-size: 10px; margin-right: 4px; }
+    .bt-category { font-weight: 700; }
+    .bt-allocated input {
+      width: 100px; text-align: right; border: 1px solid var(--cream-dark);
+      border-radius: var(--radius-sm); padding: 4px 8px; font-family: 'Lato', sans-serif;
+      font-size: 13px; font-weight: 700; background: white; outline: none;
+      transition: border-color 0.2s;
+    }
+    .bt-allocated input:focus { border-color: var(--navy); }
+    .bt-allocated.locked { font-weight: 700; color: var(--navy); }
+    .bt-status { font-size: 12px; }
+    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+    .status-none    .status-dot { background: var(--cream-dark); }
+    .status-over    .status-dot { background: var(--red-soft); }
+    .status-under   .status-dot { background: var(--sage); }
+    .status-even    .status-dot { background: var(--gold); }
+    .budget-tfoot td { padding: 14px 16px; font-weight: 700; font-size: 15px; background: var(--cream-dark); }
+    .budget-tfoot td:not(:first-child) { text-align: right; }
+    .budget-tfoot .remaining-good  { color: var(--sage-dark); }
+    .budget-tfoot .remaining-over  { color: var(--red-soft); }
+
+    .budget-chart-wrap { position: sticky; top: 70px; background: white; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .budget-chart-wrap h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--slate); margin-bottom: 16px; }
+    .chart-container { position: relative; height: 220px; }
+    .chart-legend { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .cl-item { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
+    .cl-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; margin-right: 8px; }
+    .cl-label { flex: 1; color: var(--slate); }
+    .cl-val { font-weight: 700; color: var(--charcoal); }
+
+    /* ── VENDOR LIST ── */
+    #section-vendors { background: var(--cream-dark); }
+    .vendor-grid { display: flex; flex-direction: column; gap: 12px; }
+
+    /* Vendor category accordion */
+    .vcat { background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .vcat-hd { display: flex; align-items: center; gap: 12px; padding: 16px 20px; cursor: pointer; user-select: none; }
+    .vcat-hd:hover { background: rgba(26,46,68,0.02); }
+    .vcat-icon { font-size: 18px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--cream-dark); border-radius: var(--radius-sm); flex-shrink: 0; }
+    .vcat-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--navy); }
+    .vcat-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; border-radius: 100px; padding: 3px 10px; background: rgba(196,165,90,0.18); color: #7a5c10; white-space: nowrap; }
+    .vcat-arrow { color: var(--slate); transition: transform 0.2s; font-size: 12px; }
+    .vcat.open .vcat-arrow { transform: rotate(180deg); }
+    .vcat-body { display: none; border-top: 1px solid var(--cream-dark); }
+    .vcat.open .vcat-body { display: block; }
+
+    /* Vendor rows within category */
+    .vrow { display: flex; align-items: center; gap: 10px; padding: 11px 20px; border-bottom: 1px solid var(--cream-dark); cursor: pointer; transition: background 0.15s; user-select: none; }
+    .vrow:last-of-type { border-bottom: none; }
+    .vrow:hover { background: var(--cream); }
+    .vrow.vrow-open { background: rgba(26,46,68,0.03); }
+    .vrow-check {
+      width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--cream-dark);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; cursor: pointer;
+    }
+    .vrow-check:hover { border-color: var(--sage-dark); }
+    .vrow-check.chosen { background: var(--sage-dark); border-color: var(--sage-dark); }
+    .vrow-check.chosen::after { content: '✓'; font-size: 10px; color: white; font-weight: 900; }
+    .vrow-name { font-weight: 700; font-size: 13px; color: var(--charcoal); }
+    .vrow-role { font-size: 11px; color: var(--slate); margin-top: 1px; }
+    .vrow-est  { font-size: 12px; color: var(--navy); font-weight: 700; white-space: nowrap; margin-left: auto; padding-left: 8px; }
+    .vrow-pill { font-size: 10px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; border-radius: 100px; padding: 2px 8px; white-space: nowrap; flex-shrink: 0; }
+    .vrow-arrow { font-size: 11px; color: var(--slate); transition: transform 0.2s; flex-shrink: 0; }
+    .vrow.vrow-open .vrow-arrow { transform: rotate(180deg); }
+
+    /* Status pill colours (shared) */
+    .sp-none      { background: var(--cream-dark); color: var(--slate); }
+    .sp-research  { background: rgba(107,122,141,0.15); color: var(--slate); }
+    .sp-contacted { background: rgba(196,165,90,0.2); color: #7a5c10; }
+    .sp-booked    { background: rgba(122,158,126,0.2); color: var(--sage-dark); }
+    .sp-paid      { background: rgba(26,46,68,0.12); color: var(--navy); }
+
+    /* Vendor detail panel */
+    .vpanel { background: rgba(26,46,68,0.025); padding: 14px 20px 16px 48px; border-bottom: 1px solid var(--cream-dark); }
+    .vp-est { font-size: 12px; color: var(--slate); margin-bottom: 8px; font-style: italic; }
+    .vp-contact { font-size: 12px; color: var(--slate); margin-bottom: 12px; line-height: 1.6; }
+    .vdetail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 500px) { .vdetail-grid { grid-template-columns: 1fr; } }
+
+    /* Shared field-group */
+    .field-group label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--slate); margin-bottom: 4px; }
+    .field-group input, .field-group select {
+      width: 100%; border: 1.5px solid var(--cream-dark); border-radius: var(--radius-sm);
+      padding: 8px 12px; font-family: 'Lato', sans-serif; font-size: 13px;
+      background: var(--cream); outline: none; transition: border-color 0.2s;
+    }
+    .field-group input:focus, .field-group select:focus { border-color: var(--navy); background: white; }
+    .field-group textarea {
+      width: 100%; border: 1.5px solid var(--cream-dark); border-radius: var(--radius-sm);
+      padding: 8px 12px; font-family: 'Lato', sans-serif; font-size: 13px;
+      background: var(--cream); outline: none; resize: vertical; min-height: 65px;
+      transition: border-color 0.2s;
+    }
+    .field-group textarea:focus { border-color: var(--navy); background: white; }
+
+    /* ── FINANCIAL SNAPSHOT ── */
+    #section-financial { background: white; }
+    .fin-grid { display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 20px; align-items: start; }
+    @media (max-width: 900px) { .fin-grid { grid-template-columns: 1fr; } }
+    .fin-card { border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .fin-card-costs  { background: white; border: 1px solid var(--cream-dark); }
+    .fin-card-gifts  { background: white; border: 1px solid var(--cream-dark); }
+    .fin-card-net    { background: var(--navy); color: white; }
+    .fin-card-title  { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 16px; }
+    .fin-card-costs .fin-card-title, .fin-card-gifts .fin-card-title { color: var(--slate); }
+    .fin-card-net .fin-card-title { color: rgba(255,255,255,0.45); }
+    .fin-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--cream-dark); font-size: 14px; }
+    .fin-row:last-of-type { border-bottom: none; }
+    .fin-total-row { border-top: 2px solid var(--cream-dark); border-bottom: none; padding-top: 14px; margin-top: 4px; }
+    .fin-label { color: var(--slate); }
+    .fin-val { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); }
+    .fin-val-large { font-size: 1.35rem; }
+    .fin-inputs { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
+    .fin-inp-group { flex: 1; min-width: 70px; }
+    .fin-inp-group label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--slate); font-weight: 700; margin-bottom: 6px; }
+    .fin-inp-group input { width: 100%; border: 1.5px solid var(--cream-dark); border-radius: var(--radius-sm); padding: 10px 10px; font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 700; color: var(--navy); background: var(--cream); outline: none; text-align: center; transition: border-color 0.2s; }
+    .fin-inp-group input:focus { border-color: var(--navy); background: white; }
+    .fin-op  { font-size: 1.2rem; color: var(--slate); padding-bottom: 10px; font-weight: 300; }
+    .fin-result-box { background: rgba(122,158,126,0.1); border-radius: var(--radius-sm); padding: 10px; text-align: center; }
+    .fin-result-box label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--slate); font-weight: 700; margin-bottom: 4px; }
+    .fin-result-val { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; color: var(--sage-dark); }
+    .fin-net-amt { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+    .fin-net-bar-track { height: 6px; background: rgba(255,255,255,0.1); border-radius: 100px; margin-top: 16px; overflow: hidden; }
+    .fin-net-bar-fill  { height: 100%; background: linear-gradient(90deg, var(--sage), var(--gold-light)); border-radius: 100px; transition: width 0.4s; }
+
+    /* ── OUTSTANDING QUESTIONS ── */
+    #section-questions { background: var(--cream); }
+    .questions-wrap { max-width: 780px; }
+    .q-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--cream-dark); }
+    .q-item.resolved .q-text { text-decoration: line-through; color: var(--slate); }
+    .q-check { width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--cream-dark); cursor: pointer; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .q-check:hover { border-color: var(--sage-dark); }
+    .q-check.checked { background: var(--sage-dark); border-color: var(--sage-dark); }
+    .q-check.checked::after { content: '✓'; font-size: 11px; color: white; font-weight: 900; }
+    .q-body { flex: 1; }
+    .q-text { font-size: 14px; color: var(--charcoal); line-height: 1.5; }
+    .q-cat { font-size: 11px; color: var(--slate); margin-top: 4px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+    .q-del { color: var(--cream-dark); cursor: pointer; font-size: 16px; padding: 0 2px; line-height: 1; transition: color 0.15s; flex-shrink: 0; margin-top: 2px; }
+    .q-del:hover { color: var(--red-soft); }
+    .q-add-row { display: flex; gap: 10px; margin-top: 20px; }
+    .q-new-input { flex: 1; border: 1.5px solid var(--cream-dark); border-radius: var(--radius-sm); padding: 10px 14px; font-family: 'Lato', sans-serif; font-size: 14px; background: white; outline: none; transition: border-color 0.2s; }
+    .q-new-input:focus { border-color: var(--navy); }
+    .q-add-btn { background: var(--navy); color: white; border: none; border-radius: var(--radius-sm); padding: 10px 22px; font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .q-add-btn:hover { background: var(--navy-light); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--charcoal); color: rgba(255,255,255,0.4); text-align: center; padding: 28px; font-size: 12px; }
+    footer strong { color: rgba(255,255,255,0.8); }
+
+    /* ── UTIL ── */
+    @keyframes flash { 0%,100% { outline: 3px solid transparent; } 40% { outline: 3px solid var(--gold); } }
+    .flash { animation: flash 0.5s ease; }
+  </style>
+</head>
+<body>
+
+<!-- ╔══ NAV ══╗ -->
+<nav>
+  <div class="nav-brand">Alex &amp; Jenna · Breeze Hill</div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="scrollTo('section-package')">Package</button>
+    <button class="nav-link" onclick="scrollTo('section-itinerary')">Itinerary</button>
+    <button class="nav-link" onclick="scrollTo('section-budget')">Budget</button>
+    <button class="nav-link" onclick="scrollTo('section-financial')">Snapshot</button>
+    <button class="nav-link" onclick="scrollTo('section-vendors')">Vendors</button>
+    <button class="nav-link" onclick="scrollTo('section-questions')">Questions</button>
+  </div>
+  <div class="nav-total"><span>Venue Total</span><span id="nav-total">$36,100</span></div>
+</nav>
+
+<!-- ╔══ HERO ══╗ -->
+<section class="hero" id="section-hero">
+  <div class="hero-eyebrow">Breeze Hill Farm · Peconic, New York</div>
+  <h1>Alex <em>&amp;</em> Jenna</h1>
+  <p class="hero-venue">North Fork Wine Country · Long Island, NY</p>
+  <p class="hero-date">Saturday, June 5, 2027</p>
+
+  <div class="countdown" id="countdown">
+    <div class="cd-block"><div class="cd-num" id="cd-days">—</div><div class="cd-label">Days</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-hours">—</div><div class="cd-label">Hours</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-mins">—</div><div class="cd-label">Minutes</div></div>
+    <div class="cd-block"><div class="cd-num" id="cd-secs">—</div><div class="cd-label">Seconds</div></div>
+  </div>
+
+  <div class="hero-summary">
+    <div class="hero-stat"><div class="hs-label">Total Budget</div><div class="hs-val" id="hero-budget">$100,000</div></div>
+    <div class="hero-stat"><div class="hs-label">Venue Cost</div><div class="hs-val" id="hero-venue-cost">$36,100</div></div>
+    <div class="hero-stat"><div class="hs-label">Remaining</div><div class="hs-val" id="hero-remaining">$63,900</div></div>
+  </div>
+</section>
+<svg class="wave-bottom" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,30 C360,60 1080,0 1440,30 L1440,50 L0,50 Z" fill="#F9F6F0"/>
+</svg>
+
+<!-- ╔══ PACKAGE BUILDER ══╗ -->
+<section id="section-package">
+  <div class="container">
+    <div class="section-eyebrow">Step 1</div>
+    <h2 class="section-title">Build Your Breeze Hill Package</h2>
+    <p class="section-sub">Toggle your selections — the itinerary and full budget update automatically.</p>
+
+    <div class="pkg-layout">
+      <!-- OPTIONS -->
+      <div>
+        <!-- Site Fee -->
+        <div class="pkg-group">
+          <div class="pkg-group-title">Site Fee Package</div>
+          <div class="pkg-options">
+            <div class="pkg-option" data-group="site" data-val="20000" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">Firepit / Silo + Quonset Hut Package</div>
+                <div class="po-desc">Lodge (bridal suite), Cottage (groomsmen), trolleys to Bluff, cocktail hour by the firepit/silo & Quonset hut, orchard reception</div>
+              </div>
+              <div class="po-cost">$20,000</div>
+            </div>
+            <div class="pkg-option selected" data-group="site" data-val="25000" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">Private Orchard Package</div>
+                <div class="po-desc">Lodge (bridal suite), Cottage (groomsmen), trolleys to Bluff, cocktail hour in private orchard, orchard reception</div>
+              </div>
+              <div class="po-cost">$25,000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ceremony -->
+        <div class="pkg-group">
+          <div class="pkg-group-title">Ceremony Add-On</div>
+          <div class="pkg-options">
+            <div class="pkg-option selected" data-group="ceremony" data-val="8000" data-name="Bluff Ceremony" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">The Bluff</div>
+                <div class="po-desc">Signature cliffside ceremony with panoramic water views — the showstopper</div>
+              </div>
+              <div class="po-cost">$8,000</div>
+            </div>
+            <div class="pkg-option" data-group="ceremony" data-val="6000" data-name="Private Orchard Ceremony" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">Private Orchard</div>
+                <div class="po-desc">Ceremony surrounded by the orchard — lush, canopy feel</div>
+              </div>
+              <div class="po-cost">$6,000</div>
+            </div>
+            <div class="pkg-option" data-group="ceremony" data-val="2000" data-name="Lodge Side Ceremony" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">Lodge Side</div>
+                <div class="po-desc">More intimate, lower key — great for a smaller ceremony feel</div>
+              </div>
+              <div class="po-cost">$2,000</div>
+            </div>
+            <div class="pkg-option" data-group="ceremony" data-val="0" data-name="No Ceremony Add-On" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">No Ceremony Add-On</div>
+                <div class="po-desc">Ceremony not at Breeze Hill, or included in another arrangement</div>
+              </div>
+              <div class="po-cost" style="color:var(--slate);">$0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Afterparty -->
+        <div class="pkg-group">
+          <div class="pkg-group-title">Afterparty (11pm – 1am)</div>
+          <div class="pkg-options">
+            <div class="pkg-option" data-group="afterparty" data-val="0" data-name="" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">No Afterparty</div>
+                <div class="po-desc">End the night at reception close</div>
+              </div>
+              <div class="po-cost" style="color:var(--slate);">$0</div>
+            </div>
+            <div class="pkg-option" data-group="afterparty" data-val="1500" data-name="Afterparty — Firepit/Silo" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">Firepit / Silo</div>
+                <div class="po-desc">Intimate afterparty by the firepit and silo</div>
+              </div>
+              <div class="po-cost">$1,500</div>
+            </div>
+            <div class="pkg-option selected" data-group="afterparty" data-val="3000" data-name="Afterparty — Firepit/Silo + Quonset Hut" onclick="pickOption(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">Firepit / Silo + Quonset Hut</div>
+                <div class="po-desc">Full afterparty space — covered + outdoor</div>
+              </div>
+              <div class="po-cost">$3,000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rehearsal Dinner Budget -->
+        <div class="pkg-group">
+          <div class="pkg-group-title">Rehearsal Dinner</div>
+          <div style="background:white;border:2px solid var(--cream-dark);border-radius:var(--radius-sm);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+            <div>
+              <div style="font-weight:700;font-size:14px;color:var(--charcoal);">Off-Site — Venue TBD</div>
+              <div style="font-size:12px;color:var(--slate);margin-top:3px;font-weight:300;">Rehearsal dinner will be at a separate venue, to be planned. A $10,000 budget is reserved in the full tracker below.</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--navy);">$10,000</div>
+              <div style="font-size:10px;color:var(--slate);text-transform:uppercase;letter-spacing:1px;">budget</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional -->
+        <div class="pkg-group">
+          <div class="pkg-group-title">Additional Fees</div>
+          <div class="pkg-options">
+            <div class="pkg-option checkbox selected" data-group="cleaning" data-val="800" onclick="toggleCheck(this)">
+              <div class="po-radio"></div>
+              <div class="po-body"><div class="po-name">Cleaning Fee — Bridal Suite &amp; Cottage</div></div>
+              <div class="po-cost">$800</div>
+            </div>
+            <div class="pkg-option checkbox selected" data-group="security" data-val="300" onclick="toggleCheck(this)">
+              <div class="po-radio"></div>
+              <div class="po-body"><div class="po-name">Security Deposit</div></div>
+              <div class="po-cost">$300</div>
+            </div>
+            <div class="pkg-option checkbox" data-group="tax" data-val="0.08625" onclick="toggleCheck(this)">
+              <div class="po-radio"></div>
+              <div class="po-body">
+                <div class="po-name">Sales Tax (8.625% — Suffolk County)</div>
+                <div class="po-desc">Not applicable if paying in cash</div>
+              </div>
+              <div class="po-cost" id="tax-display">$0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RUNNING TOTAL SIDEBAR -->
+      <div>
+        <div class="total-card" id="total-card">
+          <h3>Breeze Hill Costs</h3>
+          <div id="total-lines"></div>
+          <div class="total-divider"></div>
+          <div class="total-grand">
+            <span class="tg-label">Venue Total</span>
+            <span class="tg-amt" id="total-grand">$36,100</span>
+          </div>
+          <div class="total-remaining">
+            <div class="tr-label">Remaining from $<span id="tr-budget-label">100,000</span> budget</div>
+            <div class="tr-val" id="tr-remaining">$63,900</div>
+            <div class="tr-bar-track">
+              <div class="tr-bar-fill" id="tr-bar" style="width:36.1%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ╔══ ITINERARY ══╗ -->
+<section id="section-itinerary">
+  <div class="container">
+    <div class="section-eyebrow" style="color:var(--gold-light);">Week Of</div>
+    <h2 class="section-title" style="color:white;">The Wedding Week</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.5);">June 4 – 6, 2027 · Times and events are editable — your selections above update the cost badges automatically.</p>
+
+    <div class="itin-grid">
+
+      <!-- FRIDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-label">Day Before</div>
+          <div class="day-name">Friday</div>
+          <div class="day-date">June 4, 2027</div>
+          <div class="day-total" id="fri-total">Off-site all day</div>
+        </div>
+        <div class="events" id="fri-events">
+          <div class="event tbd">
+            <div class="event-time">TBD</div>
+            <div class="event-body">
+              <div class="event-name">Bridal party arrives</div>
+              <div class="event-loc" contenteditable="true" style="outline:none;cursor:text;">Accommodation TBD — click to add location</div>
+              <span class="event-badge badge-ext">Off-site</span>
+            </div>
+          </div>
+          <div class="event tbd">
+            <div class="event-time">TBD</div>
+            <div class="event-body">
+              <div class="event-name">Ceremony Rehearsal</div>
+              <div class="event-loc" contenteditable="true" style="outline:none;cursor:text;">Location TBD — click to add</div>
+              <span class="event-badge badge-tbd">Time TBD</span>
+            </div>
+          </div>
+          <div class="event" id="fri-rehearsal-event" style="display:none;">
+            <div class="event-time">Evening</div>
+            <div class="event-body">
+              <div class="event-name" id="fri-rehearsal-name">Rehearsal Dinner</div>
+              <div class="event-loc">Breeze Hill Farm</div>
+              <span class="event-badge badge-cost" id="fri-rehearsal-badge">$5,000</span>
+            </div>
+          </div>
+          <div class="event tbd" id="fri-rehearsal-ext" style="display:block;">
+            <div class="event-time">Evening</div>
+            <div class="event-body">
+              <div class="event-name">Rehearsal Dinner</div>
+              <div class="event-loc" contenteditable="true" style="outline:none; min-width:40px; cursor:text;" placeholder="Venue TBD — click to edit">Venue TBD — click to add location</div>
+              <span class="event-badge badge-ext">Off-site</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 16px 16px;">
+          <button class="add-event-btn" onclick="addEvent('fri-events')">+ Add event</button>
+        </div>
+      </div>
+
+      <!-- SATURDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-label">Wedding Day</div>
+          <div class="day-name">Saturday</div>
+          <div class="day-date">June 5, 2027</div>
+          <div class="day-total" id="sat-total">$36,100</div>
+        </div>
+        <div class="events" id="sat-events">
+          <div class="event included">
+            <div class="event-time">9 AM</div>
+            <div class="event-body">
+              <div class="event-name">Bridal suite prep</div>
+              <div class="event-loc">The Lodge — Breeze Hill Farm</div>
+              <span class="event-badge badge-inc">Included in site fee</span>
+            </div>
+          </div>
+          <div class="event included">
+            <div class="event-time">10 AM</div>
+            <div class="event-body">
+              <div class="event-name">Groomsmen getting ready</div>
+              <div class="event-loc">The Cottage — Breeze Hill Farm</div>
+              <span class="event-badge badge-inc">Included in site fee</span>
+            </div>
+          </div>
+          <div class="event included">
+            <div class="event-time">2 PM</div>
+            <div class="event-body">
+              <div class="event-name">First look + bridal party photos</div>
+              <div class="event-loc">The Bluff — trolley included</div>
+              <span class="event-badge badge-inc">Included in site fee</span>
+            </div>
+          </div>
+          <div class="event has-cost" id="ceremony-event">
+            <div class="event-time">5 PM</div>
+            <div class="event-body">
+              <div class="event-name">Ceremony</div>
+              <div class="event-loc" id="ceremony-loc">The Bluff</div>
+              <span class="event-badge badge-cost" id="ceremony-badge">$8,000</span>
+            </div>
+          </div>
+          <div class="event included" id="cocktail-event">
+            <div class="event-time">6 PM</div>
+            <div class="event-body">
+              <div class="event-name">Cocktail Hour</div>
+              <div class="event-loc" id="cocktail-loc">Private Orchard</div>
+              <span class="event-badge badge-inc">Included in site fee</span>
+            </div>
+          </div>
+          <div class="event included">
+            <div class="event-time">7 PM</div>
+            <div class="event-body">
+              <div class="event-name">Reception</div>
+              <div class="event-loc">The Orchard — Breeze Hill Farm</div>
+              <span class="event-badge badge-inc">Included in site fee</span>
+            </div>
+          </div>
+          <div class="event has-cost" id="afterparty-event" style="display:none;">
+            <div class="event-time">11 PM</div>
+            <div class="event-body">
+              <div class="event-name">Afterparty</div>
+              <div class="event-loc" id="afterparty-loc">Firepit/Silo + Quonset Hut</div>
+              <span class="event-badge badge-cost" id="afterparty-badge">$3,000</span>
+            </div>
+          </div>
+          <div class="event tbd" id="afterparty-none" style="display:block;">
+            <div class="event-time">11 PM</div>
+            <div class="event-body">
+              <div class="event-name">End of Night</div>
+              <div class="event-loc">Guests depart</div>
+              <span class="event-badge badge-tbd">No afterparty</span>
+            </div>
+          </div>
+          <div class="event tbd" id="afterparty-end" style="display:none;">
+            <div class="event-time">1 AM</div>
+            <div class="event-body">
+              <div class="event-name">Afterparty ends</div>
+              <div class="event-loc">Guests depart</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 16px 16px;">
+          <button class="add-event-btn" onclick="addEvent('sat-events')">+ Add event</button>
+        </div>
+      </div>
+
+      <!-- SUNDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-label">Day After</div>
+          <div class="day-name">Sunday</div>
+          <div class="day-date">June 6, 2027</div>
+          <div class="day-total" id="sun-total">$0 at Breeze Hill</div>
+        </div>
+        <div class="events" id="sun-events">
+          <div class="event tbd">
+            <div class="event-time">Morning</div>
+            <div class="event-body">
+              <div class="event-name">Farewell Brunch</div>
+              <div class="event-loc" contenteditable="true" style="outline:none; cursor:text;">Location TBD — click to edit</div>
+              <span class="event-badge badge-tbd">Not yet planned</span>
+            </div>
+          </div>
+          <div class="event tbd">
+            <div class="event-time">TBD</div>
+            <div class="event-body">
+              <div class="event-name">Honeymoon departure</div>
+              <div class="event-loc" contenteditable="true" style="outline:none; cursor:text;">Destination TBD</div>
+              <span class="event-badge badge-tbd">TBD</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:0 16px 16px;">
+          <button class="add-event-btn" onclick="addEvent('sun-events')">+ Add event</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ╔══ BUDGET TRACKER ══╗ -->
+<section id="section-budget">
+  <div class="container">
+    <div class="section-eyebrow">Full Picture</div>
+    <h2 class="section-title">Complete Budget Tracker</h2>
+    <p class="section-sub">Venue costs are locked in from your package above. Allocate the rest across vendor categories — enter your estimates as you get quotes.</p>
+
+    <div class="budget-layout">
+      <div>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Allocated</th>
+              <th>Quoted / Paid</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="budget-body"></tbody>
+          <tfoot class="budget-tfoot">
+            <tr>
+              <td><strong>Total</strong></td>
+              <td id="bf-allocated" style="text-align:right;"><strong>$100,000</strong></td>
+              <td id="bf-spent" style="text-align:right;">$0</td>
+              <td id="bf-remaining" style="text-align:right;"><span class="remaining-good">$63,900 left</span></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div>
+        <div class="budget-chart-wrap">
+          <h4>Budget Allocation</h4>
+          <div class="chart-container">
+            <canvas id="budget-chart"></canvas>
+          </div>
+          <div class="chart-legend" id="chart-legend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ╔══ VENDOR LIST ══╗ -->
+<section id="section-vendors">
+  <div class="container">
+    <div class="section-eyebrow">The Team</div>
+    <h2 class="section-title">Preferred Vendor Tracker</h2>
+    <p class="section-sub">All Breeze Hill Farm preferred vendors, organized by category. Check the circle to mark your pick. Prices are estimates — request quotes for actuals.</p>
+    <div class="vendor-grid" id="vendor-grid"></div>
+  </div>
+</section>
+
+<!-- ╔══ FINANCIAL SNAPSHOT ══╗ -->
+<div class="divider"></div>
+<section id="section-financial">
+  <div class="container">
+    <div class="section-eyebrow">The Real Number</div>
+    <h2 class="section-title">Financial Snapshot</h2>
+    <p class="section-sub">Edit the gift assumptions to see your actual out-of-pocket cost after what you expect to receive back.</p>
+
+    <div class="fin-grid">
+
+      <!-- Costs -->
+      <div class="fin-card fin-card-costs">
+        <div class="fin-card-title">Wedding Costs</div>
+        <div class="fin-row">
+          <span class="fin-label">Breeze Hill Farm</span>
+          <span class="fin-val" id="fin-venue">$36,100</span>
+        </div>
+        <div class="fin-row">
+          <span class="fin-label">Remaining for Vendors</span>
+          <span class="fin-val" id="fin-vendors">$63,900</span>
+        </div>
+        <div class="fin-row fin-total-row">
+          <span class="fin-label"><strong>Total Budget</strong></span>
+          <span class="fin-val fin-val-large" id="fin-total-disp">$100,000</span>
+        </div>
+      </div>
+
+      <!-- Gift Revenue -->
+      <div class="fin-card fin-card-gifts">
+        <div class="fin-card-title">Gift Revenue Estimate</div>
+        <div class="fin-inputs">
+          <div class="fin-inp-group">
+            <label>Guests</label>
+            <input type="number" id="fin-guests" value="150" min="0" max="1000" oninput="renderFinancial()" />
+          </div>
+          <div class="fin-op">×</div>
+          <div class="fin-inp-group">
+            <label>$/person</label>
+            <input type="number" id="fin-giftpp" value="200" min="0" max="2000" oninput="renderFinancial()" />
+          </div>
+          <div class="fin-op">=</div>
+          <div class="fin-inp-group">
+            <label>Total gifts</label>
+            <div class="fin-result-box">
+              <div class="fin-result-val" id="fin-gifts">$30,000</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;font-size:12px;color:var(--slate);line-height:1.5;">
+          Based on <span id="fin-guests-note">150</span> guests × $<span id="fin-giftpp-note">200</span>/person. Adjust the numbers above — this is just an estimate to help with planning.
+        </div>
+      </div>
+
+      <!-- Net Out-of-Pocket -->
+      <div class="fin-card fin-card-net">
+        <div class="fin-card-title">Net Out-of-Pocket</div>
+        <div style="text-align:center;padding:12px 0 4px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">Total Budget − Gift Revenue</div>
+          <div class="fin-net-amt" id="fin-net">$70,000</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;" id="fin-net-note">After 150 guests × $200 in gifts</div>
+        </div>
+        <div class="fin-net-bar-track">
+          <div class="fin-net-bar-fill" id="fin-net-bar" style="width:70%;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:0.5px;">
+          <span>$0</span>
+          <span>$100,000 budget</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ╔══ OUTSTANDING QUESTIONS ══╗ -->
+<section id="section-questions">
+  <div class="container">
+    <div class="section-eyebrow">To Figure Out</div>
+    <h2 class="section-title">Outstanding Questions</h2>
+    <p class="section-sub">Track things you still need answers on — check them off as you go. Click + Add to append new ones.</p>
+    <div class="questions-wrap">
+      <div id="questions-list"></div>
+      <div class="q-add-row">
+        <input type="text" id="q-new-input" class="q-new-input" placeholder="Add a new question..." onkeydown="if(event.key==='Enter') addQuestion()" />
+        <button class="q-add-btn" onclick="addQuestion()">+ Add</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ╔══ FOOTER ══╗ -->
+<footer>
+  <strong>Alex &amp; Jenna · Breeze Hill Farm · June 5, 2027</strong><br/>
+  Peconic, New York · North Fork Wine Country
+</footer>
+
+<!-- ╔══ SCRIPTS ══╗ -->
+<script>
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+const TOTAL_BUDGET = 100000;
+const TAX_RATE = 0.08625;
+
+const PKG = {
+  site:      { val: 25000, name: 'Private Orchard Package' },
+  ceremony:  { val: 8000,  name: 'Bluff Ceremony' },
+  afterparty:{ val: 3000,  name: 'Afterparty — Firepit/Silo + Quonset Hut' },
+  cleaning:  { val: 800,   on: true },
+  security:  { val: 300,   on: true },
+  tax:       { on: false },
+};
+
+// Budget categories
+const BUDGET_CATS = [
+  { key:'venue',      label:'🏛️  Breeze Hill Farm',         color:'#1A2E44', locked:true,  alloc:0, spent:0 },
+  { key:'catering',   label:'🍽️  Catering & Open Bar',      color:'#C4847A', locked:false, alloc:28000, spent:0 },
+  { key:'photo',      label:'📷  Photography',              color:'#5B8DB8', locked:false, alloc:8000,  spent:0 },
+  { key:'video',      label:'🎬  Videography',              color:'#9B59B6', locked:false, alloc:4000,  spent:0 },
+  { key:'flowers',    label:'💐  Florals & Decor',          color:'#E67E22', locked:false, alloc:8000,  spent:0 },
+  { key:'music',      label:'🎵  Music / DJ / Band',        color:'#1ABC9C', locked:false, alloc:4500,  spent:0 },
+  { key:'attire',     label:'👗  Attire & Accessories',     color:'#E91E63', locked:false, alloc:6000,  spent:0 },
+  { key:'cake',       label:'🎂  Cake & Desserts',          color:'#C9A96E', locked:false, alloc:2000,  spent:0 },
+  { key:'beauty',     label:'💄  Hair & Makeup',            color:'#795548', locked:false, alloc:2500,  spent:0 },
+  { key:'officiant',  label:'💍  Officiant',                color:'#607D8B', locked:false, alloc:800,   spent:0 },
+  { key:'transport',  label:'🚌  Guest Transportation',     color:'#3F51B5', locked:false, alloc:1500,  spent:0 },
+  { key:'stationery', label:'✉️  Stationery & Signage',     color:'#8BC34A', locked:false, alloc:1500,  spent:0 },
+  { key:'rehearsal',  label:'🍴  Rehearsal Dinner',         color:'#D4A5A5', locked:false, alloc:10000, spent:0 },
+  { key:'misc',       label:'🎁  Misc / Buffer',            color:'#90A4AE', locked:false, alloc:0,     spent:0 },
+];
+
+// BHF Preferred Vendor List — organized by category
+const VENDOR_CATS = [
+  {
+    key: 'exclusive', emoji: '⭐', title: 'Exclusive Vendors', badge: 'Required by Venue',
+    note: 'Breeze Hill Farm requires these vendors for all events',
+    vendors: [
+      { id:'mcburnie',      name:'McBurnie Tent Rental',        role:'Tent & Event Rentals',      phone:'631-734-6024',   web:'mcburnietent.com',             location:'Cutchogue, NY', estimate:'$6,000 – $14,000+', estimateNote:'varies by tent size, flooring & extras' },
+      { id:'goldcoastvalet',name:'Gold Coast Valet',            role:'Valet Parking',             contactName:'Derek',   email:'office@GoldCoastathg.com',                          estimate:'$800 – $1,500',      estimateNote:'based on guest count' },
+      { id:'outback',       name:'Outback Portables',           role:'Luxury Restroom Trailers',  contactName:'Megan',   phone:'631-207-7689',                                      estimate:'$1,200 – $3,000',    estimateNote:'based on trailer size' },
+    ]
+  },
+  {
+    key: 'catering', emoji: '🍽️', title: 'Catering',
+    note: 'Full-service caterers — bring food, service staff & equipment',
+    vendors: [
+      { id:'byhand',      name:'By Hand Catering',          contactName:'Adam West',             phone:'631-876-5298', web:'ByHandCatering.com',          estimate:'$150 – $225/pp', estimateNote:'food only; ~$18–27k for 120 guests' },
+      { id:'cateredfork', name:'The Catered Fork',          contactName:'Steve',                 phone:'631-603-6110', web:'TheCateredFork.com',          estimate:'$150 – $250/pp', estimateNote:'food only' },
+      { id:'eastend',     name:'East End Catering',         contactName:'Chef Chris & Joann Richards', phone:'631-379-2070', email:'cgajr@optonline.net', estimate:'$125 – $200/pp', estimateNote:'food only' },
+      { id:'elegantaffairs',name:'Elegant Affairs',         contactName:'Peter Lentz',           phone:'516-271-1619', web:'ElegantAffairsCaterers.com',  estimate:'$175 – $275/pp', estimateNote:'upscale, full-service' },
+      { id:'lombardi',    name:'Lombardi Love Lane Market', contactName:'Lauren',                phone:'631-298-9500',                                    estimate:'$140 – $210/pp', estimateNote:'farm-to-table focus' },
+      { id:'montauk',     name:'Montauk Catering',                                               phone:'631-353-3511', web:'TheMontaukCatering.com',      estimate:'$150 – $230/pp' },
+      { id:'platinum',    name:'Platinum Party Catering',   contactName:'Tracy Koenig',          phone:'516-804-2207', web:'Platinumparty.com', email:'Platinumpartyli@gmail.com', estimate:'$150 – $250/pp', estimateNote:'full-service' },
+      { id:'rogue',       name:'Rogue Kitchens',            contactName:'James',                 phone:'631-636-4933', web:'RogueKitchens.com',            estimate:'$140 – $225/pp', estimateNote:'chef-driven, seasonal' },
+    ]
+  },
+  {
+    key: 'foodtrucks', emoji: '🚚', title: 'Food Trucks & Mobile Bars',
+    note: 'Great for cocktail hour, late-night snacks, or afterparty',
+    vendors: [
+      { id:'braun',        name:'Braun Seafood Truck',           role:'Seafood & Raw Bar',    contactName:'Cody Homan', phone:'631-734-6700', email:'Jchoman@braunseafood.com', web:'braunseafood.com',          estimate:'$2,500 – $5,000', estimateNote:'raw bar for 100 guests' },
+      { id:'eatmedrinkme', name:'Eat Me Drink Me Truck',         role:'Mobile Catering',      email:'EatMeDrinkMeTruck@gmail.com',                                                                              estimate:'$1,500 – $4,000' },
+      { id:'gemelli',      name:'Gemelli Gelato',                role:'Artisan Gelato',       web:'gemelligelatohamptonbays.com',                                                                               estimate:'$800 – $2,000',   estimateNote:'dessert or late-night station' },
+      { id:'goldcoastbar', name:'Gold Coast Memories Bar Truck', role:'Mobile Bar',           email:'Goldcoastmemoriesli@gmail.com',                                                                            estimate:'$2,000 – $4,500', estimateNote:'mobile bar service' },
+      { id:'handlebar',    name:'Handlebar Services',            role:'Bar Service',          contactName:'Sarah Robinson', email:'Handlebarservices@gmail.com', web:'Handlebarservices.com',                   estimate:'$1,800 – $4,000' },
+      { id:'treatery',     name:'The Treatery',                  role:'Dessert Truck',        contactName:'Christina', phone:'631-987-8283',                                                                    estimate:'$800 – $2,000',   estimateNote:'sweet treats' },
+      { id:'rollindough',  name:"Rollin' in Dough Pizza Truck",  role:'Late-Night Pizza',     contactName:'Marybeth', phone:'631-603-7378',                                                                     estimate:'$1,200 – $3,000', estimateNote:'late-night pizza station' },
+    ]
+  },
+  {
+    key: 'music', emoji: '🎵', title: 'Music & Lighting',
+    vendors: [
+      { id:'amp',           name:'AMP DJ / Band Hybrid',                   role:'DJ + Live Band',    contactName:'Ana',          web:'AmpDJBandHybrid.com',           estimate:'$4,000 – $8,000',   estimateNote:'hybrid DJ/band setup' },
+      { id:'bandmethod',    name:'The Band Method / The Hudson Project',    role:'Live Band',          phone:'718-383-0920',                                             estimate:'$8,000 – $18,000',  estimateNote:'full live band' },
+      { id:'codebleu',      name:'Code Bleu / Skyline Orchestras',          role:'Band / Orchestra',   phone:'631-277-7777',                                             estimate:'$10,000 – $20,000+',estimateNote:'full orchestra option' },
+      { id:'hanklane',      name:'Hank Lane Productions',                   role:'DJ / Band',         contactName:'Bobby Attiko', phone:'516-626-8300', web:'hanklane.com',  estimate:'$5,000 – $15,000',  estimateNote:'DJ or band packages' },
+      { id:'lawrencetrailor',name:'Lawrence Trailor Band',                  role:'Live Band',          web:'Trailerentertainment.com', email:'Info@trailorentertainment.com', estimate:'$8,000 – $16,000' },
+      { id:'mattmurphy',    name:'Matt Murphy Event Lighting',              role:'Event Lighting',     phone:'631-287-7026', email:'matt@mattmurphyeventlighting.com', estimate:'$3,000 – $8,000',   estimateNote:'tent & venue lighting design' },
+      { id:'toptier',       name:'Top Tier Entertainment',                  role:'DJ',                contactName:'Frankie Vega', web:'Tteny.com',                      estimate:'$2,500 – $5,000' },
+    ]
+  },
+  {
+    key: 'photo', emoji: '📷', title: 'Photography & Videography',
+    vendors: [
+      { id:'anchored',     name:'Anchored Roots Photography',   role:'Photography',       contactName:'Sarah Lodge',       web:'AnchoredRootsPhotography.com',                                     estimate:'$3,500 – $6,500' },
+      { id:'dearstacey',   name:'Dear Stacey',                  role:'Photography',       contactName:'Stacey Kaufmann',   email:'Stacey@dearstacey.com',      web:'DearStacey.com',               estimate:'$4,000 – $7,500' },
+      { id:'kaitlinferris',name:'Kaitlin Ferris Photography',   role:'Photography',       email:'Kferrisphotography@gmail.com', web:'KaitlinFerris.com',                                          estimate:'$3,500 – $7,000' },
+      { id:'northisland',  name:'North Island Photography & Films', role:'Photo & Video', contactName:'Deb',              phone:'631-751-0054',               web:'Northislandphotography.com',    estimate:'$5,000 – $10,000', estimateNote:'photo + video package' },
+    ]
+  },
+  {
+    key: 'planning', emoji: '📋', title: 'Event Planning & Coordination',
+    vendors: [
+      { id:'amplified',    name:'Amplified Wedding & Events',      role:'Full Planning',         contactName:'JP',      phone:'917-420-4500',                                                    estimate:'$5,000 – $12,000' },
+      { id:'amykatz',      name:'Amy Katz Events',                 role:'Full Planning',          phone:'212-535-8859', email:'amy@amykatzevents.com', web:'WeddingRule.com',                    estimate:'$6,000 – $15,000' },
+      { id:'eventfuldays', name:'Eventful Days by Kris Marie',     role:'Full & Day-Of Coord.',  contactName:'Kristen', phone:'516-790-4112', email:'Kristen@eventfuldays.com', web:'EventfulDays.com', estimate:'$2,500 – $6,000' },
+      { id:'jillgordan',   name:'Jill Gordan Celebrate',           contactName:'Jill Gordan',    phone:'631-324-2422',                                                                            estimate:'$3,000 – $8,000' },
+      { id:'labella',      name:'La Bella Planner',                role:'À La Carte Consulting', web:'LaBellaPlanners.com',                                                                       estimate:'$2,000 – $7,000' },
+      { id:'mapleandbay',  name:'Maple and Bay',                   contactName:'Keelin Moran',   email:'Keelin@mapleandbay.com',                                                                  estimate:'$3,500 – $9,000' },
+      { id:'patglenn',     name:'Pat Glenn Productions',            phone:'212-337-1911',                                                                                                         estimate:'$5,000 – $12,000' },
+      { id:'ritaellis',    name:'Rita Ellis Events',                phone:'631-466-4291',                                                                                                         estimate:'$3,000 – $8,000' },
+      { id:'vitasvintage', name:"Vita's Vintage Events",           contactName:'Vita',            email:'Vita@acemarketing.net',                                                                   estimate:'$3,000 – $7,000' },
+    ]
+  },
+  {
+    key: 'beauty', emoji: '💄', title: 'Hair, Makeup & Grooming',
+    vendors: [
+      { id:'elleb',          name:'Elle B Makeup',          role:'Hair & Makeup', contactName:'Lauren Beckerman', phone:'516-359-4443', web:'ElleBMakeup.com',        estimate:'$600 – $1,500', estimateNote:'bridal + bridal party' },
+      { id:'diana',          name:'Diana the Makeup Artist',role:'Hair & Makeup', web:'dianathemakeupartist.com',                                                      estimate:'$500 – $1,200' },
+      { id:'inkivy',         name:'Ink and Ivy',            role:'Hair & Makeup', contactName:'Nikki Lee', phone:'631-255-6016', email:'nikleesanto@gmail.com', web:'InkandIvyHair.com', estimate:'$600 – $1,500' },
+      { id:'specialeffects', name:'Special Effects Salon',  role:'Hair & Makeup', contactName:'Victoria', phone:'631-477-2265',                                        estimate:'$500 – $1,200' },
+    ]
+  },
+  {
+    key: 'floral', emoji: '💐', title: 'Florals & Decor',
+    vendors: [
+      { id:'backyard',      name:'Backyard Blooms NF',         contactName:'Kim',                   web:'BackyardBloomsNF.com',                                                       estimate:'$4,000 – $10,000', estimateNote:'North Fork local grower' },
+      { id:'bloomsbydesign',name:'Blooms by Design',            phone:'631-734-9400',                email:'Info@bloomsbydesign.com',                                                   estimate:'$5,000 – $12,000' },
+      { id:'laurenashley',  name:'Flowers by Lauren Ashley',    phone:'631-905-1793',                email:'Flowersbylaurenashley@gmail.com',                                           estimate:'$4,000 – $10,000' },
+      { id:'jaxdesign',     name:'Jax Design Inc.',             contactName:"Jacquelyn O'Brien-Cipriani", phone:'917-757-7648', email:'Jaxdesigninc@icloud.com',                    estimate:'$5,000 – $12,000' },
+      { id:'nybackdrops',   name:'NY Backdrops',                contactName:'Anthony',               phone:'516-359-1896',                                                             estimate:'$1,500 – $4,000', estimateNote:'backdrop & installations' },
+      { id:'pattys',        name:"Patty's Berries & Bunches",   contactName:'Patty Harbes',          email:'Pattysberriesandbunches@gmail.com',                                         estimate:'$3,500 – $9,000', estimateNote:'local farm-grown blooms' },
+      { id:'riverhead',     name:'Riverhead Flower Shop',       email:'Riverheadfs@yahoo.com',                                                                                        estimate:'$3,000 – $8,000' },
+      { id:'trueelizabeth', name:'True Elizabeth Designs',      phone:'917-391-6484',                web:'Trueelizabethflowers.com',                                                   estimate:'$5,000 – $12,000' },
+    ]
+  },
+  {
+    key: 'rentals', emoji: '🪑', title: 'Furniture & Event Rentals',
+    note: 'Tables, chairs, linens, specialty furniture, lounge areas',
+    vendors: [
+      { id:'earlybird',      name:'Early Bird Vintage',         role:'Boutique Specialty Rentals', web:'EarlyBirdVintage.com',                                             estimate:'$1,500 – $5,000',  estimateNote:'vintage furniture accents' },
+      { id:'eleven',         name:'Eleven Eleven Event Tipis',  contactName:'Alex',   phone:'215-756-6985',                                                                estimate:'$2,000 – $5,000',  estimateNote:'tipi rental & setup' },
+      { id:'elite',          name:'Elite Party Rentals',        phone:'631-726-0808',                                                                                       estimate:'$3,000 – $8,000',  estimateNote:'full rental inventory' },
+      { id:'noforentals',    name:'NoFo Rentals',               contactName:'Danielle / Haley', phone:'631-905-5322',                                                       estimate:'$2,500 – $7,000',  estimateNote:'North Fork specialty rentals' },
+      { id:'partyrentalltd', name:'Party Rental Ltd.',          contactName:'Linda',  email:'LindaV@partyrentalltd.com',                                                   estimate:'$3,000 – $9,000',  estimateNote:'large inventory, full service' },
+    ]
+  },
+  {
+    key: 'lodging', emoji: '🏨', title: 'Local Lodging',
+    note: 'For guest hotel blocks — all within 10–20 min of Breeze Hill',
+    vendors: [
+      { id:'harvestinn',  name:'The Harvest Inn',      role:'Boutique Inn',       web:'TheHarvestInnNofo.com',    location:'40300 Main Rd, Peconic',      estimate:'$200 – $350/night', estimateNote:'per room, June rates' },
+      { id:'shoals',      name:'Shoals Hotel',         role:'Hotel',             web:'TheShoalsNorthFork.com',   location:'61600 Main Rd, Southold',     estimate:'$250 – $450/night' },
+      { id:'silversands', name:'Silver Sands',         role:'Motel / Cottages',  web:'SilverSandsMotel.com',     location:'1400 Silvermere Rd, Greenport',estimate:'$175 – $300/night' },
+      { id:'rosehill',    name:'Rosehill Vineyards',   role:'Vineyard Estate',   web:'rosehill-vineyards.com',   location:'2000 Oregon Rd, Mattituck',   estimate:'$500 – $1,500/night', estimateNote:'full estate rental' },
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════
+//  PACKAGE BUILDER
+// ═══════════════════════════════════════════════
+function pickOption(el) {
+  const group = el.dataset.group;
+  // deselect siblings
+  el.closest('.pkg-options').querySelectorAll('.pkg-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const val = parseFloat(el.dataset.val) || 0;
+  const name = el.dataset.name || el.querySelector('.po-name').textContent.trim();
+
+  if (group === 'site')       { PKG.site      = { val, name }; }
+  if (group === 'ceremony')   { PKG.ceremony   = { val, name }; }
+  if (group === 'afterparty') { PKG.afterparty = { val, name }; }
+
+  renderAll();
+  saveState();
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('selected');
+  const group = el.dataset.group;
+  if (group === 'cleaning') PKG.cleaning.on = el.classList.contains('selected');
+  if (group === 'security') PKG.security.on = el.classList.contains('selected');
+  if (group === 'tax')      PKG.tax.on      = el.classList.contains('selected');
+  renderAll();
+  saveState();
+}
+
+function getVenueTotal() {
+  const sub = PKG.site.val + PKG.ceremony.val + PKG.afterparty.val
+            + (PKG.cleaning.on ? PKG.cleaning.val : 0)
+            + (PKG.security.on ? PKG.security.val : 0);
+  const tax = PKG.tax.on ? sub * TAX_RATE : 0;
+  return { sub, tax, total: sub + tax };
+}
+
+function renderPackage() {
+  const { sub, tax, total } = getVenueTotal();
+
+  // Tax display
+  const taxEl = document.getElementById('tax-display');
+  if (taxEl) taxEl.textContent = PKG.tax.on ? fmt(Math.round(tax)) : '$0';
+
+  // Total lines
+  const lines = [
+    { name: PKG.site.name || 'Site Fee Package', amt: PKG.site.val },
+  ];
+  if (PKG.ceremony.val > 0) lines.push({ name: PKG.ceremony.name, amt: PKG.ceremony.val });
+  if (PKG.afterparty.val > 0) lines.push({ name: PKG.afterparty.name, amt: PKG.afterparty.val });
+  if (PKG.cleaning.on) lines.push({ name: 'Cleaning Fee', amt: PKG.cleaning.val });
+  if (PKG.security.on) lines.push({ name: 'Security', amt: PKG.security.val });
+  if (PKG.tax.on && tax > 0) lines.push({ name: `Tax (${(TAX_RATE*100).toFixed(3)}%)`, amt: Math.round(tax) });
+
+  document.getElementById('total-lines').innerHTML = lines.map(l =>
+    `<div class="total-line"><span class="tl-name">${l.name}</span><span class="tl-amt">${fmt(l.amt)}</span></div>`
+  ).join('');
+
+  setEl('total-grand', fmt(total));
+  setEl('nav-total', fmt(total));
+
+  const remaining = TOTAL_BUDGET - total;
+  setEl('tr-remaining', fmt(remaining));
+  const pct = Math.min(100, (total / TOTAL_BUDGET) * 100);
+  const bar = document.getElementById('tr-bar');
+  if (bar) bar.style.width = pct + '%';
+
+  // Hero
+  setEl('hero-venue-cost', fmt(total));
+  setEl('hero-remaining', fmt(remaining));
+}
+
+// ═══════════════════════════════════════════════
+//  ITINERARY UPDATES
+// ═══════════════════════════════════════════════
+function renderItinerary() {
+  // Ceremony
+  const ceremonyMap = {
+    8000: { loc:'The Bluff', badge:'$8,000' },
+    6000: { loc:'Private Orchard', badge:'$6,000' },
+    2000: { loc:'Lodge Side', badge:'$2,000' },
+    0:    { loc:'TBD', badge:'Not selected' },
+  };
+  const cm = ceremonyMap[PKG.ceremony.val] || ceremonyMap[0];
+  setEl('ceremony-loc', cm.loc);
+  setEl('ceremony-badge', cm.badge);
+  const cEvent = document.getElementById('ceremony-event');
+  if (cEvent) cEvent.className = PKG.ceremony.val > 0 ? 'event has-cost' : 'event tbd';
+
+  // Cocktail hour
+  const cocktailLoc = PKG.site.val === 20000 ? 'Firepit/Silo & Quonset Hut' : 'Private Orchard';
+  setEl('cocktail-loc', cocktailLoc);
+
+  // Afterparty
+  const apEvent  = document.getElementById('afterparty-event');
+  const apNone   = document.getElementById('afterparty-none');
+  const apEnd    = document.getElementById('afterparty-end');
+  if (PKG.afterparty.val > 0) {
+    if (apEvent) { apEvent.style.display = 'flex'; setEl('afterparty-loc', PKG.afterparty.name.replace('Afterparty — ','')); setEl('afterparty-badge', fmt(PKG.afterparty.val)); }
+    if (apNone) apNone.style.display = 'none';
+    if (apEnd)  apEnd.style.display = 'flex';
+  } else {
+    if (apEvent) apEvent.style.display = 'none';
+    if (apNone)  apNone.style.display = 'flex';
+    if (apEnd)   apEnd.style.display = 'none';
+  }
+
+  // Rehearsal dinner — always off-site
+  const frExt   = document.getElementById('fri-rehearsal-ext');
+  const frEvent = document.getElementById('fri-rehearsal-event');
+  if (frEvent) frEvent.style.display = 'none';
+  if (frExt)   frExt.style.display = 'flex';
+
+  // Day totals
+  const { total } = getVenueTotal();
+  setEl('fri-total', 'Off-site all day');
+  setEl('sat-total', fmt(total) + ' at Breeze Hill');
+}
+
+// ═══════════════════════════════════════════════
+//  BUDGET TABLE + CHART
+// ═══════════════════════════════════════════════
+let budgetChart = null;
+
+function renderBudget() {
+  const { total: venueTotal } = getVenueTotal();
+  BUDGET_CATS[0].alloc = venueTotal;
+
+  const totalAlloc = BUDGET_CATS.reduce((s,c) => s + (c.alloc||0), 0);
+  const totalSpent = BUDGET_CATS.reduce((s,c) => s + (c.spent||0), 0);
+  const remaining = TOTAL_BUDGET - totalAlloc;
+
+  let rows = '';
+  BUDGET_CATS.forEach(cat => {
+    const diff = cat.alloc - cat.spent;
+    let statusHtml = '<span class="status-dot" style="background:#ccc;"></span>—';
+    if (cat.spent > 0) {
+      if (diff < 0)       statusHtml = `<span style="color:#C4655A;font-weight:700;">⚠ $${Math.abs(diff).toLocaleString()} over</span>`;
+      else if (diff === 0) statusHtml = `<span style="color:var(--sage-dark);font-weight:700;">✓ Even</span>`;
+      else                statusHtml = `<span style="color:var(--sage-dark);">$${diff.toLocaleString()} under</span>`;
+    }
+
+    const allocCell = cat.locked
+      ? `<span class="bt-allocated locked">${fmt(cat.alloc)}</span>`
+      : `<input type="text" value="${cat.alloc > 0 ? cat.alloc.toLocaleString() : ''}" placeholder="0"
+           onchange="updateAlloc('${cat.key}', this.value)"
+           onfocus="this.select()" style="width:110px;" />`;
+
+    const spentCell = cat.locked
+      ? `<span style="color:var(--slate);">${fmt(cat.alloc)}</span>`
+      : `<input type="text" value="${cat.spent > 0 ? cat.spent.toLocaleString() : ''}" placeholder="0"
+           onchange="updateSpent('${cat.key}', this.value)"
+           onfocus="this.select()" style="width:110px;" />`;
+
+    rows += `<tr ${cat.locked ? 'class="bt-locked"' : ''}>
+      <td class="bt-category">${cat.locked ? '<span class="bt-lock-icon">🔒</span>' : ''}${cat.label}</td>
+      <td class="bt-allocated">${allocCell}</td>
+      <td class="bt-allocated">${spentCell}</td>
+      <td class="bt-status">${statusHtml}</td>
+    </tr>`;
+  });
+  document.getElementById('budget-body').innerHTML = rows;
+
+  const allocEl = document.getElementById('bf-allocated');
+  const spentEl = document.getElementById('bf-spent');
+  const remEl   = document.getElementById('bf-remaining');
+  if (allocEl) allocEl.innerHTML = `<strong>${fmt(totalAlloc)}</strong>`;
+  if (spentEl) spentEl.textContent = fmt(totalSpent);
+  if (remEl) {
+    const cls = remaining < 0 ? 'remaining-over' : 'remaining-good';
+    remEl.innerHTML = `<span class="${cls}">${remaining < 0 ? '⚠ ' : ''}${fmt(Math.abs(remaining))} ${remaining < 0 ? 'over budget' : 'unallocated'}</span>`;
+  }
+
+  // Chart
+  const chartData = BUDGET_CATS.filter(c => c.alloc > 0);
+  const data = chartData.map(c => c.alloc);
+  const colors = chartData.map(c => c.color);
+  const labels = chartData.map(c => c.label.replace(/^[^\s]+\s+/, ''));
+
+  if (budgetChart) {
+    budgetChart.data.datasets[0].data = data;
+    budgetChart.data.datasets[0].backgroundColor = colors;
+    budgetChart.data.labels = labels;
+    budgetChart.update('none');
+  } else {
+    const ctx = document.getElementById('budget-chart').getContext('2d');
+    budgetChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#F9F6F0' }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.raw)} (${((ctx.raw/TOTAL_BUDGET)*100).toFixed(1)}%)` } }
+        }
+      }
+    });
+  }
+
+  // Legend
+  document.getElementById('chart-legend').innerHTML = chartData.slice(0,8).map(c =>
+    `<div class="cl-item">
+      <div class="cl-dot" style="background:${c.color}"></div>
+      <div class="cl-label">${c.label.replace(/^[^\s]+\s+/,'')}</div>
+      <div class="cl-val">${fmt(c.alloc)}</div>
+    </div>`
+  ).join('');
+}
+
+function updateAlloc(key, val) {
+  const cat = BUDGET_CATS.find(c => c.key === key);
+  if (cat) { cat.alloc = parseFloat(val.replace(/,/g,'')) || 0; renderBudget(); saveState(); }
+}
+function updateSpent(key, val) {
+  const cat = BUDGET_CATS.find(c => c.key === key);
+  if (cat) { cat.spent = parseFloat(val.replace(/,/g,'')) || 0; renderBudget(); saveState(); }
+}
+
+// ═══════════════════════════════════════════════
+//  VENDOR LIST (BHF Preferred Vendors)
+// ═══════════════════════════════════════════════
+function loadVD(id) {
+  try { return JSON.parse(localStorage.getItem('v2_' + id) || '{}'); } catch(e) { return {}; }
+}
+
+function saveVD(id, field, val) {
+  const d = loadVD(id);
+  d[field] = val;
+  localStorage.setItem('v2_' + id, JSON.stringify(d));
+  if (field === 'status' || field === 'chosen') renderVendors();
+}
+
+function toggleChosen(id, e) {
+  e.stopPropagation();
+  const d = loadVD(id);
+  d.chosen = !d.chosen;
+  localStorage.setItem('v2_' + id, JSON.stringify(d));
+  renderVendors();
+}
+
+function toggleVcat(key) {
+  document.getElementById('vcat-' + key).classList.toggle('open');
+}
+
+function toggleVrow(id) {
+  const row   = document.getElementById('vrow-' + id);
+  const panel = document.getElementById('vpanel-' + id);
+  if (!row || !panel) return;
+  const isOpen = row.classList.toggle('vrow-open');
+  panel.style.display = isOpen ? 'block' : 'none';
+}
+
+function renderVendors() {
+  const spCls = { none:'sp-none', research:'sp-research', contacted:'sp-contacted', booked:'sp-booked', paid:'sp-paid' };
+  const spLbl = { none:'', research:'Researching', contacted:'Contacted', booked:'Booked ✓', paid:'Paid 💰' };
+
+  const grid = document.getElementById('vendor-grid');
+  grid.innerHTML = VENDOR_CATS.map(cat => {
+    const chosenCount = cat.vendors.filter(v => loadVD(v.id).chosen).length;
+    const activeCount = cat.vendors.filter(v => { const s = loadVD(v.id).status; return s && s !== 'none'; }).length;
+    const countTxt = chosenCount > 0 ? `${chosenCount} selected` : activeCount > 0 ? `${activeCount} in progress` : `${cat.vendors.length} options`;
+
+    const rows = cat.vendors.map(v => {
+      const d = loadVD(v.id);
+      const status  = d.status || 'none';
+      const chosen  = !!d.chosen;
+      const isOpen  = !!d.open;
+
+      const contactBits = [];
+      if (v.contactName) contactBits.push(`<strong>${v.contactName}</strong>`);
+      if (v.phone)       contactBits.push(`<a href="tel:${v.phone}" style="color:var(--navy);text-decoration:none;">${v.phone}</a>`);
+      if (v.email)       contactBits.push(`<a href="mailto:${v.email}" style="color:var(--navy);text-decoration:none;">${v.email}</a>`);
+      if (v.web)         contactBits.push(`<a href="https://${v.web}" target="_blank" style="color:var(--sage-dark);">${v.web}</a>`);
+      if (v.location)    contactBits.push(`📍 ${v.location}`);
+
+      return `
+        <div class="vrow ${isOpen?'vrow-open':''}" id="vrow-${v.id}" onclick="toggleVrow('${v.id}')">
+          <div class="vrow-check ${chosen?'chosen':''}" onclick="toggleChosen('${v.id}', event)" title="${chosen?'Deselect':'Mark as your pick'}"></div>
+          <div style="flex:1;min-width:0;">
+            <div class="vrow-name">${v.name}</div>
+            ${v.role ? `<div class="vrow-role">${v.role}</div>` : ''}
+          </div>
+          <div class="vrow-est">${v.estimate||''}</div>
+          ${status!=='none' ? `<span class="vrow-pill ${spCls[status]}">${spLbl[status]}</span>` : ''}
+          <span class="vrow-arrow">▾</span>
+        </div>
+        <div class="vpanel" id="vpanel-${v.id}" style="display:${isOpen?'block':'none'};">
+          ${v.estimate ? `<div class="vp-est">💡 <strong>${v.estimate}</strong>${v.estimateNote ? ` — ${v.estimateNote}` : ''}</div>` : ''}
+          ${contactBits.length ? `<div class="vp-contact">${contactBits.join(' · ')}</div>` : ''}
+          <div class="vdetail-grid">
+            <div class="field-group">
+              <label>Status</label>
+              <select onchange="saveVD('${v.id}','status',this.value)" onclick="event.stopPropagation()">
+                <option value="none"      ${status==='none'?'selected':''}>Not started</option>
+                <option value="research"  ${status==='research'?'selected':''}>Researching</option>
+                <option value="contacted" ${status==='contacted'?'selected':''}>Contacted</option>
+                <option value="booked"    ${status==='booked'?'selected':''}>Booked ✓</option>
+                <option value="paid"      ${status==='paid'?'selected':''}>Paid 💰</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Quote / Price</label>
+              <input type="text" value="${d.quote||''}" placeholder="e.g. $4,500" onchange="saveVD('${v.id}','quote',this.value)" onclick="event.stopPropagation()" />
+            </div>
+            <div class="field-group" style="grid-column:1/-1;">
+              <label>Notes</label>
+              <textarea placeholder="Notes, links, next steps..." onclick="event.stopPropagation()" onchange="saveVD('${v.id}','notes',this.value)">${d.notes||''}</textarea>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="vcat" id="vcat-${cat.key}">
+        <div class="vcat-hd" onclick="toggleVcat('${cat.key}')">
+          <div class="vcat-icon">${cat.emoji}</div>
+          <div style="flex:1;">
+            <div class="vcat-title">${cat.title}</div>
+            ${cat.note ? `<div style="font-size:11px;color:var(--slate);margin-top:1px;">${cat.note}</div>` : ''}
+          </div>
+          ${cat.badge ? `<span class="vcat-badge">${cat.badge}</span>` : ''}
+          <span style="font-size:12px;color:var(--slate);white-space:nowrap;">${countTxt}</span>
+          <span class="vcat-arrow">▾</span>
+        </div>
+        <div class="vcat-body">${rows}</div>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+//  ADD EVENT TO ITINERARY
+// ═══════════════════════════════════════════════
+function addEvent(containerId) {
+  const container = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.className = 'event tbd';
+  div.innerHTML = `
+    <div class="event-time" contenteditable="true" style="outline:none;cursor:text;min-width:20px;" >TBD</div>
+    <div class="event-body">
+      <div class="event-name" contenteditable="true" style="outline:none;cursor:text;" >New Event</div>
+      <div class="event-loc" contenteditable="true" style="outline:none;cursor:text;" >Location</div>
+    </div>
+    <button onclick="this.closest('.event').remove()" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:16px;padding:0 4px;">✕</button>`;
+  container.appendChild(div);
+  div.querySelector('.event-name').focus();
+}
+
+// ═══════════════════════════════════════════════
+//  COUNTDOWN
+// ═══════════════════════════════════════════════
+function updateCountdown() {
+  const target = new Date('2027-06-05T17:00:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) { document.getElementById('countdown').innerHTML = '<div class="cd-block" style="grid-column:1/-1"><div class="cd-num">🎉</div><div class="cd-label">It\'s Wedding Day!</div></div>'; return; }
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000)  / 60000);
+  const secs  = Math.floor((diff % 60000)    / 1000);
+  setEl('cd-days',  days);
+  setEl('cd-hours', hours);
+  setEl('cd-mins',  mins);
+  setEl('cd-secs',  secs);
+}
+
+// ═══════════════════════════════════════════════
+//  FINANCIAL SNAPSHOT
+// ═══════════════════════════════════════════════
+function renderFinancial() {
+  const { total: venueTotal } = getVenueTotal();
+  const vendorBudget = Math.max(0, TOTAL_BUDGET - venueTotal);
+  const guests  = Math.max(0, parseInt(document.getElementById('fin-guests')?.value)  || 150);
+  const giftPP  = Math.max(0, parseInt(document.getElementById('fin-giftpp')?.value)  || 200);
+  const gifts   = guests * giftPP;
+  const net     = Math.max(0, TOTAL_BUDGET - gifts);
+  const barPct  = Math.min(100, (net / TOTAL_BUDGET) * 100);
+
+  setEl('fin-venue',      fmt(venueTotal));
+  setEl('fin-vendors',    fmt(vendorBudget));
+  setEl('fin-total-disp', fmt(TOTAL_BUDGET));
+  setEl('fin-gifts',      fmt(gifts));
+  setEl('fin-net',        fmt(net));
+  setEl('fin-guests-note', guests.toLocaleString());
+  setEl('fin-giftpp-note', giftPP.toLocaleString());
+  setEl('fin-net-note',   `After ${guests.toLocaleString()} guests × $${giftPP.toLocaleString()} in gifts`);
+
+  const bar = document.getElementById('fin-net-bar');
+  if (bar) bar.style.width = barPct + '%';
+}
+
+// ═══════════════════════════════════════════════
+//  OUTSTANDING QUESTIONS
+// ═══════════════════════════════════════════════
+const DEFAULT_QUESTIONS = [
+  {
+    id: 'q_bar',
+    text: 'Bar & drinks — is the cocktail hour bar cart a separate vendor add-on, or do the caterers on the BHF list handle bar service as part of their package? How does alcohol sourcing and staffing typically work, and what\'s the difference between hiring a mobile bar truck vs. having the caterer handle it?',
+    cat: 'Catering & Bar',
+    resolved: false
+  },
+];
+
+function loadQuestions() {
+  try {
+    const saved = localStorage.getItem('bh_questions');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return DEFAULT_QUESTIONS.map(q => ({ ...q }));
+}
+
+function saveQs(qs) { localStorage.setItem('bh_questions', JSON.stringify(qs)); }
+
+function renderQuestions() {
+  const qs = loadQuestions();
+  const list = document.getElementById('questions-list');
+  if (!list) return;
+  if (!qs.length) {
+    list.innerHTML = '<div style="color:var(--slate);font-size:14px;padding:16px 0;">No questions yet.</div>';
+    return;
+  }
+  list.innerHTML = qs.map(q => `
+    <div class="q-item ${q.resolved ? 'resolved' : ''}">
+      <div class="q-check ${q.resolved ? 'checked' : ''}" onclick="toggleQ('${q.id}')"></div>
+      <div class="q-body">
+        <div class="q-text">${q.text}</div>
+        ${q.cat ? `<div class="q-cat">${q.cat}</div>` : ''}
+      </div>
+      <span class="q-del" onclick="deleteQ('${q.id}')" title="Remove">✕</span>
+    </div>`).join('');
+}
+
+function toggleQ(id) {
+  const qs = loadQuestions();
+  const q  = qs.find(q => q.id === id);
+  if (q) { q.resolved = !q.resolved; saveQs(qs); renderQuestions(); }
+}
+
+function deleteQ(id) {
+  const qs = loadQuestions().filter(q => q.id !== id);
+  saveQs(qs);
+  renderQuestions();
+}
+
+function addQuestion() {
+  const input = document.getElementById('q-new-input');
+  const text  = input?.value?.trim();
+  if (!text) return;
+  const qs = loadQuestions();
+  qs.push({ id: 'q_' + Date.now(), text, cat: '', resolved: false });
+  saveQs(qs);
+  input.value = '';
+  renderQuestions();
+}
+
+// ═══════════════════════════════════════════════
+//  NAV SCROLL
+// ═══════════════════════════════════════════════
+function scrollTo(id) { document.getElementById(id).scrollIntoView({ behavior:'smooth', block:'start' }); }
+
+// ═══════════════════════════════════════════════
+//  PERSIST STATE
+// ═══════════════════════════════════════════════
+function saveState() {
+  localStorage.setItem('bh_pkg', JSON.stringify(PKG));
+  localStorage.setItem('bh_budget', JSON.stringify(BUDGET_CATS.map(c => ({ key:c.key, alloc:c.alloc, spent:c.spent }))));
+}
+
+function loadState() {
+  try {
+    const pkg = JSON.parse(localStorage.getItem('bh_pkg'));
+    if (pkg) {
+      Object.assign(PKG, pkg);
+      // Re-apply radio selections
+      ['site','ceremony','afterparty'].forEach(group => {
+        const val = PKG[group]?.val;
+        document.querySelectorAll(`.pkg-option[data-group="${group}"]`).forEach(o => {
+          o.classList.toggle('selected', parseFloat(o.dataset.val) === val);
+        });
+      });
+      // Re-apply checkboxes
+      ['cleaning','security','tax'].forEach(group => {
+        const on = PKG[group]?.on;
+        document.querySelectorAll(`.pkg-option[data-group="${group}"]`).forEach(o => {
+          o.classList.toggle('selected', !!on);
+        });
+      });
+    }
+    const budget = JSON.parse(localStorage.getItem('bh_budget'));
+    if (budget) {
+      budget.forEach(saved => {
+        const cat = BUDGET_CATS.find(c => c.key === saved.key);
+        if (cat && !cat.locked) { cat.alloc = saved.alloc || 0; cat.spent = saved.spent || 0; }
+      });
+    }
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════
+function fmt(n) { return '$' + Math.max(0, n).toLocaleString('en-US'); }
+function setEl(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+// ═══════════════════════════════════════════════
+//  RENDER ALL
+// ═══════════════════════════════════════════════
+function renderAll() {
+  renderPackage();
+  renderItinerary();
+  renderBudget();
+  renderFinancial();
+}
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+loadState();
+renderAll();
+renderVendors();
+renderQuestions();
+updateCountdown();
+setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>

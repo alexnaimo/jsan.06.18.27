@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call with Britt — June 18, 2027 Wedding Photos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shared.css">
+<style>
+  :root {
+    --navy: #1a2744;
+    --cream: #faf7f2;
+    --gold: #c9a84c;
+    --sage: #7a9e7e;
+    --teal: #4a7c7e;
+    --blush: #e8c4b8;
+    --warm-white: #fff9f4;
+    --text: #2d2d2d;
+    --text-light: #666;
+    --red: #c0392b;
+    --amber: #e67e22;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    color: white;
+    padding: 48px 40px 40px;
+    text-align: center;
+  }
+  .header-eyebrow {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .header-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 1px;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    background: white;
+    border-bottom: 1px solid #e8e0d5;
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: auto;
+  }
+  .nav a {
+    display: block;
+    padding: 16px 22px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .nav a:hover { color: var(--navy); }
+  .nav a.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+  /* ── MAIN ── */
+  .main { max-width: 900px; margin: 0 auto; padding: 48px 32px; }
+  .section { margin-bottom: 64px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .section-icon { font-size: 28px; }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--navy);
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  /* ── ALERT BOX ── */
+  .alert {
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .alert-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .alert-title { font-weight: 700; margin-bottom: 4px; font-size: 15px; }
+  .alert-body { font-size: 14px; line-height: 1.6; }
+  .alert.warning { background: #fff8e1; border: 1.5px solid #f9a825; }
+  .alert.warning .alert-title { color: #e65100; }
+  .alert.info { background: #e8f4fd; border: 1.5px solid #2196f3; }
+  .alert.info .alert-title { color: #1565c0; }
+
+  /* ── ACTION ITEMS ── */
+  .todo-group { margin-bottom: 32px; }
+  .todo-group-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e8e0d5;
+  }
+  .todo-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #e8e0d5;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .todo-item:hover { border-color: var(--gold); }
+  .todo-item.done { opacity: 0.5; }
+  .todo-item.done .todo-text { text-decoration: line-through; }
+  .todo-cb { width: 20px; height: 20px; border: 2px solid #ccc; border-radius: 4px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+  .todo-item.done .todo-cb { background: var(--sage); border-color: var(--sage); }
+  .todo-item.done .todo-cb::after { content: '✓'; color: white; font-size: 13px; font-weight: 700; }
+  .todo-text { flex: 1; }
+  .todo-title { font-weight: 600; font-size: 15px; margin-bottom: 3px; }
+  .todo-note { font-size: 13px; color: var(--text-light); }
+  .tag {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .tag.urgent { background: #fde8e8; color: #c0392b; }
+  .tag.action { background: #e8f4fd; color: #1565c0; }
+  .tag.decision { background: #fff8e1; color: #e65100; }
+  .tag.done { background: #e8f5e9; color: #2e7d32; }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--navy), var(--gold));
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .tl-item.milestone::before {
+    width: 14px;
+    height: 14px;
+    left: -28px;
+    top: 4px;
+    background: var(--navy);
+    box-shadow: 0 0 0 2px var(--navy);
+  }
+  .tl-item.divider {
+    margin-bottom: 8px;
+    margin-top: 24px;
+  }
+  .tl-item.divider::before { display: none; }
+  .tl-divider-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 700;
+    background: var(--cream);
+    padding: 0 10px 0 0;
+  }
+  .tl-time {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    font-family: 'Lato', sans-serif;
+  }
+  .tl-event {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .tl-note {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+  .tl-card {
+    background: white;
+    border: 1px solid #e8e0d5;
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .tl-card.highlight {
+    border-color: var(--gold);
+    background: #fffbf0;
+  }
+  .tl-card.location {
+    border-left: 4px solid var(--teal);
+  }
+
+  /* ── TRANSCRIPT ── */
+  .transcript-wrapper {
+    background: white;
+    border: 1px solid #e8e0d5;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .transcript-header {
+    background: var(--navy);
+    color: white;
+    padding: 16px 24px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .transcript-header span { color: rgba(255,255,255,0.6); font-size: 12px; }
+  .transcript-body {
+    padding: 28px;
+    max-height: 600px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .speaker {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+  .speaker-name {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    min-width: 60px;
+    padding-top: 3px;
+    flex-shrink: 0;
+  }
+  .speaker-name.britt { color: var(--teal); }
+  .speaker-name.jenna { color: var(--blush); filter: saturate(2) brightness(0.75); }
+  .speaker-name.alex { color: var(--navy); }
+  .speaker-text { flex: 1; color: var(--text); }
+
+  .footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--text-light);
+    font-size: 12px;
+    border-top: 1px solid #e8e0d5;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SITE-WIDE NAV ── -->
+<header class="site-nav">
+  <a class="nav-brand" href="index.html">
+    <span class="nav-brand-name">Alex &amp; Jenna</span>
+    <span class="nav-brand-date">June 18, 2027</span>
+  </a>
+  <button class="nav-toggle" onclick="document.querySelector('.site-nav .nav-links').classList.toggle('open')">☰</button>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="sunken-meadow.html">📋 Planner</a>
+    <a href="britt-call-notes.html" class="active-page">📸 Photographer</a>
+    <a href="venue.html">📍 Venue &amp; Travel</a>
+    <a href="registry.html">🎁 Registry</a>
+    <a href="wedding-party.html">💐 Wedding Party</a>
+  </nav>
+</header>
+
+<div class="header">
+  <div class="header-eyebrow">Wedding Photography · Call Notes</div>
+  <h1>Call with Britt</h1>
+  <div class="header-sub">Photographer pre-contract call · Alex, Jenna &amp; Britt · June 18, 2027 Wedding</div>
+</div>
+
+<nav class="nav">
+  <a href="#todos" class="active">✅ Action Items</a>
+  <a href="#timeline">⏱ Timeline</a>
+  <a href="#transcript">📝 Transcript</a>
+</nav>
+
+<div class="main">
+
+  <!-- ══════════════════════════════════════════════
+       ACTION ITEMS
+  ══════════════════════════════════════════════ -->
+  <div class="section" id="todos">
+    <div class="section-header">
+      <div class="section-icon">✅</div>
+      <div>
+        <div class="section-title">Action Items</div>
+        <div class="section-sub">Extracted from call — things that need to happen</div>
+      </div>
+    </div>
+
+    <div class="alert warning">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-title">Timeline Conflict — Needs Decision</div>
+        <div class="alert-body">
+          Britt discussed a <strong>traditional order</strong>: ceremony at 6:30 PM → cocktail hour 7–8 PM → reception 8 PM–midnight. Your current wedding planner has the <strong>reverse order</strong>: cocktail hour at 7 PM → ceremony at 8 PM → reception 9 PM–midnight. These need to be reconciled before contracts are finalized. Confirm with Emma (venue coordinator) which you're going with, then update both Britt's timeline and sunken-meadow.html.
+        </div>
+      </div>
+    </div>
+
+    <div class="alert info">
+      <div class="alert-icon">📬</div>
+      <div>
+        <div class="alert-title">Watch Your Spam / Junk Folder</div>
+        <div class="alert-body">Both Britt's and James's contracts will be emailed. Britt flagged they sometimes land in spam since you're not used to communicating with them yet. Check spam if you don't see them within a day.</div>
+      </div>
+    </div>
+
+    <div class="todo-group">
+      <div class="todo-group-title">🔴 Urgent — Do This Week</div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Review &amp; sign Britt's updated contract</div>
+          <div class="todo-note">Updated to reflect 10.5 hours of coverage + Package 2. Check spam if you don't receive it within 24 hours.</div>
+        </div>
+        <div class="tag urgent">Urgent</div>
+      </div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Review &amp; sign James's updated contract (video — Package 2)</div>
+          <div class="todo-note">Britt is having James resend the updated contract with Package 2 terms. This is a separate contract from Britt's — covers strictly video. Also likely in spam. No additional payment in this contract.</div>
+        </div>
+        <div class="tag urgent">Urgent</div>
+      </div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Schedule a call with James (videographer) to discuss Package 2</div>
+          <div class="todo-note">He'll include his availability in the contract email. This is time-sensitive — you need a 2nd videographer locked in early for 2027. Britt said "sooner than later."</div>
+        </div>
+        <div class="tag urgent">Urgent</div>
+      </div>
+
+    </div>
+
+    <div class="todo-group">
+      <div class="todo-group-title">🟡 Decisions to Make</div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">⚠️ Confirm ceremony timeline order with Emma</div>
+          <div class="todo-note">Britt's call assumed: ceremony 6:30 PM → cocktail hour 7–8 PM → reception 8 PM–12 AM (traditional). Your current planner has cocktails FIRST at 7 PM, ceremony at 8 PM, reception 9–midnight (reverse). Nail this down — it affects Britt's contract timeline and the whole day's plan.</div>
+        </div>
+        <div class="tag decision">Decision</div>
+      </div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Confirm East Islip house as first look &amp; getting-ready location for Jenna</div>
+          <div class="todo-note">Meredith (who photographed you on Shelter Island) also suggested the house for photos. It has greenery and shaded areas, giving great photo variety vs. open beach at Sunken Meadow. Alex's mom wanted this too — strong consensus.</div>
+        </div>
+        <div class="tag decision">Decision</div>
+      </div>
+
+    </div>
+
+    <div class="todo-group">
+      <div class="todo-group-title">🟢 Planning Items</div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Confirm Alex's getting-ready location (Miller Place house)</div>
+          <div class="todo-note">Britt plans ~1 hour of grooming prep coverage for Alex at Miller Place, then Alex heads to the East Islip house to meet Jenna for the first look at 2:00 PM. ~20–25 min drive between the two.</div>
+        </div>
+        <div class="tag action">Planning</div>
+      </div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Update sunken-meadow.html timeline once ceremony order is confirmed</div>
+          <div class="todo-note">The planner currently reflects the reverse (cocktails first) order. Once you decide, update the itinerary and MBM sections to match.</div>
+        </div>
+        <div class="tag action">Planning</div>
+      </div>
+
+      <div class="todo-item" onclick="this.classList.toggle('done')">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Note: timeline in contract is labeled "rough" — can be updated anytime</div>
+          <div class="todo-note">Britt confirmed in big bold letters in the contract that the timeline is a rough starting point. You can revise as details solidify between now and wedding day.</div>
+        </div>
+        <div class="tag done">FYI</div>
+      </div>
+
+    </div>
+
+    <div class="todo-group">
+      <div class="todo-group-title">✅ Already Decided on the Call</div>
+
+      <div class="todo-item done">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Upgrade to Package 2 (photo + video)</div>
+          <div class="todo-note">Package 2 adds: 2nd videographer (covers Alex's getting ready), highlight film, full-length film, raw footage. $1,600 more than Package 1 — but adding just a 2nd videographer to Package 1 costs $900, so Package 2 is only $700 more and gets you both films + raw footage. Decided: Package 2.</div>
+        </div>
+        <div class="tag done">Done</div>
+      </div>
+
+      <div class="todo-item done">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">Coverage bumped to 10.5 hours (no extra charge)</div>
+          <div class="todo-note">Britt extended from 10 to 10.5 hours so coverage ends at 11 PM instead of 10:30 PM — ensures she's there through dinner, cake cutting, and parent dances without cutting it close. 12:30 PM → 11:00 PM.</div>
+        </div>
+        <div class="tag done">Done</div>
+      </div>
+
+      <div class="todo-item done">
+        <div class="todo-cb"></div>
+        <div class="todo-text">
+          <div class="todo-title">First look at Jenna's family's East Islip house (not at Sunken Meadow)</div>
+          <div class="todo-note">Splits photos between two locations for variety. House provides greenery + shade; Sunken Meadow provides beach backdrop. Golden hour couple portraits also planned as a sneak-out during reception.</div>
+        </div>
+        <div class="tag done">Done</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       TIMELINE
+  ══════════════════════════════════════════════ -->
+  <div class="section" id="timeline">
+    <div class="section-header">
+      <div class="section-icon">⏱</div>
+      <div>
+        <div class="section-title">Day-Of Timeline</div>
+        <div class="section-sub">As discussed with Britt — subject to confirmation of ceremony order</div>
+      </div>
+    </div>
+
+    <div class="alert warning">
+      <div class="alert-icon">⚠️</div>
+      <div>
+        <div class="alert-title">Britt's timeline assumes traditional ceremony order</div>
+        <div class="alert-body">Ceremony first (6:30 PM), then cocktail hour (7–8 PM), then reception (8 PM–midnight). Your planner currently has cocktails first, then ceremony. Confirm which you're doing before treating this timeline as final.</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item divider"><div class="tl-divider-label">MORNING / EARLY AFTERNOON</div></div>
+
+      <div class="tl-item">
+        <div class="tl-card location">
+          <div class="tl-time">12:30 PM</div>
+          <div class="tl-event">Both start getting ready</div>
+          <div class="tl-note">Jenna — at the East Islip house<br>Alex — at Miller Place (~1 hour grooming coverage with Britt)</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-card">
+          <div class="tl-time">~1:15–1:30 PM</div>
+          <div class="tl-event">Alex wraps up, heads to East Islip house</div>
+          <div class="tl-note">~20–25 min drive. Aim to arrive by 2:00 PM for first look.</div>
+        </div>
+      </div>
+
+      <div class="tl-item divider"><div class="tl-divider-label">EAST ISLIP HOUSE (JENNA'S FAMILY HOME)</div></div>
+
+      <div class="tl-item milestone">
+        <div class="tl-card highlight">
+          <div class="tl-time">2:00 PM</div>
+          <div class="tl-event">💍 First Look</div>
+          <div class="tl-note">Private moment between Alex &amp; Jenna, photographed by Britt. Recommended by both Meredith and Alex's mom — the house has greenery and shade that the open beach doesn't offer.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-card">
+          <div class="tl-time">2:00–3:15 PM</div>
+          <div class="tl-event">Photos at the East Islip house</div>
+          <div class="tl-note">Couple portraits · Family formals · Bridal party formals<br>Variety of backdrops vs. all-beach at Sunken Meadow</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-card">
+          <div class="tl-time">~3:15 PM</div>
+          <div class="tl-event">Leave for Sunken Meadow</div>
+          <div class="tl-note">~35–45 min drive (plan 45 min buffer for wedding-day traffic / bus routing)</div>
+        </div>
+      </div>
+
+      <div class="tl-item divider"><div class="tl-divider-label">SUNKEN MEADOW STATE PARK PAVILION</div></div>
+
+      <div class="tl-item">
+        <div class="tl-card location">
+          <div class="tl-time">4:00 PM</div>
+          <div class="tl-event">Arrive at Sunken Meadow Pavilion</div>
+          <div class="tl-note">Couple + wedding party + Britt arrive. Time to breathe, relax, settle in before guests.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-card">
+          <div class="tl-time">4:00–5:30 PM</div>
+          <div class="tl-event">Beach &amp; pavilion photos</div>
+          <div class="tl-note">Candids, walking shots, beach portraits. More relaxed / casual vibe vs. the posed formals at the house. Built-in buffer for breaks — it's June in NY, you may want a 10–15 min rest.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-card">
+          <div class="tl-time">5:30 PM</div>
+          <div class="tl-event">Photos wrap — buffer / rest time</div>
+          <div class="tl-note">Couple can eat a snack, touch up, breathe. No rushing into the ceremony.</div>
+        </div>
+      </div>
+
+      <div class="tl-item divider"><div class="tl-divider-label">CEREMONY &amp; RECEPTION (⚠️ ORDER TBD)</div></div>
+
+      <div class="tl-item">
+        <div class="tl-card">
+          <div class="tl-time">6:00 PM</div>
+          <div class="tl-event">Guests invited (invite card time)</div>
+          <div class="tl-note">Guests begin arriving. Britt recommends 6:00 PM on invites with a 6:30 PM ceremony start.</div>
+        </div>
+      </div>
+
+      <div class="tl-item milestone">
+        <div class="tl-card highlight">
+          <div class="tl-time">6:30 PM</div>
+          <div class="tl-event">💒 Ceremony begins</div>
+          <div class="tl-note">⚠️ This is Britt's assumed timeline (traditional order). Your planner currently has cocktails at 7 PM and ceremony at 8 PM. Confirm which you're doing.</div>
+        </div>
+      </div>
+
+      <div class="tl-item milestone">
+        <div class="tl-card highlight">
+          <div class="tl-time">7:00–8:00 PM</div>
+          <div class="tl-event">🍹 Cocktail Hour — Golden Hour</div>
+          <div class="tl-note">In Britt's timeline, this falls during actual golden hour (sun setting in June at ~8:15 PM). Everyone outside, bar open, hors d'oeuvres. Britt specifically called this out as "the dream" — guests on the beach during golden hour.</div>
+        </div>
+      </div>
+
+      <div class="tl-item milestone">
+        <div class="tl-card">
+          <div class="tl-time">~7:30–7:50 PM</div>
+          <div class="tl-event">📸 Golden Hour Couple Portraits (sneak-out)</div>
+          <div class="tl-note">Britt's plan: sneak Alex &amp; Jenna out during cocktail hour while guests are mingling, get golden hour sunset shots on the beach. "That's how we did it last time — snuck out while guests were finding their seats." Then rejoin for grand entrance.</div>
+        </div>
+      </div>
+
+      <div class="tl-item milestone">
+        <div class="tl-card">
+          <div class="tl-time">8:00 PM</div>
+          <div class="tl-event">🎉 Reception begins</div>
+          <div class="tl-note">Grand entrance, first dance, parent dances, dinner, toasts, cake, dancing through midnight.</div>
+        </div>
+      </div>
+
+      <div class="tl-item divider"><div class="tl-divider-label">END OF NIGHT</div></div>
+
+      <div class="tl-item">
+        <div class="tl-card">
+          <div class="tl-time">11:00 PM</div>
+          <div class="tl-event">📷 Britt + team departs</div>
+          <div class="tl-note">End of 10.5 hours of coverage (from 12:30 PM). Britt noted the last hour of a reception "gets messy" and the couple rarely needs it captured. She extended to 11 PM (vs. 10:30 PM) specifically to make sure dinner, cake, and parent dances are covered comfortably.</div>
+        </div>
+      </div>
+
+      <div class="tl-item milestone">
+        <div class="tl-card">
+          <div class="tl-time">12:00 AM</div>
+          <div class="tl-event">🎊 Party ends</div>
+          <div class="tl-note">Reception officially closes.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       TRANSCRIPT
+  ══════════════════════════════════════════════ -->
+  <div class="section" id="transcript">
+    <div class="section-header">
+      <div class="section-icon">📝</div>
+      <div>
+        <div class="section-title">Full Transcript</div>
+        <div class="section-sub">Cleaned up from voice memo — Jenna speaks first, then Britt, then Alex</div>
+      </div>
+    </div>
+
+    <div class="transcript-wrapper">
+      <div class="transcript-header">
+        <strong>Call with Britt (Photographer)</strong>
+        <span>~22 minutes · Pre-contract planning call</span>
+      </div>
+      <div class="transcript-body">
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">So more so just a matter of — 5:30 sounds good to you?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">I think 5:30's fine. You could honestly even push it back further. I mean, that's also making everything else later, so I understand that there's a lot involved there.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Yeah. 5:30 arrival, 6 o'clock ceremony — I feel like that sounds a lot better, because also, like, imagine being on a beach in June. 4 o'clock in June is kind of bright, and also that's like your photos too. So, you know.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">I would say, honestly, 6 o'clock — the earliest — is what I would say for your start time. Because then figure 6 to 6:30 is just probably your ceremony, and then your cocktail hour would be 6:30 to 7:30, and that feels good because the sun will start to set during your reception, which means golden hour is during your cocktail hour.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Oh my god, yeah. I kind of love that. You could even push it back later if you wanted to.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">But I definitely don't think 8 o'clock — way too late. I think a 6 or 6:30 start would probably be perfect. So at that point, what time does the wedding end?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">We started at that time — 11:30.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">Oh, that's not bad — actually perfect! Yeah. Like, it doesn't affect it. You can have your party end at midnight if you wanted to. So your party would be 8 to 12. That's why I was like, maybe does the 6:30 make sense, because then things are on the hour for you guys? Yeah — 7 o'clock cocktail hour, 8 to 12 party.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Yeah, we totally are able to push it back a half hour and do that, and it's definitely a great idea.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">Yeah, I'm also going to edit this in the proposal I sent to you, just so I don't forget that we kind of had these conversations. So I would say 8 o'clock to 12 o'clock AM would be your party, which moving backwards means 7 o'clock to 8 o'clock would be cocktail hour — which is literally golden hour. Everyone's going to be outside taking pictures and making memories. The dream. And then I would say 6:30 ceremony with a 6 o'clock invite. So much better.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Totally agree. Yeah.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">All right. So moving backwards — did you have any other timeline or logistic questions?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Yeah, I was really more so curious in terms of 10-hour coverage. So does that mean fully 10 hours? You'd show up theoretically at 2 o'clock for getting ready and then you'd be leaving at midnight, the end of the party?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">A lot of the time we leave an hour before the party ends. It depends on where the hours lie, but your party — you really don't need us until the very end. If the 10 hours covers it, then great, but a lot of times couples get that it's okay for us to not capture that last hour. It gets messy. It's kind of your call. So right now — it's kind of hard because I obviously spoke to Meredith a little bit. She was like, "They should be doing their first look at that house." She thought you guys should do photos at the East Islip house before even getting to the pavilion.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">I obviously hadn't seen anything, but she was like, "Britt, this house is beautiful. Maybe you could do photos there, because once we get to the pavilion it's just bright sun on the beach, which is fun, but the house has greenery and shaded areas." It might make sense to do a little bit at the house before making our way to the pavilion.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">That's a great idea. If Meredith said it's a good idea, I'm all in. My mom also wanted to do that, but I was being like, "Oh, is it too far?" But it's about 35–40 minutes.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">And you guys are on a bus, it might even take up to 45 minutes depending on which roads. Okay, so I think that's a great idea — let's plan to be there. This also goes back to the 10 hours and where they'd possibly lie. I think we should do the first look and plan to be at that house for one hour. Not two hours — a nice hour. When you do the first look, a little bit of the two of you, then maybe family formals and bridal party formals there — because then once we get to the pavilion we can do the candid stuff, the beach shots, walking. That way you get a nice variety of backdrops. Plus we're probably going to do a nice golden hour set after your ceremony, like we snuck out last time while guests were finding their seats. You can also get that golden hour sunset set on the beach during reception. So we don't need a lot of time at the pavilion for photos. We can split it between the two locations.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">That sounds perfect.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">All right, so I'm going to adjust that there. If it's a 6 o'clock invite, I want to say arrival at the pavilion by 4. That gives us nice stop to photos by 5:30 or 5:45 at the latest. Moving backwards — how far is the East Islip house from Sunken Meadow?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">It's about 35 to 40 minutes exactly.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">And you guys are on a bus, it might even take up to 45. Okay, so planning for a 45-minute slot is fair. Okay, so moving backwards — Alex, your getting-ready time is really just going to be dependent on what time your transportation wants you to leave. I usually do an hour of grooming prep. So if I want to do the first look at the house at 2 o'clock, you'd just have to figure out what time you'd leave Miller Place. It's about a 20–25 minute drive depending on traffic.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">I think it'd be fair to say both of your preps start at 12:30. Right now, 10 hours brings us to 10:30. See how that kind of makes sense? Starting at 12:30, coverage ends at 10:30, possibly more like 11:00. So somewhere between 10:30 and 11:00 we'd wrap up with you guys.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Got it. So theoretically, starting to get ready around 12:30, we get ready for an hour, arrive at the East Islip house at 2. Right?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">Yes. I'm going to send this updated timeline to you, but on my end it would be 12:30 to 2 o'clock — Jenna is getting ready at the East Islip house. Alex, your prep is something like 12:30 to 1:30. Or 1:15 if needed. You don't really need a full hour, but it's easy to just say both of you start at 12:30 and whenever you need to wrap up and go, you go. We're prioritizing you being at the East Islip house by 2 o'clock. Then we'll be there until 3, 3:15 — maybe 3:15 — then you start packing up, arrive at the pavilion by 4 o'clock, and take photos until about 5:30. Then you have time to hang out and relax. And also — it's June, so if you need a 10–15 minute break between beach photos, I can give you that time. It just gives us possibilities instead of cramming the day minute by minute.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">I love that.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">Let me also just let you guys be on your wedding day. If we made it too minute-to-minute, you wouldn't have fun. So I'm actually going to throw in an extra half hour — I'm going to make it 10.5 hours of coverage, so we're there till 11. That feels right instead of 10:30, because 10:30 might be like dinner and then we still need to do cake cutting or parent dances or something. Let's round it and make it 12:30 to 11.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Oh my gosh, thank you so much. That sounds great. In terms of the contract — is this finalized, or could we revise these times?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">Of course. And I was also going to ask — if you wanted to decide between Package 1 or Package 2, would you need to decide before signing the contract and giving the retainer?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Actually, the retainer is the same for each package. So if you decide to upgrade after signing, that's fine. The only thing I'll say — since you're early for a 2027 wedding — is that the biggest difference between the two packages is your video deliverables. Package 2 gives you a 2nd videographer. James would need to know sooner than later so he can lock somebody in for video with him.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">Otherwise, you can absolutely sign the contract as is. And in big bold letters in the contract, it says it's a rough timeline — things will be updated between now and wedding day. It just gives us a starting point to build the day on.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name alex">Alex</div>
+          <div class="speaker-text">Yeah, that's perfect. Thank you so much. And definitely want to talk to James for sure soon.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">So like I said, you can lock it in as-is and we can always update the contract. I'll be out of the office next week, but James is in. Is it something you guys want to just lock in the date so we definitely have us, then go speak to James? It's very easy to change contracts after the fact. Or if you want to wait and talk to James first, it doesn't really matter to me.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name alex">Alex</div>
+          <div class="speaker-text">In your opinion — it's not a huge price difference for such a difference of having another person there and having both videos. Would you say you feel like we should do it?</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">I feel like if you're even considering it, you should do it. Right off the bat with Package 1, you don't have anyone covering Alex's getting ready. You could just add on a 2nd videographer — but then by the time you add that on, you may as well just upgrade, because Package 2 is only $700 more than Package 1 + a separate 2nd videographer add-on. It's $1,600 total versus Package 1, but you get both films plus the raw footage. So at that point, you may as well just get all the other stuff too.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Totally. Yeah. I think that sounds great.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">I can adjust that. I'll send you an updated contract and have James send you an updated contract for his end as well. I think he already sent one but it may have gone to spam. I'll have him resend the updated version with Package 2. My contract will cover all the photo stuff and that's where all payments are collected. In there it will reference your video terms package, which is James's separate contract — strictly for video stuff. So if you ever have a video-specific question, that's the contract to reference.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Okay, great.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">All right. I'll send this over, let James know he needs to resend. I'll have him include availability to meet in that email. And I'm so excited — it's going to be such a great day. Meredith is so excited too. She was like, "I guess I have to save a seat now."</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Oh my gosh, I know! When Alex coordinated with Meredith for the proposal — I had no idea she was coming to Shelter Island because she had just had her second baby. When I looked over and saw her, I was freaking out. I was so happy.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">She's so, so sweet. And she'll have her third by then, so she'll actually be able to have a drink at your wedding!</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Yay! I don't know how she does it. She's amazing.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">All right, let me just make sure I have everything. I'll send the contract over — updated for 10.5 hours and Package 2. Keep an eye on your spam/junk folder just in case. And anytime between now and wedding day, if there are any updates, just let me know. That's why I like to keep the rough timeline in the contract — we can always update it and keep the most current version in there for everyone to access.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Perfect. Thank you so much. We're so excited!</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">Of course. It was great to meet you guys, and I look forward to working together. I'll give James a ring right now so he's up to date. After you review everything, if you have any other questions, just let me know.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name jenna">Jenna</div>
+          <div class="speaker-text">Thank you so much, Britt. Great to meet you too! Talk soon.</div>
+        </div>
+
+        <div class="speaker">
+          <div class="speaker-name britt">Britt</div>
+          <div class="speaker-text">All right, talk soon. Bye!</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Alex &amp; Jenna · June 18, 2027 · The Vista at Sunken Meadow State Park · Kings Park, NY<br>
+  Photographer: Britt &nbsp;|&nbsp; Videographer: James
+</div>
+
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('.nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.nav a').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Highlight active nav on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

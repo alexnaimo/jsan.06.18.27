@@ -1,0 +1,106 @@
+/* ══════════════════════════════════════════════
+   Alex & Jenna Wedding Site — Shared Navigation
+   June 18, 2027 · The Vista at Sunken Meadow
+   All rules scoped to .site-nav to avoid conflicts
+══════════════════════════════════════════════ */
+
+/* ── SITE NAV ── */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 253, 250, 0.97);
+  border-bottom: 1px solid #e8ddd5;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 62px;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.05);
+}
+
+.site-nav .nav-brand {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  /* override any existing styles */
+  font-size: unset;
+  color: unset;
+  letter-spacing: unset;
+  text-transform: unset;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.site-nav .nav-brand-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #2d1f1a;
+  letter-spacing: 0.5px;
+}
+.site-nav .nav-brand-date {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #b8924f;
+}
+
+.site-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  /* reset any inherited flex/grid properties */
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.site-nav .nav-links a {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #6b5e55;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  transition: all .2s;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  font-weight: 400;
+}
+.site-nav .nav-links a:hover {
+  color: #2d1f1a;
+  background: #f5ede8;
+}
+.site-nav .nav-links a.active-page {
+  color: #b8924f;
+  background: #fdf5ec;
+  font-weight: 700;
+}
+
+/* ── HAMBURGER (mobile) ── */
+.site-nav .nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid #e8ddd5;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #6b5e55;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .site-nav { padding: 0 20px; flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; }
+  .site-nav .nav-toggle { display: block; }
+  .site-nav .nav-links { display: none; width: 100%; flex-direction: column; align-items: flex-start; padding: 10px 0 4px; gap: 2px; }
+  .site-nav .nav-links.open { display: flex; }
+  .site-nav .nav-links a { width: 100%; padding: 10px 4px; }
+}
