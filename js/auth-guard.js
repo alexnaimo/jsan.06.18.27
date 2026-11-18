@@ -67,7 +67,8 @@
     'wedding-party': 'wedding-party.html',
     todos:         'todos.html',
     budget:        'budget.html',
-    rehearsal:     'rehearsal.html'
+    rehearsal:     'rehearsal.html',
+    bach:          'bach.html'
   };
 
   function addSignOutToNav() {
