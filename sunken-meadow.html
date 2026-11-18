@@ -61,7 +61,10 @@
 
     /* ── HERO ── */
     .hero {
-      background: var(--navy);
+      background:
+        linear-gradient(rgba(16,8,3,0.62) 0%, rgba(16,8,3,0.5) 50%, rgba(16,8,3,0.72) 100%),
+        url('https://swanlakecaterers.com/wp-content/uploads/2015/07/Swan-Lake-Caterers-Indoor-Wedding-Reception-133.jpg')
+        center / cover no-repeat;
       color: white; text-align: center;
       padding: 80px 24px 100px;
       position: relative; overflow: hidden;
@@ -69,8 +72,8 @@
     .hero::before {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 20% 60%, rgba(46,125,130,0.15) 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 40%, rgba(196,165,90,0.10) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 20% 60%, rgba(192,144,80,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 40%, rgba(196,165,90,0.08) 0%, transparent 60%);
     }
     .hero-eyebrow {
       display: inline-block;
@@ -456,8 +459,8 @@
   </div>
   <div class="hero-stats">
     <div class="hero-stat"><div class="hero-stat-val" id="hero-guests">150</div><div class="hero-stat-label">Guests</div></div>
-    <div class="hero-stat"><div class="hero-stat-val">$185</div><div class="hero-stat-label">Per Person</div></div>
-    <div class="hero-stat"><div class="hero-stat-val">Long Island<br>Sound</div><div class="hero-stat-label">Waterfront Views</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">Manorville</div><div class="hero-stat-label">Long Island, NY</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">Swan Lake</div><div class="hero-stat-label">Club</div></div>
     <div class="hero-stat"><div class="hero-stat-val" id="hero-venue-total">—</div><div class="hero-stat-label">Venue Fee (est.)</div></div>
   </div>
 </div>

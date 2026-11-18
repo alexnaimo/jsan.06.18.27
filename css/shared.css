@@ -1,32 +1,46 @@
 /* ══════════════════════════════════════════════
-   Alex & Jenna Wedding Site — Shared Navigation
-   June 18, 2027 · The Vista at Sunken Meadow
-   All rules scoped to .site-nav to avoid conflicts
+   Alex & Jenna Wedding Site — Shared Styles
+   June 18, 2027 · Swan Lake Club · Manorville, NY
+   All nav rules scoped to .site-nav
 ══════════════════════════════════════════════ */
+
+/* ── CSS VARIABLES ── */
+:root {
+  --gold:        #c09050;
+  --gold-light:  #e8d5b0;
+  --gold-pale:   #fdf5ec;
+  --cream:       #fdfaf5;
+  --blush:       #f7ede8;
+  --deep:        #1a1208;
+  --brown:       #2d1f1a;
+  --text:        #3d3532;
+  --muted:       #8a7d75;
+  --sage:        #7a9270;
+  --border:      #e8ddd5;
+}
 
 /* ── SITE NAV ── */
 .site-nav {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 253, 250, 0.97);
-  border-bottom: 1px solid #e8ddd5;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(253, 250, 245, 0.92);
+  border-bottom: 1px solid rgba(232,221,213,0.7);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  height: 62px;
-  box-shadow: 0 1px 12px rgba(0,0,0,0.05);
+  padding: 0 44px;
+  height: 68px;
+  box-shadow: 0 1px 20px rgba(26,18,8,0.07);
 }
 
 .site-nav .nav-brand {
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  line-height: 1.2;
-  /* override any existing styles */
+  line-height: 1.25;
   font-size: unset;
   color: unset;
   letter-spacing: unset;
@@ -38,36 +52,35 @@
 }
 .site-nav .nav-brand-name {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 500;
-  color: #2d1f1a;
+  color: var(--brown);
   letter-spacing: 0.5px;
 }
 .site-nav .nav-brand-date {
   font-family: 'Lato', Arial, sans-serif;
-  font-size: 10px;
-  letter-spacing: 2.5px;
+  font-size: 9px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: #b8924f;
+  color: var(--gold);
 }
 
 .site-nav .nav-links {
   display: flex;
   align-items: center;
-  gap: 4px;
-  /* reset any inherited flex/grid properties */
+  gap: 2px;
   flex-direction: row;
   flex-wrap: nowrap;
 }
 .site-nav .nav-links a {
   font-family: 'Lato', Arial, sans-serif;
-  font-size: 11px;
-  letter-spacing: 1.2px;
+  font-size: 10.5px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
   color: #6b5e55;
   text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 4px;
+  padding: 7px 13px;
+  border-radius: 5px;
   transition: all .2s;
   white-space: nowrap;
   background: none;
@@ -75,12 +88,12 @@
   font-weight: 400;
 }
 .site-nav .nav-links a:hover {
-  color: #2d1f1a;
-  background: #f5ede8;
+  color: var(--brown);
+  background: var(--blush);
 }
 .site-nav .nav-links a.active-page {
-  color: #b8924f;
-  background: #fdf5ec;
+  color: var(--gold);
+  background: var(--gold-pale);
   font-weight: 700;
 }
 
@@ -88,19 +101,72 @@
 .site-nav .nav-toggle {
   display: none;
   background: none;
-  border: 1px solid #e8ddd5;
+  border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 7px 11px;
   font-size: 18px;
   cursor: pointer;
   color: #6b5e55;
+  transition: background .15s;
+}
+.site-nav .nav-toggle:hover { background: var(--blush); }
+
+/* ── PAGE HERO (shared across inner pages) ── */
+.page-hero {
+  padding: 72px 32px 60px;
+  text-align: center;
+  border-bottom: 1px solid rgba(232,221,213,0.6);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(253,250,245,0.87), rgba(247,237,232,0.93)),
+    url('https://swanlakecaterers.com/wp-content/uploads/2015/07/Swan-Lake-Caterers-Indoor-Wedding-Reception-133.jpg')
+    center / cover no-repeat;
+}
+.page-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+}
+.page-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 6vw, 56px);
+  font-weight: 400;
+  color: var(--brown);
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+.page-sub {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* ── FOOTER (shared) ── */
+.page-footer {
+  text-align: center;
+  padding: 40px 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #c8b8b0;
+  border-top: 1px solid var(--border);
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .site-nav { padding: 0 20px; flex-wrap: wrap; height: auto; padding-top: 12px; padding-bottom: 12px; }
+@media (max-width: 1000px) {
+  .site-nav { padding: 0 24px; flex-wrap: wrap; height: auto; padding-top: 14px; padding-bottom: 14px; }
   .site-nav .nav-toggle { display: block; }
   .site-nav .nav-links { display: none; width: 100%; flex-direction: column; align-items: flex-start; padding: 10px 0 4px; gap: 2px; }
   .site-nav .nav-links.open { display: flex; }
-  .site-nav .nav-links a { width: 100%; padding: 10px 4px; }
+  .site-nav .nav-links a { width: 100%; padding: 10px 6px; }
 }
