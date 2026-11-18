@@ -64,7 +64,10 @@
     photographer:  'britt-call-notes.html',
     venue:         'venue.html',
     registry:      'registry.html',
-    'wedding-party': 'wedding-party.html'
+    'wedding-party': 'wedding-party.html',
+    todos:         'todos.html',
+    budget:        'budget.html',
+    rehearsal:     'rehearsal.html'
   };
 
   function addSignOutToNav() {
