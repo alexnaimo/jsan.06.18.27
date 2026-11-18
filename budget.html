@@ -92,6 +92,44 @@
   }
   .category-total { font-size: 14px; font-weight: 600; color: #b8924f; }
 
+  /* Deposit tracker */
+  .deposit-section {
+    background: white; border: 1px solid #e8ddd5; border-radius: 14px;
+    overflow: hidden; margin-bottom: 40px;
+  }
+  .deposit-header {
+    padding: 18px 24px; background: #fdf6f0; border-bottom: 1px solid #e8ddd5;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .deposit-header-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; color: #2d1f1a;
+  }
+  .deposit-legend { font-size: 12px; color: #9a8880; }
+  .deposit-row {
+    display: flex; align-items: center; padding: 16px 24px;
+    border-bottom: 1px solid #f5eeea; gap: 16px;
+  }
+  .deposit-row:last-child { border-bottom: none; }
+  .deposit-info { flex: 1; }
+  .deposit-vendor { font-size: 15px; font-weight: 600; color: #2d1f1a; }
+  .deposit-due { font-size: 12px; color: #9a8880; margin-top: 2px; }
+  .deposit-due.urgent { color: #c0392b; font-weight: 600; }
+  .deposit-amount { font-size: 14px; font-weight: 600; color: #5a4f48; min-width: 80px; text-align: right; }
+  .deposit-toggle {
+    display: flex; align-items: center; gap: 0; border-radius: 8px;
+    overflow: hidden; border: 1px solid #e8ddd5; flex-shrink: 0;
+  }
+  .deposit-toggle button {
+    padding: 8px 18px; border: none; font-size: 12px; letter-spacing: .5px;
+    text-transform: uppercase; font-family: 'Lato', sans-serif; cursor: pointer;
+    transition: all .15s; background: white; color: #9a8880;
+  }
+  .deposit-toggle button.active-yes { background: #27ae60; color: white; font-weight: 700; }
+  .deposit-toggle button.active-no  { background: #e8ddd5; color: #5a4f48; font-weight: 700; }
+  .deposit-toggle button:not(.active-yes):not(.active-no):hover { background: #f5eeea; }
+  .deposit-saving { font-size: 11px; color: #b8924f; margin-left: 10px; opacity: 0; transition: opacity .2s; }
+  .deposit-saving.show { opacity: 1; }
+
   /* Budget notes */
   .budget-note {
     background: #fff8e7; border-left: 3px solid #e67e22; border-radius: 0 8px 8px 0;
@@ -144,6 +182,17 @@
 </div>
 
 <div class="main">
+
+  <!-- Deposit Tracker -->
+  <div class="deposit-section">
+    <div class="deposit-header">
+      <div class="deposit-header-title">💳 Deposits</div>
+      <div class="deposit-legend">Mark each deposit as paid when sent</div>
+    </div>
+    <div id="deposit-list">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
 
   <!-- Summary -->
   <div class="summary-row">
@@ -451,6 +500,91 @@
 </div>
 
 <div class="footer">Alex &amp; Jenna · June 18, 2027 · Swan Lake Club · Manorville, New York</div>
+
+<script>
+// ── Deposit tracker — saves to Firestore ──────────────────────
+// Default deposits — add more as vendors are booked
+const DEPOSITS = [
+  { id: 'dep_venue',    vendor: 'Swan Lake Club (Venue)',     due: '2026-11-25', amount: 'TBD' },
+  { id: 'dep_photo',    vendor: 'Britt (Photography)',        due: 'TBD',        amount: 'TBD' },
+  { id: 'dep_video',    vendor: 'Videographer',               due: 'TBD',        amount: 'TBD' },
+  { id: 'dep_hair',     vendor: 'Hair & Makeup',              due: 'TBD',        amount: 'TBD' },
+  { id: 'dep_flowers',  vendor: 'Florist / Flowers',          due: 'TBD',        amount: 'TBD' },
+];
+
+const DOC_PATH = 'budget/deposits';
+
+function dueLabel(due) {
+  if (!due || due === 'TBD') return '<span class="deposit-due">Due: TBD</span>';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(due + 'T00:00:00');
+  const diff = Math.round((d - today) / 86400000);
+  const fmt = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  if (diff < 0)  return `<span class="deposit-due urgent">⚠️ Overdue — ${fmt}</span>`;
+  if (diff <= 14) return `<span class="deposit-due urgent">Due ${fmt}</span>`;
+  return `<span class="deposit-due">Due ${fmt}</span>`;
+}
+
+function renderDeposits(paid) {
+  const list = document.getElementById('deposit-list');
+  if (!list) return;
+  list.innerHTML = DEPOSITS.map(dep => {
+    const isPaid = paid[dep.id] === true;
+    const isNo   = paid[dep.id] === false;
+    return `
+      <div class="deposit-row" id="row-${dep.id}">
+        <div class="deposit-info">
+          <div class="deposit-vendor">${dep.vendor}</div>
+          ${dueLabel(dep.due)}
+        </div>
+        <div class="deposit-amount">${dep.amount}</div>
+        <div class="deposit-toggle">
+          <button class="${isPaid ? 'active-yes' : ''}" onclick="setDeposit('${dep.id}', true)">✓ Paid</button>
+          <button class="${isNo ? 'active-no' : (!isPaid ? 'active-no' : '')}" onclick="setDeposit('${dep.id}', false)">✗ Not Yet</button>
+        </div>
+        <span class="deposit-saving" id="saving-${dep.id}">Saving…</span>
+      </div>`;
+  }).join('');
+}
+
+let depositState = {};
+
+async function loadDeposits() {
+  try {
+    const snap = await db.collection('budget').doc('deposits').get();
+    depositState = snap.exists ? (snap.data() || {}) : {};
+  } catch (e) {
+    depositState = {};
+  }
+  renderDeposits(depositState);
+}
+
+async function setDeposit(id, paid) {
+  depositState[id] = paid;
+  renderDeposits(depositState);
+  const saving = document.getElementById('saving-' + id);
+  if (saving) { saving.classList.add('show'); }
+  try {
+    await db.collection('budget').doc('deposits').set(depositState, { merge: true });
+  } catch (e) {
+    console.error('Save failed', e);
+  }
+  if (saving) { setTimeout(() => saving.classList.remove('show'), 1200); }
+}
+
+// Wait for auth guard to finish before loading
+function waitForAuth() {
+  if (typeof auth === 'undefined') { setTimeout(waitForAuth, 100); return; }
+  auth.onAuthStateChanged(user => {
+    if (user) loadDeposits();
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', waitForAuth);
+} else {
+  waitForAuth();
+}
+</script>
 
 </body>
 </html>
