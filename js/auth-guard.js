@@ -102,9 +102,18 @@
   }
 
   // ── Main auth check ───────────────────────────
-  showOverlay(spinnerHtml());
+  // Wait for DOM to be ready before attaching overlay
+  function init() {
+    showOverlay(spinnerHtml());
+    auth.onAuthStateChanged(runCheck);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
-  auth.onAuthStateChanged(async function (user) {
+  async function runCheck(user) {
     if (!user) {
       window.location.href = 'login.html';
       return;
@@ -167,6 +176,6 @@
         'Could not verify your access. Please refresh and try again.',
         `<button ${btnStyle('#b8924f')} onclick="location.reload()">Retry</button>`));
     }
-  });
+  }
 
 })();
